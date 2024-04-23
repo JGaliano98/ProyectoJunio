@@ -22,6 +22,9 @@ class Ponente
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $URL = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ponentes')]
+    private ?detalleActividad $detalle_actividad = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Ponente
     public function setURL(?string $URL): static
     {
         $this->URL = $URL;
+
+        return $this;
+    }
+
+    public function getDetalleActividad(): ?detalleActividad
+    {
+        return $this->detalle_actividad;
+    }
+
+    public function setDetalleActividad(?detalleActividad $detalle_actividad): static
+    {
+        $this->detalle_actividad = $detalle_actividad;
 
         return $this;
     }

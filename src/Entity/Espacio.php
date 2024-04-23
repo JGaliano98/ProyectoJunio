@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EspacioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EspacioRepository::class)]
@@ -18,6 +20,27 @@ class Espacio
 
     #[ORM\Column]
     private ?int $aforo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'espacios')]
+    private ?edificio $edificio = null;
+
+    /**
+     * @var Collection<int, recurso>
+     */
+    #[ORM\ManyToMany(targetEntity: recurso::class, inversedBy: 'espacios')]
+    private Collection $recurso;
+
+    /**
+     * @var Collection<int, DetalleActividad>
+     */
+    #[ORM\OneToMany(targetEntity: DetalleActividad::class, mappedBy: 'espacio')]
+    private Collection $detalleActividads;
+
+    public function __construct()
+    {
+        $this->recurso = new ArrayCollection();
+        $this->detalleActividads = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +67,72 @@ class Espacio
     public function setAforo(int $aforo): static
     {
         $this->aforo = $aforo;
+
+        return $this;
+    }
+
+    public function getEdificio(): ?edificio
+    {
+        return $this->edificio;
+    }
+
+    public function setEdificio(?edificio $edificio): static
+    {
+        $this->edificio = $edificio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, recurso>
+     */
+    public function getRecurso(): Collection
+    {
+        return $this->recurso;
+    }
+
+    public function addRecurso(recurso $recurso): static
+    {
+        if (!$this->recurso->contains($recurso)) {
+            $this->recurso->add($recurso);
+        }
+
+        return $this;
+    }
+
+    public function removeRecurso(recurso $recurso): static
+    {
+        $this->recurso->removeElement($recurso);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DetalleActividad>
+     */
+    public function getDetalleActividads(): Collection
+    {
+        return $this->detalleActividads;
+    }
+
+    public function addDetalleActividad(DetalleActividad $detalleActividad): static
+    {
+        if (!$this->detalleActividads->contains($detalleActividad)) {
+            $this->detalleActividads->add($detalleActividad);
+            $detalleActividad->setEspacio($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetalleActividad(DetalleActividad $detalleActividad): static
+    {
+        if ($this->detalleActividads->removeElement($detalleActividad)) {
+            // set the owning side to null (unless already changed)
+            if ($detalleActividad->getEspacio() === $this) {
+                $detalleActividad->setEspacio(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Evento
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fecha_fin = null;
+
+    /**
+     * @var Collection<int, Actividad>
+     */
+    #[ORM\OneToMany(targetEntity: Actividad::class, mappedBy: 'evento')]
+    private Collection $actividads;
+
+    public function __construct()
+    {
+        $this->actividads = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,36 @@ class Evento
     public function setFechaFin(?\DateTimeInterface $fecha_fin): static
     {
         $this->fecha_fin = $fecha_fin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actividad>
+     */
+    public function getActividads(): Collection
+    {
+        return $this->actividads;
+    }
+
+    public function addActividad(Actividad $actividad): static
+    {
+        if (!$this->actividads->contains($actividad)) {
+            $this->actividads->add($actividad);
+            $actividad->setEvento($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActividad(Actividad $actividad): static
+    {
+        if ($this->actividads->removeElement($actividad)) {
+            // set the owning side to null (unless already changed)
+            if ($actividad->getEvento() === $this) {
+                $actividad->setEvento(null);
+            }
+        }
 
         return $this;
     }

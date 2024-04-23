@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DetalleActividadRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,30 @@ class DetalleActividad
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $URL = null;
+
+    /**
+     * @var Collection<int, Ponente>
+     */
+    #[ORM\OneToMany(targetEntity: Ponente::class, mappedBy: 'detalle_actividad')]
+    private Collection $ponentes;
+
+    #[ORM\ManyToOne(inversedBy: 'detalleActividads')]
+    private ?espacio $espacio = null;
+
+    #[ORM\ManyToOne(inversedBy: 'detalleActividads')]
+    private ?actividad $actividad = null;
+
+    /**
+     * @var Collection<int, alumno>
+     */
+    #[ORM\ManyToMany(targetEntity: alumno::class, inversedBy: 'detalleActividads')]
+    private Collection $alumno;
+
+    public function __construct()
+    {
+        $this->ponentes = new ArrayCollection();
+        $this->alumno = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +101,84 @@ class DetalleActividad
     public function setURL(?string $URL): static
     {
         $this->URL = $URL;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ponente>
+     */
+    public function getPonentes(): Collection
+    {
+        return $this->ponentes;
+    }
+
+    public function addPonente(Ponente $ponente): static
+    {
+        if (!$this->ponentes->contains($ponente)) {
+            $this->ponentes->add($ponente);
+            $ponente->setDetalleActividad($this);
+        }
+
+        return $this;
+    }
+
+    public function removePonente(Ponente $ponente): static
+    {
+        if ($this->ponentes->removeElement($ponente)) {
+            // set the owning side to null (unless already changed)
+            if ($ponente->getDetalleActividad() === $this) {
+                $ponente->setDetalleActividad(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEspacio(): ?espacio
+    {
+        return $this->espacio;
+    }
+
+    public function setEspacio(?espacio $espacio): static
+    {
+        $this->espacio = $espacio;
+
+        return $this;
+    }
+
+    public function getActividad(): ?actividad
+    {
+        return $this->actividad;
+    }
+
+    public function setActividad(?actividad $actividad): static
+    {
+        $this->actividad = $actividad;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, alumno>
+     */
+    public function getAlumno(): Collection
+    {
+        return $this->alumno;
+    }
+
+    public function addAlumno(alumno $alumno): static
+    {
+        if (!$this->alumno->contains($alumno)) {
+            $this->alumno->add($alumno);
+        }
+
+        return $this;
+    }
+
+    public function removeAlumno(alumno $alumno): static
+    {
+        $this->alumno->removeElement($alumno);
 
         return $this;
     }

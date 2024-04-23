@@ -16,6 +16,9 @@ class NivelEducativo
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
+    #[ORM\ManyToOne(inversedBy: 'nivelEducativos')]
+    private ?grupo $grupo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class NivelEducativo
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    public function getGrupo(): ?grupo
+    {
+        return $this->grupo;
+    }
+
+    public function setGrupo(?grupo $grupo): static
+    {
+        $this->grupo = $grupo;
 
         return $this;
     }

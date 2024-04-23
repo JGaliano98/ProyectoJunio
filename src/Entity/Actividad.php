@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActividadRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +21,20 @@ class Actividad
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fecha_hora_fin = null;
+
+    #[ORM\ManyToOne(inversedBy: 'actividads')]
+    private ?evento $evento = null;
+
+    /**
+     * @var Collection<int, DetalleActividad>
+     */
+    #[ORM\OneToMany(targetEntity: DetalleActividad::class, mappedBy: 'actividad')]
+    private Collection $detalleActividads;
+
+    public function __construct()
+    {
+        $this->detalleActividads = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +61,48 @@ class Actividad
     public function setFechaHoraFin(?\DateTimeInterface $fecha_hora_fin): static
     {
         $this->fecha_hora_fin = $fecha_hora_fin;
+
+        return $this;
+    }
+
+    public function getEvento(): ?evento
+    {
+        return $this->evento;
+    }
+
+    public function setEvento(?evento $evento): static
+    {
+        $this->evento = $evento;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DetalleActividad>
+     */
+    public function getDetalleActividads(): Collection
+    {
+        return $this->detalleActividads;
+    }
+
+    public function addDetalleActividad(DetalleActividad $detalleActividad): static
+    {
+        if (!$this->detalleActividads->contains($detalleActividad)) {
+            $this->detalleActividads->add($detalleActividad);
+            $detalleActividad->setActividad($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDetalleActividad(DetalleActividad $detalleActividad): static
+    {
+        if ($this->detalleActividads->removeElement($detalleActividad)) {
+            // set the owning side to null (unless already changed)
+            if ($detalleActividad->getActividad() === $this) {
+                $detalleActividad->setActividad(null);
+            }
+        }
 
         return $this;
     }
