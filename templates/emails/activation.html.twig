@@ -1,0 +1,4 @@
+<p>Hello {{ user.nombre }},</p>
+<p>Please activate your account by clicking the following link:</p>
+<a href="{{ url('app_activate', {'token': token}) }}">Activate Account</a>
+<p>Thank you for registering with us!</p>

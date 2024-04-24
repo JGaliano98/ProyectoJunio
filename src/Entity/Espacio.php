@@ -25,9 +25,9 @@ class Espacio
     private ?edificio $edificio = null;
 
     /**
-     * @var Collection<int, recurso>
+     * @var Collection<int, Recurso>
      */
-    #[ORM\ManyToMany(targetEntity: recurso::class, inversedBy: 'espacios')]
+    #[ORM\ManyToMany(targetEntity: Recurso::class, inversedBy: 'espacios')]
     private Collection $recurso;
 
     /**
@@ -84,14 +84,14 @@ class Espacio
     }
 
     /**
-     * @return Collection<int, recurso>
+     * @return Collection<int, Recurso>
      */
     public function getRecurso(): Collection
     {
         return $this->recurso;
     }
 
-    public function addRecurso(recurso $recurso): static
+    public function addRecurso(Recurso $recurso): static
     {
         if (!$this->recurso->contains($recurso)) {
             $this->recurso->add($recurso);
@@ -100,7 +100,7 @@ class Espacio
         return $this;
     }
 
-    public function removeRecurso(recurso $recurso): static
+    public function removeRecurso(Recurso $recurso): static
     {
         $this->recurso->removeElement($recurso);
 

@@ -35,15 +35,15 @@ class DetalleActividad
     private Collection $ponentes;
 
     #[ORM\ManyToOne(inversedBy: 'detalleActividads')]
-    private ?espacio $espacio = null;
+    private ?Espacio $espacio = null;
 
     #[ORM\ManyToOne(inversedBy: 'detalleActividads')]
-    private ?actividad $actividad = null;
+    private ?Actividad $actividad = null;
 
     /**
-     * @var Collection<int, alumno>
+     * @var Collection<int, Alumno>
      */
-    #[ORM\ManyToMany(targetEntity: alumno::class, inversedBy: 'detalleActividads')]
+    #[ORM\ManyToMany(targetEntity: Alumno::class, inversedBy: 'detalleActividads')]
     private Collection $alumno;
 
     public function __construct()
@@ -147,12 +147,12 @@ class DetalleActividad
         return $this;
     }
 
-    public function getActividad(): ?actividad
+    public function getActividad(): ?Actividad
     {
         return $this->actividad;
     }
 
-    public function setActividad(?actividad $actividad): static
+    public function setActividad(?Actividad $actividad): static
     {
         $this->actividad = $actividad;
 
@@ -160,14 +160,14 @@ class DetalleActividad
     }
 
     /**
-     * @return Collection<int, alumno>
+     * @return Collection<int, Alumno>
      */
     public function getAlumno(): Collection
     {
         return $this->alumno;
     }
 
-    public function addAlumno(alumno $alumno): static
+    public function addAlumno(Alumno $alumno): static
     {
         if (!$this->alumno->contains($alumno)) {
             $this->alumno->add($alumno);
@@ -176,7 +176,7 @@ class DetalleActividad
         return $this;
     }
 
-    public function removeAlumno(alumno $alumno): static
+    public function removeAlumno(Alumno $alumno): static
     {
         $this->alumno->removeElement($alumno);
 

@@ -50,6 +50,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Grupo::class, mappedBy: 'user')]
     private Collection $grupos;
 
+    #[ORM\Column]
+    private ?bool $isActive = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $activationToken = null;
+
     public function __construct()
     {
         $this->grupos = new ArrayCollection();
@@ -192,4 +198,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    
+
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getActivationToken(): ?string
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken(?string $activationToken): static
+    {
+        $this->activationToken = $activationToken;
+
+        return $this;
+    }
+
+
+
+
+
 }

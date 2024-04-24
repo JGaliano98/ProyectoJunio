@@ -28,10 +28,10 @@ class Alumno
     /**
      * @var Collection<int, DetalleActividad>
      */
-    #[ORM\ManyToMany(targetEntity: DetalleActividad::class, mappedBy: 'alumno')]
+    #[ORM\ManyToMany(targetEntity: DetalleActividad::class, mappedBy: 'Alumno')]
     private Collection $detalleActividads;
 
-    #[ORM\ManyToOne(inversedBy: 'alumnos')]
+    #[ORM\ManyToOne(inversedBy: 'Alumnos')]
     private ?grupo $grupo = null;
 
     public function __construct()
