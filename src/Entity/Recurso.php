@@ -72,4 +72,10 @@ class Recurso
 
         return $this;
     }
+
+    public function __toString()
+    {
+        // Retorna la descripción del recurso como cadena de texto
+        return $this->descripcion;
+    }
 }

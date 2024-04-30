@@ -23,13 +23,16 @@ class Actividad
     private ?\DateTimeInterface $fecha_hora_fin = null;
 
     #[ORM\ManyToOne(inversedBy: 'actividads')]
-    private ?evento $evento = null;
+    private ?Evento $evento = null;
 
     /**
      * @var Collection<int, DetalleActividad>
      */
     #[ORM\OneToMany(targetEntity: DetalleActividad::class, mappedBy: 'actividad')]
     private Collection $detalleActividads;
+
+    #[ORM\Column(length: 255)]
+    private ?string $tipo = null;
 
     public function __construct()
     {
@@ -65,12 +68,12 @@ class Actividad
         return $this;
     }
 
-    public function getEvento(): ?evento
+    public function getEvento(): ?Evento
     {
         return $this->evento;
     }
 
-    public function setEvento(?evento $evento): static
+    public function setEvento(?Evento $evento): static
     {
         $this->evento = $evento;
 
@@ -103,6 +106,18 @@ class Actividad
                 $detalleActividad->setActividad(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTipo(): ?string
+    {
+        return $this->tipo;
+    }
+
+    public function setTipo(string $tipo): static
+    {
+        $this->tipo = $tipo;
 
         return $this;
     }

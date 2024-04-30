@@ -1,9 +1,10 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\NivelEducativoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: NivelEducativoRepository::class)]
 class NivelEducativo
@@ -16,8 +17,13 @@ class NivelEducativo
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nivelEducativos')]
-    private ?grupo $grupo = null;
+    #[ORM\OneToMany(targetEntity: Grupo::class, mappedBy: 'nivelEducativo')]
+    private Collection $grupos;
+
+    public function __construct()
+    {
+        $this->grupos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -29,22 +35,40 @@ class NivelEducativo
         return $this->nombre;
     }
 
-    public function setNombre(string $nombre): static
+    public function setNombre(string $nombre): self
     {
         $this->nombre = $nombre;
-
         return $this;
     }
 
-    public function getGrupo(): ?grupo
+    public function getGrupos(): Collection
     {
-        return $this->grupo;
+        return $this->grupos;
     }
 
-    public function setGrupo(?grupo $grupo): static
+    public function addGrupo(Grupo $grupo): self
     {
-        $this->grupo = $grupo;
-
+        if (!$this->grupos->contains($grupo)) {
+            $this->grupos[] = $grupo;
+            $grupo->setNivelEducativo($this);
+        }
         return $this;
     }
+
+    public function removeGrupo(Grupo $grupo): self
+    {
+        if ($this->grupos->removeElement($grupo)) {
+            if ($grupo->getNivelEducativo() === $this) {
+                $grupo->setNivelEducativo(null);
+            }
+        }
+        return $this;
+    }
+
+    public function __toString()
+    {
+        // Retorna la descripción del recurso como cadena de texto
+        return $this->nombre;
+    }
+
 }

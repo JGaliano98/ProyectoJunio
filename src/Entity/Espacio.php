@@ -22,7 +22,7 @@ class Espacio
     private ?int $aforo = null;
 
     #[ORM\ManyToOne(inversedBy: 'espacios')]
-    private ?edificio $edificio = null;
+    private ?Edificio $edificio = null;
 
     /**
      * @var Collection<int, Recurso>
@@ -71,12 +71,12 @@ class Espacio
         return $this;
     }
 
-    public function getEdificio(): ?edificio
+    public function getEdificio(): ?Edificio
     {
         return $this->edificio;
     }
 
-    public function setEdificio(?edificio $edificio): static
+    public function setEdificio(?Edificio $edificio): static
     {
         $this->edificio = $edificio;
 

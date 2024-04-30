@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\EdificioRepository;
@@ -42,8 +41,13 @@ class Edificio
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
         return $this;
+    }
+
+    public function __toString()
+    {
+        // Retorna el nombre del edificio como cadena de texto
+        return $this->nombre;
     }
 
     /**

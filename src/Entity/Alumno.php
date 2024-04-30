@@ -32,7 +32,7 @@ class Alumno
     private Collection $detalleActividads;
 
     #[ORM\ManyToOne(inversedBy: 'Alumnos')]
-    private ?grupo $grupo = null;
+    private ?Grupo $grupo = null;
 
     public function __construct()
     {
@@ -107,12 +107,12 @@ class Alumno
         return $this;
     }
 
-    public function getGrupo(): ?grupo
+    public function getGrupo(): ?Grupo
     {
         return $this->grupo;
     }
 
-    public function setGrupo(?grupo $grupo): static
+    public function setGrupo(?Grupo $grupo): static
     {
         $this->grupo = $grupo;
 
