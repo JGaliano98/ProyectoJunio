@@ -20,6 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (container) {
         container.appendChild(button);
     } else {
-        console.error('El contenedor para el botón no fue encontrado. Revisa tu selector o la estructura del DOM.');
+        console.error('El con tenedor para el botón no fue encontrado. Revisa tu selector o la estructura del DOM.');
     }
-});
+}); 
