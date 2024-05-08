@@ -1,19 +1,16 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 {% endblock %}
 
-
 {# {% block content %}
     <div class="content">
-        <a href="{{ path('app_login') }}" class="btn btn-primary">Mi Botón</a>
+        {{ render(controller('App\\Controller\\LoginController::login')) }}
     </div>
     {{ parent() }}
 {% endblock %} #}
-
 
 {% block head_stylesheets %}
     {{ parent() }}
@@ -28,30 +25,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 
-{# {% block custom_html %}
-<div id="modalEditar" style="display:none;" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <input id="nombre" placeholder="Nombre">
-        <input id="nicky" placeholder="Nicky">
-        <input id="correo" placeholder="Correo">
-        <button id="btnGuardar">Guardar</button>
-    </div>
-</div>
-
-<input type="file" id="fichero" accept=".csv">
-<button id="btnAgregarProfesor">Agregar Profesor</button>
-<div id="contenedorTabla"></div>
-{% endblock %} #}
-
-{%block list_content%}
-
-{{parent()}}
-{{ render(controller('App\\Controller\\RegisterController::register')) }}
-
-{%endblock%}
-
-{% block custom_content %}
-    <div id="content-area"></div>  <!-- Contenedor para contenido dinámico -->
-{% endblock %}

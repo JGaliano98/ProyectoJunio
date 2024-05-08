@@ -14,7 +14,7 @@
     padding: 20px; /* Padding interno para el cuerpo del formulario */
 }
 
-.btn-primary {
+.login.btn-primary {
     width: 80%; /* Ancho del botón */
     padding: 10px; /* Padding del botón */
     border-radius: 5px; /* Bordes redondeados para el botón */
@@ -38,7 +38,7 @@
     margin-bottom: 10px; /* Espaciado entre campos */
 }
 
-.btn-primary {
+.register .btn-primary {
     width: 100%; /* Ancho completo para el botón */
     padding: 10px; /* Padding más generoso */
     border-radius: 5px; /* Bordes redondeados */
@@ -63,3 +63,39 @@
     display: flex;
     align-items: center;
 }
+
+
+/* styles.css PARA MENSAJES DE CONFIRMACIÓN DE ENVÍO */
+
+/* styles.css */
+body {
+    font-family: 'Roboto', sans-serif; /* Ejemplo con Google Fonts */
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Utiliza toda la altura de la ventana */
+}
+
+.message {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px; /* Máximo ancho del contenedor */
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #0056b3;
+    margin-top: 0;
+}
+
+p {
+    color: #333333;
+    font-size: 16px;
+}
+

@@ -47,8 +47,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Grupo>
      */
-    #[ORM\ManyToMany(targetEntity: Grupo::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Grupo::class, inversedBy: 'users')]
     private Collection $grupos;
+
+    public function __construct()
+    {
+        $this->grupos = new ArrayCollection();
+    }
+
+    public function addGrupo(Grupo $grupo): self
+    {
+        if (!$this->grupos->contains($grupo)) {
+            $this->grupos[] = $grupo;
+            $grupo->addUser($this); 
+        }
+
+        return $this;
+    }
+
+    public function removeGrupo(Grupo $grupo): self
+    {
+        if ($this->grupos->removeElement($grupo)) {
+            $grupo->removeUser($this);
+        }
+
+        return $this;
+    }
 
     #[ORM\Column]
     private ?bool $isActive = false;
@@ -56,10 +80,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $activationToken = null;
 
-    public function __construct()
-    {
-        $this->grupos = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -178,25 +198,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getGrupos(): Collection
     {
         return $this->grupos;
-    }
-
-    public function addGrupo(Grupo $grupo): static
-    {
-        if (!$this->grupos->contains($grupo)) {
-            $this->grupos->add($grupo);
-            $grupo->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGrupo(Grupo $grupo): static
-    {
-        if ($this->grupos->removeElement($grupo)) {
-            $grupo->removeUser($this);
-        }
-
-        return $this;
     }
 
     

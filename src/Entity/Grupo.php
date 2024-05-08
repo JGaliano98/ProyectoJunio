@@ -21,6 +21,40 @@ class Grupo
     #[ORM\ManyToOne(targetEntity: NivelEducativo::class, inversedBy: 'grupos')]
     private ?NivelEducativo $nivelEducativo = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'grupos')]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addGrupo($this);  // Esto garantiza que la relación bidireccional se mantenga
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeGrupo($this);  // Esto también mantiene la relación bidireccional
+        }
+
+        return $this;
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
 
     public function getId(): ?int
     {
