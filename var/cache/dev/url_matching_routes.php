@@ -15,10 +15,16 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/admin' => [[['_route' => 'admin', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], null, null, null, false, false, null]],
+        '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::login'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, null, null, false, false, null]],
         '/descargar-pdf' => [[['_route' => 'descargar_pdf', '_controller' => 'App\\Controller\\PdfController::downloadPdf'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
+        '/users' => [
+            [['_route' => 'user_index', '_controller' => 'App\\Controller\\UserController::index'], null, ['GET' => 0], null, false, false, null],
+            [['_route' => 'user_create', '_controller' => 'App\\Controller\\UserController::create'], null, ['POST' => 0], null, false, false, null],
+        ],
+        '/user/modal' => [[['_route' => 'user_modal', '_controller' => 'App\\Controller\\UserController::userModal'], null, ['GET' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -42,6 +48,9 @@ return [
                 .')'
                 .'|/enviar\\-pdf/([^/]++)(*:223)'
                 .'|/activate/([^/]++)(*:249)'
+                .'|/users/([^/]++)(?'
+                    .'|(*:275)'
+                .')'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -54,8 +63,11 @@ return [
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         223 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
-        249 => [
-            [['_route' => 'app_activate', '_controller' => 'App\\Controller\\RegistrationController::activate'], ['token'], null, null, false, true, null],
+        249 => [[['_route' => 'app_activate', '_controller' => 'App\\Controller\\RegistrationController::activate'], ['token'], null, null, false, true, null]],
+        275 => [
+            [['_route' => 'user_show', '_controller' => 'App\\Controller\\UserController::show'], ['id'], ['GET' => 0], null, false, true, null],
+            [['_route' => 'user_update', '_controller' => 'App\\Controller\\UserController::update'], ['id'], ['PUT' => 0], null, false, true, null],
+            [['_route' => 'user_delete', '_controller' => 'App\\Controller\\UserController::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

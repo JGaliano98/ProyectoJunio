@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* Organiza el contenido en una columna */
+        }
+        .container-fluid {
+            flex: 1; /* Permite que el contenedor crezca y ocupe cualquier espacio disponible */
+            display: flex;
+            flex-direction: column;
+            min-height: 0; /* Impide que el contenedor se estire más allá de su contenido mínimo */
+        }
+        .top-right-buttons {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            width: 100%;
+            margin-top: auto; /* Empuja el footer hacia abajo */
+        }
+        .carousel {
+            margin-top: 6rem;
+            margin-right: auto;
+            margin-left: auto;
+            width: 90%;
+            max-width: 900px;
+        }
+        .carousel .carousel-inner {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .carousel .carousel-inner .carousel-item img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="top-right-buttons">
+        <a href="{{ path('descargar_pdf') }}" class="btn btn-primary">Descargar PDF</a>
+        <a href="{{ path('app_login') }}" class="btn btn-secondary">Login</a>
+    </div>
+
+    <div id="newsCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/900x400" class="d-block w-100" alt="Imagen de muestra">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Título de muestra</h5>
+                    <p>Descripción breve de la muestra.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#newsCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#newsCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <footer class="footer">
+        <a href="https://facebook.com" class="btn btn-social-icon btn-facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" class="btn btn-social-icon btn-twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" class="btn btn-social-icon btn-instagram"><i class="fab fa-instagram"></i></a>
+    </footer>
+</div>
+{% endblock %}

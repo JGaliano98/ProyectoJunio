@@ -80,6 +80,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $activationToken = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nick = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $foto = null;
+
 
     public function getId(): ?int
     {
@@ -227,8 +233,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNick(): ?string
+    {
+        return $this->nick;
+    }
 
+    public function setNick(?string $nick): static
+    {
+        $this->nick = $nick;
 
+        return $this;
+    }
 
+    public function getFoto(): ?string
+    {
+        return $this->foto;
+    }
+
+    public function setFoto(string $foto): static
+    {
+        $this->foto = $foto;
+
+        return $this;
+    }
 
 }

@@ -55,8 +55,9 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
         yield "</title>
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>\">
+        
         ";
-        // line 7
+        // line 8
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
         // line 14
         yield "
@@ -72,6 +73,7 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         // line 21
         yield "    </body>
 </html>
+
 ";
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -102,7 +104,7 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         return; yield '';
     }
 
-    // line 7
+    // line 8
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -112,12 +114,11 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 8
-        yield "        
-        <link rel=\"stylesheet\" href=\"/css/styles.css\">
-
-        <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
-
+        // line 9
+        yield "            <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">
+            <link rel=\"stylesheet\" href=\"/css/styles.css\">
+            <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+            
         ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -204,7 +205,7 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  176 => 20,  156 => 16,  145 => 17,  142 => 16,  132 => 15,  116 => 8,  106 => 7,  86 => 5,  73 => 21,  71 => 20,  67 => 18,  65 => 15,  62 => 14,  60 => 7,  55 => 5,  49 => 1,);
+        return array (  177 => 20,  157 => 16,  146 => 17,  143 => 16,  133 => 15,  118 => 9,  108 => 8,  88 => 5,  74 => 21,  72 => 20,  68 => 18,  66 => 15,  63 => 14,  61 => 8,  55 => 5,  49 => 1,);
     }
 
     public function getSourceContext()
@@ -215,12 +216,12 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         <meta charset=\"UTF-8\">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>\">
-        {% block stylesheets %}
         
-        <link rel=\"stylesheet\" href=\"/css/styles.css\">
-
-        <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
-
+        {% block stylesheets %}
+            <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">
+            <link rel=\"stylesheet\" href=\"/css/styles.css\">
+            <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+            
         {% endblock %}
 
         {% block javascripts %}
@@ -231,6 +232,7 @@ class __TwigTemplate_d1e1688d78cf8893273d03842929c105 extends Template
         {% block body %}{% endblock %}
     </body>
 </html>
+
 ", "base.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\base.html.twig");
     }
 }
