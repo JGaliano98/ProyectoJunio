@@ -28,7 +28,7 @@ class Alumno
     /**
      * @var Collection<int, DetalleActividad>
      */
-    #[ORM\ManyToMany(targetEntity: DetalleActividad::class, mappedBy: 'Alumno')]
+    #[ORM\ManyToMany(targetEntity: DetalleActividad::class, mappedBy: 'alumno')]
     private Collection $detalleActividads;
 
     #[ORM\ManyToOne(inversedBy: 'Alumnos')]
