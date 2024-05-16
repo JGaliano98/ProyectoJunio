@@ -23,61 +23,34 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DashboardController extends AbstractDashboardController
 {
-
-    //  #[IsGranted('ROLE_ADMIN')] 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        //return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-         return $this->render('admin/index.html.twig');
+        return $this->render('admin/index.html.twig');
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Menú Principal');
+            ->setTitle('Administrador Las Fuentezuelas');
     }
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::section('Gestión de Recursos');
+        yield MenuItem::linkToCrud('Edificios', 'fas fa-building', Edificio::class);
+        yield MenuItem::linkToCrud('Recursos', 'fas fa-boxes', Recurso::class);
+        yield MenuItem::linkToCrud('Espacios', 'fas fa-map-marker-alt', Espacio::class);
 
+        yield MenuItem::section('Gestión de Eventos');
+        yield MenuItem::linkToCrud('Ponentes', 'fas fa-chalkboard-teacher', Ponente::class);
+        yield MenuItem::linkToCrud('Eventos', 'fas fa-calendar-alt', Evento::class);
 
-        //yield MenuItem::linkToCrud('The Label', 'fas fa-list', User::class);
-
-        yield MenuItem::linkToCrud('Edificios', 'fa fa-question-circle', Edificio::class);
-
-        yield MenuItem::linkToCrud('Recursos', 'fa fa-question-circle', Recurso::class);
-
-        yield MenuItem::linkToCrud('Espacios', 'fa fa-question-circle', Espacio::class);
-
-        yield MenuItem::linkToCrud('Ponentes', 'fa fa-question-circle', Ponente::class);
-
-        yield MenuItem::linkToCrud('Eventos', 'fa fa-question-circle', Evento::class);
-
-        yield MenuItem::linkToCrud('Nivel Educativo', 'fa fa-question-circle', NivelEducativo::class);
-
-        yield MenuItem::linkToCrud('Usuario', 'fa fa-question-circle', User::class);
-
-        yield MenuItem::linkToCrud('Alumno', 'fa fa-question-circle', Alumno::class);
-
-        yield MenuItem::linkToCrud('Grupo', 'fa fa-home', Grupo::class);
-
-       
+        yield MenuItem::section('Gestión Educativa');
+        yield MenuItem::linkToCrud('Nivel Educativo', 'fas fa-graduation-cap', NivelEducativo::class);
+        yield MenuItem::linkToCrud('Usuarios', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Alumnos', 'fas fa-user-graduate', Alumno::class);
+        yield MenuItem::linkToCrud('Grupos', 'fas fa-users', Grupo::class);
     }
 
     public function configureActions(): Actions

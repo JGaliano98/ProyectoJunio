@@ -389,6 +389,7 @@
       <argument type="service" id="security.user_password_hasher"/>
       <argument type="service" id="App\Repository\UserRepository"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="debug.event_dispatcher"/>
       <call method="setName">
         <argument>app:create-user</argument>
       </call>
@@ -540,6 +541,31 @@
         <argument type="service" id=".service_locator.jUv.zyj.App\Controller\RegistrationController"/>
       </call>
     </service>
+    <service id="App\EventSubscriber\MailBeforeSendSubscriber" class="App\EventSubscriber\MailBeforeSendSubscriber" autowire="true" autoconfigure="true">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="mailer.mailer"/>
+    </service>
+    <service id="App\EventSubscriber\MailPostSendSubscriber" class="App\EventSubscriber\MailPostSendSubscriber" autowire="true" autoconfigure="true">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="mailer.mailer"/>
+    </service>
+    <service id="App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" autoconfigure="true">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="container.hot_path"/>
+    </service>
+    <service id="App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" autoconfigure="true">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="mailer.mailer"/>
+    </service>
+    <service id="App\Event\AfterSendMailEvent" class="App\Event\AfterSendMailEvent" autowire="true" autoconfigure="true">
+      <tag name="container.error" message="Cannot autowire service &quot;App\Event\AfterSendMailEvent&quot;: argument &quot;$returnValue&quot; of method &quot;__construct()&quot; is type-hinted &quot;mixed&quot;, you should configure its value explicitly."/>
+    </service>
+    <service id="App\Event\BeforeSendMailEvent" class="App\Event\BeforeSendMailEvent" autowire="true" autoconfigure="true">
+      <tag name="container.error" message="Cannot autowire service &quot;App\Event\BeforeSendMailEvent&quot;: argument &quot;$subject&quot; of method &quot;__construct()&quot; is type-hinted &quot;string&quot;, you should configure its value explicitly."/>
+    </service>
+    <service id="App\Event\UserCreatedEvent" class="App\Event\UserCreatedEvent" autowire="true" autoconfigure="true">
+      <tag name="container.error" message="Cannot autowire service &quot;App\Event\UserCreatedEvent&quot;: argument &quot;$user&quot; of method &quot;__construct()&quot; needs an instance of &quot;App\Entity\User&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
     <service id="App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -588,7 +614,9 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Security\UserChecker" class="App\Security\UserChecker" autowire="true" autoconfigure="true"/>
-    <service id="App\Service\EmailService" class="App\Service\EmailService" autowire="true" autoconfigure="true"/>
+    <service id="App\Service\EmailService" class="App\Service\EmailService" autowire="true" autoconfigure="true">
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
     <service id="App\Service\PdfGenerator" class="App\Service\PdfGenerator" autowire="true" autoconfigure="true">
       <argument type="service" id="twig"/>
       <argument type="service" id="parameter_bag"/>
@@ -623,7 +651,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.PSCMpMK"/>
+      <argument type="service" id=".service_locator.y1EAzoY"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -2997,6 +3025,38 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>App\Event\BeforeSendMailEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\MailBeforeSendSubscriber"/>
+          <argument>onBeforeSendMail</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>App\Event\AfterSendMailEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\MailPostSendSubscriber"/>
+          <argument>onAfterSendMail</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.controller</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TokenSubscriber"/>
+          <argument>onKernelController</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>App\Event\UserCreatedEvent</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\UserCreatedSubscriber"/>
+          <argument>onUserCreated</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.controller_arguments</argument>
         <argument type="collection">
           <argument type="service_closure" id="argument_resolver.request_payload"/>
@@ -3554,7 +3614,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.PSCMpMK"/>
+      <argument type="service" id=".service_locator.y1EAzoY"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7739,6 +7799,14 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\RegistrationController" class="App\Controller\RegistrationController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\MailBeforeSendSubscriber" class="App\EventSubscriber\MailBeforeSendSubscriber" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\EventSubscriber\MailBeforeSendSubscriber" class="App\EventSubscriber\MailBeforeSendSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\MailPostSendSubscriber" class="App\EventSubscriber\MailPostSendSubscriber" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\EventSubscriber\MailPostSendSubscriber" class="App\EventSubscriber\MailPostSendSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\ActividadRepository" class="App\Repository\ActividadRepository" autowire="true" abstract="true"/>
@@ -8256,6 +8324,13 @@
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
+    <service id=".service_locator.81LTOQ7" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
+      </argument>
+    </service>
     <service id=".service_locator.jedxEFU" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8369,7 +8444,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.PSCMpMK" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.y1EAzoY" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\API\AlumnoControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8380,7 +8455,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI::delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
-        <argument key="App\Controller\API\UserControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\UserControllerAPI::create" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\API\UserControllerAPI::delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI::update" type="service_closure" id=".service_locator.jedxEFU"/>
@@ -8591,7 +8666,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI:delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
-        <argument key="App\Controller\API\UserControllerAPI:create" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\UserControllerAPI:create" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\API\UserControllerAPI:delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI:update" type="service_closure" id=".service_locator.jedxEFU"/>
@@ -11263,7 +11338,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.PSCMpMK"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.y1EAzoY"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -11309,6 +11384,7 @@
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
     <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
     <service id=".service_locator.LCEdq.6" alias=".service_locator.ig5dsP0"/>
+    <service id=".service_locator.PgYGRUQ" alias=".service_locator.81LTOQ7"/>
     <service id=".service_locator.tH9XAhU" alias=".service_locator.jedxEFU"/>
     <service id=".service_locator.2tGegYv" alias=".service_locator.NaJ1gQf"/>
     <service id=".service_locator.b4Agcrj" alias=".service_locator.Nb584vp"/>

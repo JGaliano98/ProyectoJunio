@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use App\Entity\User;
+use App\Event\BeforeSendMailEvent;
+use App\Event\UserCreatedEvent;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -12,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(name: 'app:create-user')]
 class CreateUserCommand extends Command
@@ -19,7 +22,8 @@ class CreateUserCommand extends Command
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
         private UserRepository $userRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private EventDispatcherInterface $eventDispatcher
     ){
         parent::__construct();
     }
@@ -33,6 +37,9 @@ class CreateUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+
+        
+
         // Obtener el helper de preguntas
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
@@ -40,6 +47,10 @@ class CreateUserCommand extends Command
         // Preguntar por el correo electrónico
         $emailQuestion = new Question('Por favor, ingrese el correo electrónico: ');
         $email = $helper->ask($input, $output, $emailQuestion);
+
+        // Dispara el evento BeforeSendMailEvent antes de crear el usuario
+        $beforeSendMailEvent = new BeforeSendMailEvent('Se esta creando un nuevo usuario','Me gusta como caza la perra.');
+        $this->eventDispatcher->dispatch($beforeSendMailEvent);
 
         // Verificar si el correo electrónico ya existe
         if ($this->userRepository->findOneBy(['email' => $email])) {
@@ -68,6 +79,8 @@ class CreateUserCommand extends Command
         // Generar el nick
         $nick = substr($name, 0, 2) . substr($surname1, 0, 2) . substr($surname2, 0, 2);
 
+        
+
         // Crear una nueva entidad User y asignarle los valores proporcionados
         $user = new User();
         $user->setEmail($email);
@@ -90,6 +103,10 @@ class CreateUserCommand extends Command
         $output->writeln('Primer Apellido: ' . $surname1);
         $output->writeln('Segundo Apellido: ' . $surname2);
         $output->writeln('Nick: ' . $nick);
+
+        // Después de crear el usuario exitosamente, dispara el evento UserCreatedEvent
+        $userCreatedEvent = new UserCreatedEvent($user);
+        $this->eventDispatcher->dispatch($userCreatedEvent);
 
         return Command::SUCCESS;
     }

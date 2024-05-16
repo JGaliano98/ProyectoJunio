@@ -28,6 +28,7 @@
     {{ include('@EasyAdmin/includes/_css_assets.html.twig', { assets: ea_field_assets.cssAssets }, with_context = false) }}
     {{ include('@EasyAdmin/includes/_encore_link_tags.html.twig', { assets: ea_field_assets.webpackEncoreAssets }, with_context = false) }}
     <link rel="stylesheet" href="{{ asset('css/tabla.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilosAltasmasivas.css') }}">
 {% endblock %}
 
 {% block configured_javascripts %}
@@ -35,6 +36,13 @@
     {{ include('@EasyAdmin/includes/_js_assets.html.twig', { assets: ea_field_assets.jsAssets }, with_context = false) }}
     {{ include('@EasyAdmin/includes/_encore_script_tags.html.twig', { assets: ea_field_assets.webpackEncoreAssets }, with_context = false) }}
     <script src="{{ asset('js/userModal.js') }}"></script>
+    <script src="{{ asset('js/ficheros.js') }}"></script>
+    <script src="{{ asset('js/libreriaComun.js') }}"></script>
+    <script src="{{ asset('js/select.js') }}"></script>
+    <script src="{{ asset('js/tablas.js') }}"></script>
+
+
+
 {% endblock %}
 
 {% block content_title %}
@@ -67,28 +75,25 @@
                     <div class="modal-body">
                         {% if ea.i18n.translationParameters['%entity_name%'] == "User" %}
                         <!-- Configuración para 'User' -->
-                        <button id="loadCsvButtonUser" class="btn btn-primary mt-2">Cargar desde CSV</button>
-                        <input type="file" id="csvFileInputUser" accept=".csv" style="display: none;">
-                        <!-- Botón para cargar desde la API -->
-                        <button id="loadApiButtonUser" class="btn btn-primary mt-2">Cargar desde API</button>
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^.+;.{7}\d{3};.{7}\d{3}@.+\r?$" data-campo="3">
                         <!-- Tabla donde se visualizarán los datos -->
-                        <table id="modalTableUser" class="table mt-3">
+                        <table id="modalTable" class="table mt-3">
                             <thead>
                                 <tr>
-                                    <th>Apellidos</th>
                                     <th>Nombre</th>
                                     <th>Nick</th>
                                     <th>Email</th>
                                 </tr>
                             </thead>
+                            <input type="checkbox" value="0" id="actEdTabla"/> Activar Edición
                             <tbody></tbody>
                         </table>
 
                         {% elseif ea.i18n.translationParameters['%entity_name%'] == "Alumno" %}
                         <!-- Configuración para 'Alumno' -->
-                        <button id="loadCsvButtonAlumno" class="btn btn-primary mt-2">Cargar Datos</button>
-                        <input type="file" id="csvFileInputAlumno" accept=".csv" style="display: none;">
-                        <table id="modalTableAlumno" class="table mt-3">
+                        
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^[\s\S]*?;[\s\S]*?@[\s\S]*?;\d{4}-\d{2}-\d{2}$" data-campo="3">
+                        <table id="modalTable" class="table mt-3">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
@@ -96,19 +101,21 @@
                                     <th>Fecha de Nacimiento</th>
                                 </tr>
                             </thead>
+                            <input type="checkbox" value="0" id="actEdTabla"/> Activar Edición
                             <tbody></tbody>
                         </table>
 
                         {% elseif ea.i18n.translationParameters['%entity_name%'] == "Edificio" %}
                         <!-- Configuración para 'Edificio' -->
-                        <button id="loadCsvButtonEdificio" class="btn btn-primary mt-2">Cargar Datos</button>
-                        <input type="file" id="csvFileInputEdificio" accept=".csv" style="display: none;">
-                        <table id="modalTableEdificio" class="table mt-3">
+                    
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}}, data-patron="^.*$" data-campo="1">
+                        <table id="modalTable" class="table mt-3">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                 </tr>
                             </thead>
+                            <input type="checkbox" value="0" id="actEdTabla"/> Activar Edición
                             <tbody></tbody>
                         </table>
                         {% endif %}
@@ -116,7 +123,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="modalGuardarBtn">Guardar</button>
                     </div>
                 </div>
             </div>

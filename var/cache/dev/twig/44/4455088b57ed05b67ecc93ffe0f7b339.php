@@ -61,8 +61,7 @@ class __TwigTemplate_3ba289b4fc24616afb3d179412ebf0f4 extends Template
         yield "</strong>.</p>
     </div>
 </body>
-</html>
-";
+</html>";
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
 
@@ -112,7 +111,6 @@ class __TwigTemplate_3ba289b4fc24616afb3d179412ebf0f4 extends Template
         <p>El PDF ha sido generado y enviado correctamente a <strong>{{ destinatario }}</strong>.</p>
     </div>
 </body>
-</html>
-", "emails/enviados.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\emails\\enviados.html.twig");
+</html>", "emails/enviados.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\emails\\enviados.html.twig");
     }
 }

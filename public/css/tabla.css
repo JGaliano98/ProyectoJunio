@@ -51,3 +51,37 @@
     padding: 6px 12px; /* Ajuste para que el botón tenga un tamaño adecuado */
 }
 
+
+/* Estilos para los botones */
+.botonBorrar,
+.botonEditar,
+.botonGuardar,
+.botonCancelar {
+    width: 30px; /* Ancho deseado */
+    height: 30px; /* Alto deseado */
+    margin-right: 50px; /* Añadir un margen derecho de 5px */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    padding: 0; /* Eliminar el relleno para que el tamaño sea solo del icono */
+    cursor: pointer;
+}
+
+/* Estilos para los botones de los iconos específicos */
+.botonBorrar {
+    background-image: url('../images/borrar.png');
+    
+}
+
+.botonEditar {
+    background-image: url('../images/editar.png');
+}
+
+.botonGuardar {
+    background-image: url('../images/guardar.png');
+}
+
+.botonCancelar {
+    background-image: url('../images/cancelar.png');
+}

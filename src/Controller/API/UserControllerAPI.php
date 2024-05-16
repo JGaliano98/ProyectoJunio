@@ -35,28 +35,41 @@ class UserControllerAPI extends AbstractController
     }
 
     #[Route('/users', name: 'user_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
-    {
-        $data = json_decode($request->getContent(), true);
-        $userData = $data['user'];
+public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+{
+    $data = json_decode($request->getContent(), true);
+
+    foreach ($data as $userData) {
+        // Divide el primer campo en nombre, primer apellido y segundo apellido
+        $nombreCompleto = explode(', ', $userData[0]);
+        $apellidos = $nombreCompleto[0] ?? '';
+        $nombre = $nombreCompleto[1] ?? '';
+
+        // Separa los apellidos en primer y segundo apellido
+        $apellidosSeparados = explode(' ', $apellidos);
+        $apellido1 = $apellidosSeparados[0] ?? '';
+        $apellido2 = $apellidosSeparados[1] ?? '';
 
         $user = new User();
-        $user->setEmail($userData['email']);
-        $user->setPassword($userData['password']);
-        $user->setRoles($userData['roles']);
-        $user->setNombre($userData['nombre']);
-        $user->setApellido1($userData['apellido1']);
-        $user->setApellido2($userData['apellido2']);
-        $user->setIsActive($userData['is_active']);
-        $user->setActivationToken($userData['activation_token']);
-        $user->setNick($userData['nick']);
-        $user->setFoto($userData['foto']);
+        $user->setEmail($userData[2] ?? '');
+        $user->setNick($userData[1] ?? '');
+        $user->setNombre($nombre);
+        $user->setApellido1($apellido1);
+        $user->setApellido2($apellido2);
+        $user->setPassword($passwordHasher->hashPassword($user, '123456')); // Hashea el password
+        $user->setIsActive(true); // Establece is_active como true
+
+        // Asigna el resto de los datos según corresponda
 
         $em->persist($user);
-        $em->flush();
-
-        return $this->json($user, Response::HTTP_CREATED);
     }
+
+    $em->flush();
+
+    return $this->json('Usuarios creados correctamente.', Response::HTTP_CREATED);
+}
+
+
 
     #[Route('/users/{id}', name: 'user_update', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $em, User $user = null, int $id, UserPasswordHasherInterface $passwordHasher): Response
