@@ -23,6 +23,5 @@ function obtenerInformacion(contenidoFichero, patron, nCampos) {
         }
     }
 
-    console.log("Array de información:", informacion);
     return informacion;
 }

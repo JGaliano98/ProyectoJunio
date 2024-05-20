@@ -75,7 +75,7 @@
                     <div class="modal-body">
                         {% if ea.i18n.translationParameters['%entity_name%'] == "User" %}
                         <!-- Configuración para 'User' -->
-                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^.+;.{7}\d{3};.{7}\d{3}@.+\r?$" data-campo="3">
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^.+;.{6};.{7}\d{3}@.+\r?$" data-campo="3">
                         <!-- Tabla donde se visualizarán los datos -->
                         <table id="modalTable" class="table mt-3">
                             <thead>
@@ -108,7 +108,7 @@
                         {% elseif ea.i18n.translationParameters['%entity_name%'] == "Edificio" %}
                         <!-- Configuración para 'Edificio' -->
                     
-                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}}, data-patron="^.*$" data-campo="1">
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^.*$" data-campo="1">
                         <table id="modalTable" class="table mt-3">
                             <thead>
                                 <tr>

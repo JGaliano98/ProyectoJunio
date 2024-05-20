@@ -40,18 +40,43 @@ class EdificioControllerAPI extends AbstractController
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
-        if (!isset($data['edificio']['nombre'])) {
-            return $this->json(['error' => 'El nombre es obligatorio'], Response::HTTP_BAD_REQUEST);
+        $resultados = [];
+        $errores = [];
+    
+        foreach ($data as $index => $edificioData) {
+            try {
+                // Verificar si el nombre del edificio está presente
+                if (!isset($edificioData[0])) {
+                    throw new \Exception('El nombre del edificio es obligatorio en el índice ' . $index);
+                }
+    
+                $nombreEdificio = $edificioData[0];
+    
+                // Verificar si ya existe un edificio con el mismo nombre
+                $existingEdificio = $em->getRepository(Edificio::class)->findOneBy(['nombre' => $nombreEdificio]);
+                if ($existingEdificio) {
+                    throw new \Exception('Ya existe un edificio con el nombre: ' . $nombreEdificio);
+                }
+    
+                $edificio = new Edificio();
+                $edificio->setNombre($nombreEdificio);
+    
+                $em->persist($edificio);
+                $em->flush();
+    
+                $resultados[] = ['index' => $index, 'status' => 'success', 'message' => 'Edificio creado correctamente'];
+            } catch (\Exception $e) {
+                // Manejo del error para esta línea específica
+                $resultados[] = ['index' => $index, 'status' => 'error', 'message' => $e->getMessage()];
+                $errores[] = $index; // Añadir el índice de la línea con error al array de errores
+            }
         }
-
-        $edificio = new Edificio();
-        $edificio->setNombre($data['edificio']['nombre']);
-
-        $em->persist($edificio);
-        $em->flush();
-
-        return $this->json($this->transformEdificio($edificio), Response::HTTP_CREATED);
+    
+        return $this->json(['status' => 'finished', 'results' => $resultados, 'errors' => $errores], Response::HTTP_CREATED);
     }
+    
+
+    
 
 
     #[Route('/edificios/{id}', name: 'edificio_update', methods: ['PUT'])]

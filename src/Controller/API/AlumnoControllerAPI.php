@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/API')]
@@ -39,28 +40,49 @@ public function index(?int $id, EntityManagerInterface $em): Response
 
 
 
-    #[Route('/alumnos', name: 'alumno_create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
-    {
-        $data = json_decode($request->getContent(), true);
-        // Asegúrate de que la clave 'alumno' existe
-        if (!isset($data['alumno'])) {
-            return $this->json(['error' => 'Falta la clave \'alumno\''], Response::HTTP_BAD_REQUEST);
+#[Route('/alumnos', name: 'alumno_create', methods: ['POST'])]
+public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+{
+    $data = json_decode($request->getContent(), true);
+    $resultados = [];
+    $errores = [];
+
+    foreach ($data as $index => $alumnoData) {
+        try {
+            // Verificar si ya existe un alumno con el mismo correo
+            $existingAlumno = $em->getRepository(Alumno::class)->findOneBy(['correo' => $alumnoData[1]]);
+            if ($existingAlumno) {
+                throw new \Exception('Ya existe un alumno con el mismo correo: ' . $alumnoData[1]);
+            }
+
+            // Extraer el nombre completo del alumno
+            $nombreCompleto = $alumnoData[0];
+            // Dividir el nombre completo en nombre y apellidos
+            $nombreYApellidos = explode(', ', $nombreCompleto);
+            $nombre = $nombreYApellidos[1]; // Primer elemento del array es el nombre
+     
+
+
+            $alumno = new Alumno();
+            $alumno->setNombre($nombre);
+            $alumno->setCorreo($alumnoData[1]);
+            $alumno->setFechaNacimiento(new \DateTime($alumnoData[2]));
+            // Supongo que tienes alguna lógica para asignar el grupo, así que lo dejo como está en tu código original
+
+            $em->persist($alumno);
+            $em->flush();
+            $resultados[] = ['index' => $index, 'status' => 'success', 'message' => 'Alumno creado correctamente'];
+        } catch (\Exception $e) {
+            // Manejo del error para esta línea específica
+            $resultados[] = ['index' => $index, 'status' => 'error', 'message' => $e->getMessage()];
+            $errores[] = $index; // Añadir el índice de la línea con error al array de errores
         }
-        
-        $alumnoData = $data['alumno'];
-
-        $alumno = new Alumno();
-        $alumno->setNombre($alumnoData['nombre']);
-        $alumno->setCorreo($alumnoData['correo']);
-        $alumno->setFechaNacimiento(new \DateTime($alumnoData['fecha_nacimiento']));
-        $alumno->setGrupo($alumnoData['grupo_id']);
-
-        $em->persist($alumno);
-        $em->flush();
-
-        return $this->json($alumno, Response::HTTP_CREATED);
     }
+
+    return $this->json(['status' => 'finished', 'results' => $resultados, 'errors' => $errores], Response::HTTP_CREATED);
+}
+
+
 
 #[Route('/alumnos/{id}', name: 'alumno_update', methods: ['PUT'])]
 public function update(Request $request, EntityManagerInterface $em, int $id): Response

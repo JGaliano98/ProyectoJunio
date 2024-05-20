@@ -34,40 +34,58 @@ class UserControllerAPI extends AbstractController
         }
     }
 
+
+    
+    
     #[Route('/users', name: 'user_create', methods: ['POST'])]
-public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
-{
-    $data = json_decode($request->getContent(), true);
-
-    foreach ($data as $userData) {
-        // Divide el primer campo en nombre, primer apellido y segundo apellido
-        $nombreCompleto = explode(', ', $userData[0]);
-        $apellidos = $nombreCompleto[0] ?? '';
-        $nombre = $nombreCompleto[1] ?? '';
-
-        // Separa los apellidos en primer y segundo apellido
-        $apellidosSeparados = explode(' ', $apellidos);
-        $apellido1 = $apellidosSeparados[0] ?? '';
-        $apellido2 = $apellidosSeparados[1] ?? '';
-
-        $user = new User();
-        $user->setEmail($userData[2] ?? '');
-        $user->setNick($userData[1] ?? '');
-        $user->setNombre($nombre);
-        $user->setApellido1($apellido1);
-        $user->setApellido2($apellido2);
-        $user->setPassword($passwordHasher->hashPassword($user, '123456')); // Hashea el password
-        $user->setIsActive(true); // Establece is_active como true
-
-        // Asigna el resto de los datos según corresponda
-
-        $em->persist($user);
+    public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $resultados = [];
+        $errores = [];
+    
+        foreach ($data as $index => $userData) {
+            try {
+                // Verificar si ya existe un usuario con el mismo nick
+                $existingUser = $em->getRepository(User::class)->findOneBy(['nick' => $userData[1] ?? '']);
+                if ($existingUser) {
+                    throw new \Exception('Ya existe un usuario con el mismo nick: ' . $userData[1]);
+                }
+    
+                // Divide el primer campo en nombre, primer apellido y segundo apellido
+                $nombreCompleto = explode(', ', $userData[0]);
+                $apellidos = $nombreCompleto[0] ?? '';
+                $nombre = $nombreCompleto[1] ?? '';
+    
+                // Separa los apellidos en primer y segundo apellido
+                $apellidosSeparados = explode(' ', $apellidos);
+                $apellido1 = $apellidosSeparados[0] ?? '';
+                $apellido2 = $apellidosSeparados[1] ?? '';
+    
+                $user = new User();
+                $user->setEmail($userData[2] ?? '');
+                $user->setNick($userData[1] ?? '');
+                $user->setNombre($nombre);
+                $user->setApellido1($apellido1);
+                $user->setApellido2($apellido2);
+                $user->setPassword($passwordHasher->hashPassword($user, '123456')); // Hashea el password
+                $user->setIsActive(true); // Establece is_active como true
+    
+                $em->persist($user);
+                $em->flush();
+                $resultados[] = ['index' => $index, 'status' => 'success', 'message' => 'Usuario creado correctamente'];
+            } catch (\Exception $e) {
+                // Manejo del error para esta línea específica
+                $resultados[] = ['index' => $index, 'status' => 'error', 'message' => $e->getMessage()];
+                $errores[] = $index; // Añadir el índice de la línea con error al array de errores
+            }
+        }
+    
+        return $this->json(['status' => 'finished', 'results' => $resultados, 'errors' => $errores], Response::HTTP_CREATED);
     }
+    
 
-    $em->flush();
 
-    return $this->json('Usuarios creados correctamente.', Response::HTTP_CREATED);
-}
 
 
 
