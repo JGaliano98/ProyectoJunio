@@ -2,15 +2,21 @@
 //genera los option del select añadiendo al final 
 //datos es un array
 //donde es un objeto DOM Select
-function cargarDatosSelect(datos,donde){
-    for(let i=0;i<datos.length;i++){
-        let option=document.createElement("option");
-        option.value=datos[i][0];
-        option.innerHTML=datos[i][1];
-        donde.appendChild(option);
 
+function cargarDatosSelect(datos, donde) {
+    console.log("Datos a cargar en select:", datos); // Agregar mensaje de consola
+    for (let i = 0; i < datos.length; i++) {
+        let option = document.createElement("option");
+        option.value = datos[i][0];
+        if (donde.id === 'fuenteRecursos') { // Si es la lista de recursos
+            option.innerHTML = datos[i][1];
+        } else { // Si es la lista de grupos
+            option.innerHTML = datos[i][0];
+        }
+        donde.appendChild(option);
     }
 }
+
 
 //Función que pasándole un objeto DOM select lo vacia
 function vaciarSelect(select){

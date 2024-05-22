@@ -41,7 +41,7 @@ public function index(?int $id, EntityManagerInterface $em): Response
 
 
 #[Route('/alumnos', name: 'alumno_create', methods: ['POST'])]
-public function create(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+public function create(Request $request, EntityManagerInterface $em ): Response
 {
     $data = json_decode($request->getContent(), true);
     $resultados = [];

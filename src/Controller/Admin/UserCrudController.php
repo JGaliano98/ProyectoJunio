@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -28,6 +29,13 @@ class UserCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return User::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPaginatorPageSize(10) // Número de elementos por página
+            ->setPaginatorRangeSize(5); // Número de páginas en la barra de paginación
     }
 
     // Configuramos los campos que se mostrarán en el formulario de EasyAdmin
@@ -73,8 +81,8 @@ class UserCrudController extends AbstractCrudController
                 $entityInstance->setPassword($hashedPassword);
             }
 
-            // Asignar el rol por defecto ROLE_ADMIN
-            $entityInstance->setRoles(['ROLE_ADMIN']);
+            // Asignar el rol por defecto ROLE_USER
+            $entityInstance->setRoles(['ROLE_USER']);
         }
 
         // Llamar al método padre para persistir la entidad

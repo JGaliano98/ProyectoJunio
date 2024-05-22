@@ -15,6 +15,7 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/API/user/modal' => [[['_route' => 'user_modal', '_controller' => 'App\\Controller\\API\\UserControllerAPI::userModal'], null, ['GET' => 0], null, false, false, null]],
+        '/actividad' => [[['_route' => 'actividad', '_controller' => 'App\\Controller\\ActividadController::index'], null, null, null, false, false, null]],
         '/admin' => [[['_route' => 'admin', '_controller' => 'App\\Controller\\Admin\\DashboardController::index'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::login'], null, null, null, false, false, null]],
@@ -57,16 +58,18 @@ return [
                             .'|(*:326)'
                         .')'
                     .')'
+                    .'|grupos(?:/([^/]++))?(*:356)'
+                    .'|recursos(?:/([^/]++))?(*:386)'
                     .'|users(?'
-                        .'|(?:/([^/]++))?(*:358)'
-                        .'|(*:366)'
+                        .'|(?:/([^/]++))?(*:416)'
+                        .'|(*:424)'
                         .'|/([^/]++)(?'
-                            .'|(*:386)'
+                            .'|(*:444)'
                         .')'
                     .')'
                 .')'
-                .'|/enviar\\-pdf/([^/]++)(*:418)'
-                .'|/activate/([^/]++)(*:444)'
+                .'|/enviar\\-pdf/([^/]++)(*:476)'
+                .'|/activate/([^/]++)(*:502)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -90,14 +93,16 @@ return [
             [['_route' => 'edificio_update', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'edificio_delete', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        358 => [[['_route' => 'user_index', 'id' => null, '_controller' => 'App\\Controller\\API\\UserControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        366 => [[['_route' => 'user_create', '_controller' => 'App\\Controller\\API\\UserControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
-        386 => [
+        356 => [[['_route' => 'grupo_index', 'id' => null, '_controller' => 'App\\Controller\\API\\GrupoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        386 => [[['_route' => 'recurso_index', 'id' => null, '_controller' => 'App\\Controller\\API\\RecursoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        416 => [[['_route' => 'user_index', 'id' => null, '_controller' => 'App\\Controller\\API\\UserControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        424 => [[['_route' => 'user_create', '_controller' => 'App\\Controller\\API\\UserControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
+        444 => [
             [['_route' => 'user_update', '_controller' => 'App\\Controller\\API\\UserControllerAPI::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'user_delete', '_controller' => 'App\\Controller\\API\\UserControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        418 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
-        444 => [
+        476 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
+        502 => [
             [['_route' => 'app_activate', '_controller' => 'App\\Controller\\RegistrationController::activate'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

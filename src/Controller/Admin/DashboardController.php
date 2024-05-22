@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Admin;
 
 use App\Entity\Alumno;
@@ -21,6 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+
+
+
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
@@ -41,16 +43,26 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Edificios', 'fas fa-building', Edificio::class);
         yield MenuItem::linkToCrud('Recursos', 'fas fa-boxes', Recurso::class);
         yield MenuItem::linkToCrud('Espacios', 'fas fa-map-marker-alt', Espacio::class);
+        yield MenuItem::linkToUrl('Actividades', 'fas fa-map-marker-alt', 'http://127.0.0.1:8000/actividad');
+        yield MenuItem::linkToCrud('Eventos', 'fas fa-map-marker-alt', Espacio::class);
 
-        yield MenuItem::section('Gestión de Eventos');
-        yield MenuItem::linkToCrud('Ponentes', 'fas fa-chalkboard-teacher', Ponente::class);
-        yield MenuItem::linkToCrud('Eventos', 'fas fa-calendar-alt', Evento::class);
+        // Solo muestra estas secciones si el usuario tiene ROLE_ADMIN
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::section('Gestión de Eventos');
+            yield MenuItem::linkToCrud('Ponentes', 'fas fa-chalkboard-teacher', Ponente::class);
+            yield MenuItem::linkToCrud('Eventos', 'fas fa-calendar-alt', Evento::class);
 
-        yield MenuItem::section('Gestión Educativa');
-        yield MenuItem::linkToCrud('Nivel Educativo', 'fas fa-graduation-cap', NivelEducativo::class);
-        yield MenuItem::linkToCrud('Usuarios', 'fas fa-user', User::class);
-        yield MenuItem::linkToCrud('Alumnos', 'fas fa-user-graduate', Alumno::class);
-        yield MenuItem::linkToCrud('Grupos', 'fas fa-users', Grupo::class);
+            yield MenuItem::section('Gestión Educativa');
+            yield MenuItem::linkToCrud('Nivel Educativo', 'fas fa-graduation-cap', NivelEducativo::class);
+            yield MenuItem::linkToCrud('Usuarios', 'fas fa-user', User::class);
+            yield MenuItem::linkToCrud('Alumnos', 'fas fa-user-graduate', Alumno::class);
+            yield MenuItem::linkToCrud('Grupos', 'fas fa-users', Grupo::class);
+        }
+
+        yield MenuItem::section('Volver a Inicio');
+        yield MenuItem::linkToUrl('Volver', 'fas fa-arrow-left', 'http://127.0.0.1:8000')
+            ->setCssClass('btn btn-danger btn-sm'); 
+
     }
 
     public function configureActions(): Actions

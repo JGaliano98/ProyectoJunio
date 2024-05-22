@@ -1,0 +1,114 @@
+/* Agrega tus estilos personalizados aquí */
+#hero {
+    background-image: url('https://via.placeholder.com/1500x600');
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    padding: 100px 0;
+    position: relative; /* Añade posicionamiento relativo para que el pseudo-elemento ::before funcione correctamente */
+}
+
+#hero::before {
+    content: ''; /* Agrega un pseudo-elemento antes del contenido del área del héroe */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(179, 177, 177, 0.2); /* Color de fondo negro con opacidad */
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Agrega tus estilos personalizados aquí */
+.card-img-top {
+    width: 100%;
+    height: 500px; /* Puedes ajustar esta altura según tus preferencias */
+    object-fit: cover; /* Esto asegura que la imagen mantenga su relación de aspecto */
+}
+
+/* Estilos para hacer el texto más grueso y grande en la página principal */
+body {
+    font-size: 20px; /* Aumenta el tamaño de fuente del texto principal */
+    font-weight: bold; /* Hace que el texto sea más grueso */
+    color: #333; /* Cambia el color del texto principal */
+}
+
+.jumbotron {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Agrega sombreado al texto del héroe */
+}
+
+.card-title {
+    font-size: 2rem; /* Aumenta el tamaño de fuente del título de la tarjeta de producto */
+    font-weight: bold; /* Hace que el título de la tarjeta sea más grueso */
+}
+
+.card-text {
+    font-size: 1.25rem; /* Aumenta el tamaño de fuente del texto de la tarjeta de producto */
+}
+
+/* Estilos para hacer el texto más grueso y grande en el área del héroe */
+.jumbotron .container h1.display-4 {
+    font-weight: bold; /* Hace que el título sea más grueso */
+    font-size: 4.5rem; /* Aumenta el tamaño de fuente del título */
+    color: #ffffff; /* Cambia el color del texto principal */
+    text-shadow: 
+        -2px -2px 0 #000,  
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #000; /* Añade un borde negro más grueso al texto */
+}
+
+.jumbotron .container p.lead {
+    font-weight: bold; /* Hace que el texto sea más grueso */
+    font-size: 1.5rem; /* Aumenta el tamaño de fuente del texto */
+    text-shadow: 
+        -2px -2px 0 #000,  
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        2px 2px 0 #000; /* Añade un borde negro más grueso al texto */
+}
+
+.product-clone {
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.animate {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Estilos para los iconos de redes sociales */
+
+/* Aumenta la especificidad de los estilos para los iconos de redes sociales en el footer */
+.footer .btn-social-icon i.fa-facebook-f,
+.footer .btn-social-icon i.fa-twitter,
+.footer .btn-social-icon i.fa-instagram {
+    color: white !important; /* Cambia el color de los iconos de redes sociales a blanco */
+}
+
+
+/* Estilos para los enlaces del navbar */
+.navbar-nav .nav-link {
+    color: white !important; /* Cambia el color de los enlaces a blanco */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ddd !important; /* Cambia el color de los enlaces cuando se pasa el mouse por encima */
+}
+
+
+.navbar-brand img {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}

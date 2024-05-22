@@ -1,88 +1,166 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Eventos I.E.S. Las Fuentezuelas - Jaén{% endblock %}</title>
+    <link rel="icon" href="{{ asset('/img/icono.jpg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('img/icono2.png') }}" alt="Logo I.E.S. Las Fuentezuelas" width="80">
+                </a>
 
-{% block title %}Hello HomeController!{% endblock %}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('descargar_pdf') }}">
+                                <i class="fas fa-download"></i> Descargar PDF
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                        
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        body, html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; /* Organiza el contenido en una columna */
-        }
-        .container-fluid {
-            flex: 1; /* Permite que el contenedor crezca y ocupe cualquier espacio disponible */
-            display: flex;
-            flex-direction: column;
-            min-height: 0; /* Impide que el contenedor se estire más allá de su contenido mínimo */
-        }
-        .top-right-buttons {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
-        }
-        .footer {
-            background: #f8f9fa;
-            padding: 1rem;
-            text-align: center;
-            width: 100%;
-            margin-top: auto; /* Empuja el footer hacia abajo */
-        }
-        .carousel {
-            margin-top: 6rem;
-            margin-right: auto;
-            margin-left: auto;
-            width: 90%;
-            max-width: 900px;
-        }
-        .carousel .carousel-inner {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-        .carousel .carousel-inner .carousel-item img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-        }
-    </style>
-{% endblock %}
+                        
+                        <li class="nav-item">
+                            <a href="http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController" id="cart-icon" class="nav-link"> 
+                                <i class="fas fa-cog"></i> Acceder Administrador
+                            </a>
+                        </li>
 
-{% block body %}
-<div class="container-fluid">
-    <div class="top-right-buttons">
-        <a href="{{ path('descargar_pdf') }}" class="btn btn-primary">Descargar PDF</a>
-        <a href="{{ path('app_login') }}" class="btn btn-secondary">Login</a>
-    </div>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    <i class="fas fa-user"></i> {{ app.user.getNombre() }}
+                                </span>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
 
-    <div id="newsCarousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://via.placeholder.com/900x400" class="d-block w-100" alt="Imagen de muestra">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Título de muestra</h5>
-                    <p>Descripción breve de la muestra.</p>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    {% block body %}
+    <section id="hero" class="jumbotron text-center" style="background-image: url('img/portada.jpg');">
+        <div class="container">
+            <h1 class="display-4">I.E.S. LAS FUENTEZUELAS - JAÉN</h1>
+            <p class="lead">El lugar donde da comienzo tu futuro laboral</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="img/icono.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Evento 1</h5>
+                        <p class="card-text">Descripción del evento.</p>
+                        <a href="{{ path('descargar_pdf') }}" class="btn btn-primary">Descargar PDF</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="img/icono.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Evento 2</h5>
+                        <p class="card-text">Descripción del evento.</p>
+                        <a href="{{ path('descargar_pdf') }}" class="btn btn-primary">Descargar PDF</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="img/icono.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Evento 3</h5>
+                        <p class="card-text">Descripción del evento.</p>
+                        <a href="{{ path('descargar_pdf') }}" class="btn btn-primary">Descargar PDF</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <a class="carousel-control-prev" href="#newsCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#newsCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Aquí coloca tu formulario de inicio de sesión -->
+                <form action="{{ path('app_login') }}" method="post">
+                    {# Incluir el token CSRF #}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Correo electrónico</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa tu correo electrónico" name="_username">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" name="_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </form>
+            </div>
 
-    <footer class="footer">
-        <a href="https://facebook.com" class="btn btn-social-icon btn-facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://twitter.com" class="btn btn-social-icon btn-twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://instagram.com" class="btn btn-social-icon btn-instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        </div>
+    {% endblock %}
+
+    <footer class="footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center">
+        <div class="d-flex" style="margin: 0 40px;">
+            <a href="https://facebook.com" class="btn btn-social-icon btn-facebook mr-2" style="font-size: 28px;"><i class="fab fa-facebook-f" style="color: white;"></i></a>
+            <a href="https://twitter.com" class="btn btn-social-icon btn-twitter mr-2" style="font-size: 28px;"><i class="fab fa-twitter" style="color: white;"></i></a>
+            <a href="https://instagram.com" class="btn btn-social-icon btn-instagram" style="font-size: 28px;"><i class="fab fa-instagram" style="color: white;"></i></a>
+        </div>
+
+        <div class="text-center" style="margin: 0 40px;">
+            © {{ "now"|date("Y") }} Jesus Galiano
+        </div>
     </footer>
-</div>
-{% endblock %}
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="js/js.js"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

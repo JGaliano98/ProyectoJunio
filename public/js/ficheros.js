@@ -1,14 +1,92 @@
 window.addEventListener("load", function() {
+
     let fichero = document.getElementById("csvFileInput");
-    let fuente = document.getElementById("fuente");
-    let seleccionados = document.getElementById("seleccionados");
-    let pasarIzq = document.getElementById("pasarIzq");
-    let pasarIzqTodos = document.getElementById("pasarIzqTodos");
-    let pasarDer = document.getElementById("pasarDer");
-    let pasarDerTodos = document.getElementById("pasarDerTodos");
+    let fuenteRecursos = document.getElementById("fuenteRecursos");
+    let seleccionadosRecursos = document.getElementById("seleccionadosRecursos");
+    let fuenteGrupos = document.getElementById("fuenteGrupos");
+    let seleccionadosGrupos = document.getElementById("seleccionadosGrupos");
+
+    let pasarIzqRecursos = document.getElementById("pasarIzqRecursos");
+    let pasarIzqTodosRecursos = document.getElementById("pasarIzqTodosRecursos");
+    let pasarDerRecursos = document.getElementById("pasarDerRecursos");
+    let pasarDerTodosRecursos = document.getElementById("pasarDerTodosRecursos");
+
+    let pasarIzqGrupos = document.getElementById("pasarIzqGrupos");
+    let pasarIzqTodosGrupos = document.getElementById("pasarIzqTodosGrupos");
+    let pasarDerGrupos = document.getElementById("pasarDerGrupos");
+    let pasarDerTodosGrupos = document.getElementById("pasarDerTodosGrupos");
+
     let checkActEdTabla = document.getElementById("actEdTabla");
     let tabla = document.getElementById("modalTable");
     let guardarBtn = document.getElementById("modalGuardarBtn");
+
+    if (fuenteRecursos && seleccionadosRecursos && fuenteGrupos && seleccionadosGrupos) {
+        console.log("Elementos <select> encontrados.");
+        console.log("Elementos del DOM listos.");
+
+        // URL de la API de recursos
+        let urlAPIRecursos = "/API/recursos";
+        // URL de la API de grupos
+        let urlAPIGrupos = "/API/grupos";
+
+        // Cargar datos de la API de recursos
+        fetch(urlAPIRecursos)
+            .then(response => response.json())
+            .then(data => {
+                let datosMostrar = data.map(recurso => [recurso.id, recurso.descripcion]);
+                cargarDatosSelect(datosMostrar, fuenteRecursos);
+            })
+            .catch(error => {
+                console.error("Error al cargar los datos de la API de recursos:", error);
+            });
+
+        // Cargar datos de la API de grupos
+        fetch(urlAPIGrupos)
+            .then(response => response.json())
+            .then(data => {
+                let datosMostrar = data.map(grupo => [grupo.nivelEducativo + " - " + grupo.nombre, grupo.id]);
+                cargarDatosSelect(datosMostrar, fuenteGrupos);
+            })
+            .catch(error => {
+                console.error("Error al cargar los datos de la API de grupos:", error);
+            });
+
+        // Agregar eventos a los botones de intercambio de elementos
+        pasarIzqRecursos.onclick = function() {
+            pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
+        }
+        pasarIzqTodosRecursos.onclick = function() {
+            pasarTodosSelect(seleccionadosRecursos, fuenteRecursos);
+        }
+        pasarDerRecursos.onclick = function() {
+            pasarSeleccionadosSelect(fuenteRecursos, seleccionadosRecursos);
+        }
+        pasarDerTodosRecursos.onclick = function() {
+            pasarTodosSelect(fuenteRecursos, seleccionadosRecursos);
+        }
+
+        pasarIzqGrupos.onclick = function() {
+            pasarSeleccionadosSelect(seleccionadosGrupos, fuenteGrupos);
+        }
+        pasarIzqTodosGrupos.onclick = function() {
+            pasarTodosSelect(seleccionadosGrupos, fuenteGrupos);
+        }
+        pasarDerGrupos.onclick = function() {
+            pasarSeleccionadosSelect(fuenteGrupos, seleccionadosGrupos);
+        }
+        pasarDerTodosGrupos.onclick = function() {
+            pasarTodosSelect(fuenteGrupos, seleccionadosGrupos);
+        }
+    } else {
+        console.log("Elementos <select> no encontrados.");
+    }
+
+
+
+
+
+
+
 
     function pulsadoBorrar(fila) {
         return function() {
@@ -140,7 +218,7 @@ window.addEventListener("load", function() {
                 alert('Datos subidos con éxito');
                 setTimeout(function() {
                     location.reload();
-                }, 2000); // Recarga la página después de 2 segundos
+                }, 500); // Recarga la página después de 0.5 segundos
             } else {
                 let errorIndices = data.errors.join(', ');
                 alert(`Los siguientes usuarios no se han podido añadir: ${errorIndices}`);
@@ -162,47 +240,6 @@ window.addEventListener("load", function() {
         return { valido: true, linea: -1 };
     }
 
-    let datos = [
-        ["cañ", "Cañon de Proyección"],
-        ["portW", "Portatil Windows"],
-        ["portL", "Portatil Linux"],
-        ["internet", "Conexión a Internet"],
-        ["pantT", "Pantalla Táctil"]
-    ];
 
-    let datos2 = [
-        ["portL", "Portatil Linux"],
-        ["internet", "Conexión a Internet"]
-    ];
 
-    let datosMostrar = [];
-
-    for (let i = 0; i < datos.length; i++) {
-        let encontrado = false;
-        for (let j = 0; j < datos2.length; j++) {
-            if (datos2[j][0] == datos[i][0]) {
-                encontrado = true;
-                break;
-            }
-        }
-        if (!encontrado) {
-            datosMostrar.push(datos[i]);
-        }
-    }
-
-    cargarDatosSelect(datosMostrar, fuente);
-    cargarDatosSelect(datos2, seleccionados);
-
-    pasarIzq.onclick = function() {
-        pasarSeleccionadosSelect(seleccionados, fuente);
-    }
-    pasarIzqTodos.onclick = function() {
-        pasarTodosSelect(seleccionados, fuente);
-    }
-    pasarDer.onclick = function() {
-        pasarSeleccionadosSelect(fuente, seleccionados);
-    }
-    pasarDerTodos.onclick = function() {
-        pasarTodosSelect(fuente, seleccionados);
-    }
 });

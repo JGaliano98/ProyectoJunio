@@ -21,7 +21,7 @@ class Recurso
     /**
      * @var Collection<int, Espacio>
      */
-    #[ORM\ManyToMany(targetEntity: Espacio::class, mappedBy: 'Recurso')]
+    #[ORM\ManyToMany(targetEntity: Espacio::class, mappedBy: 'recurso')]
     private Collection $espacios;
 
     public function __construct()

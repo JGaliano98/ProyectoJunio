@@ -229,7 +229,11 @@
     <parameter key="twig.default_path">C:\xampp\htdocs\ProyectoJunio/templates</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
-    <parameter key="security.role_hierarchy.roles" type="collection"/>
+    <parameter key="security.role_hierarchy.roles" type="collection">
+      <parameter key="ROLE_ADMIN" type="collection">
+        <parameter>ROLE_USER</parameter>
+      </parameter>
+    </parameter>
     <parameter key="security.access.denied_url">null</parameter>
     <parameter key="security.authentication.manager.erase_credentials">true</parameter>
     <parameter key="security.authentication.session_strategy.strategy">migrate</parameter>
@@ -426,11 +430,32 @@
         <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\EdificioControllerAPI"/>
       </call>
     </service>
+    <service id="App\Controller\API\GrupoControllerAPI" class="App\Controller\API\GrupoControllerAPI" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\GrupoControllerAPI"/>
+      </call>
+    </service>
+    <service id="App\Controller\API\RecursoControllerAPI" class="App\Controller\API\RecursoControllerAPI" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\RecursoControllerAPI"/>
+      </call>
+    </service>
     <service id="App\Controller\API\UserControllerAPI" class="App\Controller\API\UserControllerAPI" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\UserControllerAPI"/>
+      </call>
+    </service>
+    <service id="App\Controller\ActividadController" class="App\Controller\ActividadController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jUv.zyj.App\Controller\ActividadController"/>
       </call>
     </service>
     <service id="App\Controller\Admin\AlumnoCrudController" class="App\Controller\Admin\AlumnoCrudController" public="true" autowire="true" autoconfigure="true">
@@ -551,10 +576,6 @@
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="mailer.mailer"/>
     </service>
-    <service id="App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" autoconfigure="true">
-      <tag name="kernel.event_subscriber"/>
-      <tag name="container.hot_path"/>
-    </service>
     <service id="App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" autoconfigure="true">
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="mailer.mailer"/>
@@ -653,7 +674,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.MaByIz6"/>
+      <argument type="service" id=".service_locator.uFT2idc"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3043,14 +3064,6 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
-        <argument>kernel.controller</argument>
-        <argument type="collection">
-          <argument type="service_closure" id="App\EventSubscriber\TokenSubscriber"/>
-          <argument>onKernelController</argument>
-        </argument>
-        <argument>0</argument>
-      </call>
-      <call method="addListener">
         <argument>App\Event\UserCreatedEvent</argument>
         <argument type="collection">
           <argument type="service_closure" id="App\EventSubscriber\UserCreatedSubscriber"/>
@@ -3616,7 +3629,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.MaByIz6"/>
+      <argument type="service" id=".service_locator.uFT2idc"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -6470,14 +6483,15 @@
       <argument type="service" id="request_stack"/>
     </service>
     <service id="security.role_hierarchy" class="Symfony\Component\Security\Core\Role\RoleHierarchy">
-      <argument type="collection"/>
-    </service>
-    <service id="security.access.simple_role_voter" class="Symfony\Component\Security\Core\Authorization\Voter\RoleVoter">
-      <tag name="security.voter" priority="245"/>
+      <argument>%security.role_hierarchy.roles%</argument>
     </service>
     <service id="security.access.authenticated_voter" class="Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter">
       <tag name="security.voter" priority="250"/>
       <argument type="service" id="security.authentication.trust_resolver"/>
+    </service>
+    <service id="security.access.role_hierarchy_voter" class="Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter">
+      <tag name="security.voter" priority="245"/>
+      <argument type="service" id="security.role_hierarchy"/>
     </service>
     <service id="security.access.expression_voter" class="Symfony\Component\Security\Core\Authorization\Voter\ExpressionVoter">
       <tag name="security.voter" priority="245"/>
@@ -6636,7 +6650,22 @@
         </service>
       </argument>
     </service>
-    <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap"/>
+    <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap">
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.C.iX495"/>
+        <argument type="collection">
+          <argument>ROLE_ADMIN</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.28NqKnb"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+    </service>
     <service id="security.context_listener" class="Symfony\Component\Security\Http\Firewall\ContextListener">
       <tag name="monolog.logger" channel="security"/>
       <argument type="service" id="security.untracked_token_storage"/>
@@ -7145,6 +7174,22 @@
       <argument type="collection">
         <argument key="security.firewall.map.context.dev" type="service_closure" id="security.firewall.map.context.dev"/>
         <argument key="security.firewall.map.context.main" type="service_closure" id="security.firewall.map.context.main"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.DnsWxxH" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/admin/sensitive</argument>
+    </service>
+    <service id=".security.request_matcher.C.iX495" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.DnsWxxH"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.obhk0jm" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/admin</argument>
+    </service>
+    <service id=".security.request_matcher.28NqKnb" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.obhk0jm"/>
       </argument>
     </service>
     <service id="security.command.user_password_hash" class="Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand">
@@ -7746,9 +7791,18 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\GrupoControllerAPI" class="App\Controller\API\GrupoControllerAPI" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\GrupoControllerAPI" class="App\Controller\API\GrupoControllerAPI" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\API\GrupoControllerAPI" class="App\Controller\API\GrupoControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\RecursoControllerAPI" class="App\Controller\API\RecursoControllerAPI" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\RecursoControllerAPI" class="App\Controller\API\RecursoControllerAPI" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\API\RecursoControllerAPI" class="App\Controller\API\RecursoControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\UserControllerAPI" class="App\Controller\API\UserControllerAPI" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\UserControllerAPI" class="App\Controller\API\UserControllerAPI" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\UserControllerAPI" class="App\Controller\API\UserControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ActividadController" class="App\Controller\ActividadController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ActividadController" class="App\Controller\ActividadController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ActividadController" class="App\Controller\ActividadController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\Admin\AlumnoCrudController" class="App\Controller\Admin\AlumnoCrudController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\Admin\AlumnoCrudController" class="App\Controller\Admin\AlumnoCrudController" autowire="true" abstract="true"/>
     <service id=".instanceof.EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface.0.App\Controller\Admin\AlumnoCrudController" class="App\Controller\Admin\AlumnoCrudController" autowire="true" abstract="true"/>
@@ -7805,8 +7859,6 @@
     <service id=".abstract.instanceof.App\EventSubscriber\MailBeforeSendSubscriber" class="App\EventSubscriber\MailBeforeSendSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\MailPostSendSubscriber" class="App\EventSubscriber\MailPostSendSubscriber" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\EventSubscriber\MailPostSendSubscriber" class="App\EventSubscriber\MailPostSendSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" abstract="true"/>
-    <service id=".abstract.instanceof.App\EventSubscriber\TokenSubscriber" class="App\EventSubscriber\TokenSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\EventSubscriber\UserCreatedSubscriber" class="App\EventSubscriber\UserCreatedSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegistrationFormType" class="App\Form\RegistrationFormType" autowire="true" abstract="true"/>
@@ -8320,17 +8372,24 @@
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
+    <service id=".service_locator.ig5dsP0" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.Km2KOcc" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="serializer" type="service_closure" id="debug.serializer"/>
+      </argument>
+    </service>
     <service id=".service_locator.81LTOQ7" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
-      </argument>
-    </service>
-    <service id=".service_locator.ig5dsP0" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
       </argument>
     </service>
     <service id=".service_locator.jedxEFU" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -8446,10 +8505,10 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.MaByIz6" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.uFT2idc" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Controller\API\AlumnoControllerAPI::create" type="service_closure" id=".service_locator.81LTOQ7"/>
+        <argument key="App\Controller\API\AlumnoControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::delete" type="service_closure" id=".service_locator.ig5dsP0"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8457,6 +8516,8 @@
         <argument key="App\Controller\API\EdificioControllerAPI::delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\GrupoControllerAPI::index" type="service_closure" id=".service_locator.Km2KOcc"/>
+        <argument key="App\Controller\API\RecursoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI::create" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\API\UserControllerAPI::delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8660,7 +8721,7 @@
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
-        <argument key="App\Controller\API\AlumnoControllerAPI:create" type="service_closure" id=".service_locator.81LTOQ7"/>
+        <argument key="App\Controller\API\AlumnoControllerAPI:create" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:delete" type="service_closure" id=".service_locator.ig5dsP0"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8668,6 +8729,8 @@
         <argument key="App\Controller\API\EdificioControllerAPI:delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\GrupoControllerAPI:index" type="service_closure" id=".service_locator.Km2KOcc"/>
+        <argument key="App\Controller\API\RecursoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI:create" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\API\UserControllerAPI:delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -9214,8 +9277,8 @@
       <argument type="service" id="security.access.authenticated_voter"/>
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
-    <service id=".debug.security.voter.security.access.simple_role_voter" class="Symfony\Component\Security\Core\Authorization\Voter\TraceableVoter">
-      <argument type="service" id="security.access.simple_role_voter"/>
+    <service id=".debug.security.voter.security.access.role_hierarchy_voter" class="Symfony\Component\Security\Core\Authorization\Voter\TraceableVoter">
+      <argument type="service" id="security.access.role_hierarchy_voter"/>
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
     <service id=".debug.security.voter.security.access.expression_voter" class="Symfony\Component\Security\Core\Authorization\Voter\TraceableVoter">
@@ -9584,9 +9647,27 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.jUv.zyj" method="withContext"/>
     </service>
+    <service id=".service_locator.jUv.zyj.App\Controller\API\GrupoControllerAPI" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\API\GrupoControllerAPI"/>
+      <argument>App\Controller\API\GrupoControllerAPI</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jUv.zyj" method="withContext"/>
+    </service>
+    <service id=".service_locator.jUv.zyj.App\Controller\API\RecursoControllerAPI" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\API\RecursoControllerAPI"/>
+      <argument>App\Controller\API\RecursoControllerAPI</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jUv.zyj" method="withContext"/>
+    </service>
     <service id=".service_locator.jUv.zyj.App\Controller\API\UserControllerAPI" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\UserControllerAPI"/>
       <argument>App\Controller\API\UserControllerAPI</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jUv.zyj" method="withContext"/>
+    </service>
+    <service id=".service_locator.jUv.zyj.App\Controller\ActividadController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ActividadController"/>
+      <argument>App\Controller\ActividadController</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.jUv.zyj" method="withContext"/>
     </service>
@@ -9898,7 +9979,10 @@
           <argument>App\Kernel</argument>
           <argument>App\Controller\API\AlumnoControllerAPI</argument>
           <argument>App\Controller\API\EdificioControllerAPI</argument>
+          <argument>App\Controller\API\GrupoControllerAPI</argument>
+          <argument>App\Controller\API\RecursoControllerAPI</argument>
           <argument>App\Controller\API\UserControllerAPI</argument>
+          <argument>App\Controller\ActividadController</argument>
           <argument>App\Controller\Admin\AlumnoCrudController</argument>
           <argument>App\Controller\Admin\DashboardController</argument>
           <argument>App\Controller\Admin\EdificioCrudController</argument>
@@ -10080,7 +10164,7 @@
     <service id="debug.security.access.decision_manager.inner" class="Symfony\Component\Security\Core\Authorization\AccessDecisionManager">
       <argument type="iterator">
         <argument type="service" id=".debug.security.voter.security.access.authenticated_voter"/>
-        <argument type="service" id=".debug.security.voter.security.access.simple_role_voter"/>
+        <argument type="service" id=".debug.security.voter.security.access.role_hierarchy_voter"/>
         <argument type="service" id=".debug.security.voter.security.access.expression_voter"/>
         <argument type="service" id=".debug.security.voter.EasyCorp\Bundle\EasyAdminBundle\Security\SecurityVoter"/>
       </argument>
@@ -11340,7 +11424,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.MaByIz6"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.uFT2idc"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -11385,8 +11469,9 @@
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
     <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
-    <service id=".service_locator.PgYGRUQ" alias=".service_locator.81LTOQ7"/>
     <service id=".service_locator.LCEdq.6" alias=".service_locator.ig5dsP0"/>
+    <service id=".service_locator.YdjP9oZ" alias=".service_locator.Km2KOcc"/>
+    <service id=".service_locator.PgYGRUQ" alias=".service_locator.81LTOQ7"/>
     <service id=".service_locator.tH9XAhU" alias=".service_locator.jedxEFU"/>
     <service id=".service_locator.2tGegYv" alias=".service_locator.NaJ1gQf"/>
     <service id=".service_locator.b4Agcrj" alias=".service_locator.Nb584vp"/>

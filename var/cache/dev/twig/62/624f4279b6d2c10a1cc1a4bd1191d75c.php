@@ -85,7 +85,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         return; yield '';
     }
 
-    // line 15
+    // line 8
     public function block_head_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -95,7 +95,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "head_stylesheets"));
 
-        // line 16
+        // line 9
         yield "    ";
         yield from $this->yieldParentBlock("head_stylesheets", $context, $blocks);
         yield "
@@ -110,7 +110,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         return; yield '';
     }
 
-    // line 20
+    // line 13
     public function block_body_javascript($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -120,12 +120,12 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body_javascript"));
 
-        // line 21
+        // line 14
         yield "    ";
         yield from $this->yieldParentBlock("body_javascript", $context, $blocks);
         yield "
     <script src=\"";
-        // line 22
+        // line 15
         yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/admin.js"), "html", null, true);
         yield "\"></script>
     <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>
@@ -162,7 +162,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
      */
     public function getDebugInfo()
     {
-        return array (  129 => 22,  124 => 21,  114 => 20,  99 => 16,  89 => 15,  76 => 5,  71 => 4,  61 => 3,  38 => 1,);
+        return array (  129 => 15,  124 => 14,  114 => 13,  99 => 9,  89 => 8,  76 => 5,  71 => 4,  61 => 3,  38 => 1,);
     }
 
     public function getSourceContext()
@@ -173,13 +173,6 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
     {{ parent() }}
     <link rel=\"stylesheet\" href=\"{{ asset('css/admin.css') }}\">
 {% endblock %}
-
-{# {% block content %}
-    <div class=\"content\">
-        {{ render(controller('App\\\\Controller\\\\LoginController::login')) }}
-    </div>
-    {{ parent() }}
-{% endblock %} #}
 
 {% block head_stylesheets %}
     {{ parent() }}
@@ -193,7 +186,6 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>
 {% endblock %}
-
 ", "admin/index.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\admin\\index.html.twig");
     }
 }

@@ -1,0 +1,31 @@
+/* Estilos para el formulario de login */
+.form-signin {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border: none; /* Eliminar borde predeterminado */
+    margin-top: 20px; /* Margen superior */
+    margin-bottom: 20px; /* Margen inferior */
+}
+
+.card-header, .card-footer {
+    background-color: #f8f9fa; /* Color de fondo para las cabeceras y pies */
+}
+
+.card-body {
+    padding: 20px; /* Padding interno para el cuerpo del formulario */
+}
+
+.form-control {
+    margin-bottom: 10px; /* Espaciado entre campos */
+}
+
+.btn-primary {
+    width: 100%; /* Ancho completo para el botón */
+    padding: 10px; /* Padding más generoso */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #0056b3; /* Color de fondo del botón */
+    border: none; /* Sin bordes */
+}
+
+.btn-primary:hover {
+    background-color: #004494; /* Color al pasar el mouse */
+}

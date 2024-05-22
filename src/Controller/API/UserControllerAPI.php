@@ -69,8 +69,10 @@ class UserControllerAPI extends AbstractController
                 $user->setApellido1($apellido1);
                 $user->setApellido2($apellido2);
                 $user->setPassword($passwordHasher->hashPassword($user, '123456')); // Hashea el password
-                $user->setIsActive(true); // Establece is_active como true
-    
+                $user->setIsActive(true); 
+                $user->setRoles(['ROLE_USER']); 
+
+
                 $em->persist($user);
                 $em->flush();
                 $resultados[] = ['index' => $index, 'status' => 'success', 'message' => 'Usuario creado correctamente'];
@@ -162,4 +164,6 @@ class UserControllerAPI extends AbstractController
         return $this->render('templates/altasMasivas/user.html.twig');
     }
 }
+
+
 ?>

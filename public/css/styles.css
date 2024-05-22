@@ -1,82 +1,79 @@
-/* styles.css PARA EL LOGIN */
+/* Estilos para el formulario de inicio de sesión */
 .form-signin {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    border: none; /* Eliminar borde predeterminado */
-    margin-top: 20px; /* Margen superior */
-    margin-bottom: 20px; /* Margen inferior */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.card-header, .card-footer {
-    background-color: #f8f9fa; /* Color de fondo para las cabeceras y pies */
+.form-signin .card-header,
+.form-signin .card-footer {
+    background-color: #f8f9fa;
 }
 
-.card-body {
-    padding: 20px; /* Padding interno para el cuerpo del formulario */
+.form-signin .card-body {
+    padding: 20px;
 }
 
-.login.btn-primary {
-    width: 80%; /* Ancho del botón */
-    padding: 10px; /* Padding del botón */
-    border-radius: 5px; /* Bordes redondeados para el botón */
-    background-color: #0056b3; /* Color de fondo del botón */
-    border: none; /* Sin bordes */
+.form-signin .btn-primary {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #0056b3;
+    border: none;
 }
 
-.btn-primary:hover {
-    background-color: #004494; /* Color al pasar el mouse */
+.form-signin .btn-primary:hover {
+    background-color: #004494;
 }
 
-
-/* styles.css PARA LA PLANTILLA DE REGISTRO */
-
-
-.card-header, .card-body, .card-footer {
-    background-color: #f8f9fa; /* Color de fondo */
+/* Estilos para la plantilla de registro */
+.register .card-header,
+.register .card-body,
+.register .card-footer {
+    background-color: #f8f9fa;
 }
 
-.form-control {
-    margin-bottom: 10px; /* Espaciado entre campos */
+.register .form-control {
+    margin-bottom: 10px;
 }
 
 .register .btn-primary {
-    width: 100%; /* Ancho completo para el botón */
-    padding: 10px; /* Padding más generoso */
-    border-radius: 5px; /* Bordes redondeados */
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
 }
 
-.btn-primary:hover {
-    background-color: #004494; /* Color al pasar el mouse */
+.register .btn-primary:hover {
+    background-color: #004494;
 }
 
-.form-check-input {
+.register .form-check-input {
     margin-top: 0.3rem;
     margin-right: 0.5rem;
 }
 
-.form-check-label {
+.register .form-check-label {
     display: inline-block;
     vertical-align: top;
     margin-bottom: 0;
 }
 
-.form-check {
+.register .form-check {
     display: flex;
     align-items: center;
 }
 
-
-/* styles.css PARA MENSAJES DE CONFIRMACIÓN DE ENVÍO */
-
-/* styles.css */
+/* Estilos para mensajes de confirmación de envío */
 body {
-    font-family: 'Roboto', sans-serif; /* Ejemplo con Google Fonts */
+    font-family: 'Roboto', sans-serif;
     background-color: #f4f4f9;
     margin: 0;
     padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Utiliza toda la altura de la ventana */
+    height: 100vh;
 }
 
 .message {
@@ -84,21 +81,17 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     width: 100%;
-    max-width: 600px; /* Máximo ancho del contenedor */
+    max-width: 600px;
     padding: 20px;
     text-align: center;
 }
 
-h1 {
+.message h1 {
     color: #0056b3;
     margin-top: 0;
 }
 
-p {
+.message p {
     color: #333333;
     font-size: 16px;
-}
-
-.texto-rojo {
-    color: red;
 }
