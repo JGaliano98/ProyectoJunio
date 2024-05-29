@@ -83,11 +83,16 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
                      <ul class=\"navbar-nav ml-auto\">
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"";
-        // line 27
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
-        yield "\">
-                                <i class=\"fas fa-download\"></i> Descargar PDF
+                            <a class=\"nav-link\" href=\"#\">
+                                <i class=\"fas fa-calendar-alt\"></i> Eventos
+                            </a>
+                        </li>
+                        <li class=\"nav-item\">
+                            <span class=\"nav-link\">|</span>
+                        </li>
+                        <li class=\"nav-item\">
+                            <a class=\"nav-link\" href=\"#\">
+                                <i class=\"fas fa-list\"></i> Actividades
                             </a>
                         </li>
                         <li class=\"nav-item\">
@@ -95,9 +100,9 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                         </li>
                         
                         ";
-        // line 35
+        // line 43
         if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
-            // line 36
+            // line 44
             yield "
                         
                         <li class=\"nav-item\">
@@ -111,7 +116,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                         </li>
                             <li class=\"nav-item\">
                                 <a class=\"nav-link\" href=\"";
-            // line 48
+            // line 56
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\">
                                     <i class=\"fas fa-sign-out-alt\"></i> Logout
@@ -120,14 +125,14 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                             <li class=\"nav-item\">
                                 <span class=\"nav-link\">
                                     <i class=\"fas fa-user\"></i> ";
-            // line 54
-            yield Twig\Extension\EscaperExtension::escape($this->env, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 54, $this->source); })()), "user", [], "any", false, false, false, 54), "getNombre", [], "method", false, false, false, 54), "html", null, true);
+            // line 62
+            yield Twig\Extension\EscaperExtension::escape($this->env, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 62, $this->source); })()), "user", [], "any", false, false, false, 62), "getNombre", [], "method", false, false, false, 62), "html", null, true);
             yield "
                                 </span>
                             </li>
                         ";
         } else {
-            // line 58
+            // line 66
             yield "                            <li class=\"nav-item\">
                                 <a class=\"nav-link\" href=\"#\" data-toggle=\"modal\" data-target=\"#loginModal\">
                                     <i class=\"fas fa-sign-in-alt\"></i> Login
@@ -135,7 +140,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                             </li>
                         ";
         }
-        // line 64
+        // line 72
         yield "                    </ul>
 
 
@@ -145,9 +150,9 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
     </header>
 
     ";
-        // line 72
+        // line 80
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 145
+        // line 153
         yield "
     <footer class=\"footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center\">
         <div class=\"d-flex\" style=\"margin: 0 40px;\">
@@ -158,7 +163,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
 
         <div class=\"text-center\" style=\"margin: 0 40px;\">
             © ";
-        // line 154
+        // line 162
         yield Twig\Extension\EscaperExtension::escape($this->env, Twig\Extension\CoreExtension::dateFormatFilter($this->env, "now", "Y"), "html", null, true);
         yield " Jesus Galiano
         </div>
@@ -171,9 +176,9 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js\"></script>
     <script src=\"js/js.js\"></script>
     ";
-        // line 164
+        // line 172
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 165
+        // line 173
         yield "</body>
 </html>";
         
@@ -224,7 +229,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
         return; yield '';
     }
 
-    // line 72
+    // line 80
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -234,7 +239,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 73
+        // line 81
         yield "    <section id=\"hero\" class=\"jumbotron text-center\" style=\"background-image: url('img/portada.jpg');\">
         <div class=\"container\">
             <h1 class=\"display-4\">I.E.S. LAS FUENTEZUELAS - JAÉN</h1>
@@ -251,7 +256,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                         <h5 class=\"card-title\">Evento 1</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 88
+        // line 96
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -264,7 +269,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                         <h5 class=\"card-title\">Evento 2</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 98
+        // line 106
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -277,7 +282,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                         <h5 class=\"card-title\">Evento 3</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 108
+        // line 116
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -297,11 +302,11 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
             <div class=\"modal-body\">
                 <!-- Aquí coloca tu formulario de inicio de sesión -->
                 <form action=\"";
-        // line 125
+        // line 133
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
         yield "\" method=\"post\">
                     ";
-        // line 127
+        // line 135
         yield "                    <input type=\"hidden\" name=\"_csrf_token\" value=\"";
         yield Twig\Extension\EscaperExtension::escape($this->env, $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken("authenticate"), "html", null, true);
         yield "\">
@@ -331,7 +336,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
         return; yield '';
     }
 
-    // line 164
+    // line 172
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -371,7 +376,7 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
      */
     public function getDebugInfo()
     {
-        return array (  335 => 164,  305 => 127,  301 => 125,  281 => 108,  268 => 98,  255 => 88,  238 => 73,  228 => 72,  209 => 11,  189 => 6,  177 => 165,  175 => 164,  162 => 154,  151 => 145,  149 => 72,  139 => 64,  131 => 58,  124 => 54,  115 => 48,  101 => 36,  99 => 35,  88 => 27,  76 => 18,  68 => 12,  66 => 11,  59 => 7,  55 => 6,  48 => 1,);
+        return array (  340 => 172,  310 => 135,  306 => 133,  286 => 116,  273 => 106,  260 => 96,  243 => 81,  233 => 80,  214 => 11,  194 => 6,  182 => 173,  180 => 172,  167 => 162,  156 => 153,  154 => 80,  144 => 72,  136 => 66,  129 => 62,  120 => 56,  106 => 44,  104 => 43,  76 => 18,  68 => 12,  66 => 11,  59 => 7,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -402,8 +407,16 @@ class __TwigTemplate_be69aa7300ba4aed3dd2b2c801e0452e extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
                      <ul class=\"navbar-nav ml-auto\">
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"{{ path('descargar_pdf') }}\">
-                                <i class=\"fas fa-download\"></i> Descargar PDF
+                            <a class=\"nav-link\" href=\"#\">
+                                <i class=\"fas fa-calendar-alt\"></i> Eventos
+                            </a>
+                        </li>
+                        <li class=\"nav-item\">
+                            <span class=\"nav-link\">|</span>
+                        </li>
+                        <li class=\"nav-item\">
+                            <a class=\"nav-link\" href=\"#\">
+                                <i class=\"fas fa-list\"></i> Actividades
                             </a>
                         </li>
                         <li class=\"nav-item\">

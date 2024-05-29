@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ActividadController extends AbstractController
 {
-    #[Route('/actividad', name: 'actividad')]
+    #[Route('/actividades', name: 'actividades')]
     public function index(): Response
     {
         return $this->render('actividad/actividad.html.twig');

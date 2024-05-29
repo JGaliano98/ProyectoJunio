@@ -11,7 +11,7 @@
 
 /* Reducir el tamaño de fuente para los nombres y apellidos en la tabla */
 #modalTable th, #modalTable td {
-    font-size: 0.85em; /* Ajusta este valor según tus necesidades */
+    font-size: 0.85em; 
 }
 
 /* Específicamente para nombres */

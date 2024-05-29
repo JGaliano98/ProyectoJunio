@@ -1,3 +1,5 @@
+/* estilospestañas.css */
+
 .recursos{
     width: 150px;
 }
@@ -125,3 +127,18 @@
     width: 25px;
     height: 25px;
 }
+/* Estilos específicos para el contenido de tab1 */
+#tab1 .form-actividad {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas */
+  gap: 10px; /* Espacio entre elementos */
+}
+
+/* Ajuste para que cada par label-input esté en una fila */
+#tab1 .form-actividad > label,
+#tab1 .form-actividad > input {
+  flex: 1 1 50%; /* Cada elemento ocupa el 50% del contenedor */
+  margin-bottom: 10px; /* Margen inferior para separar los elementos */
+  box-sizing: border-box; /* Asegura que el ancho y el margen estén incluidos en el cálculo total del ancho */
+}
+

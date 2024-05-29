@@ -29,6 +29,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
             'stylesheets' => [$this, 'block_stylesheets'],
             'head_stylesheets' => [$this, 'block_head_stylesheets'],
             'body_javascript' => [$this, 'block_body_javascript'],
+            'main' => [$this, 'block_main'],
         ];
     }
 
@@ -67,15 +68,6 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 4
-        yield "    ";
-        yield from $this->yieldParentBlock("stylesheets", $context, $blocks);
-        yield "
-    <link rel=\"stylesheet\" href=\"";
-        // line 5
-        yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("css/admin.css"), "html", null, true);
-        yield "\">
-";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -85,7 +77,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         return; yield '';
     }
 
-    // line 8
+    // line 6
     public function block_head_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -95,7 +87,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "head_stylesheets"));
 
-        // line 9
+        // line 7
         yield "    ";
         yield from $this->yieldParentBlock("head_stylesheets", $context, $blocks);
         yield "
@@ -110,7 +102,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         return; yield '';
     }
 
-    // line 13
+    // line 11
     public function block_body_javascript($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -120,17 +112,53 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body_javascript"));
 
-        // line 14
+        // line 12
         yield "    ";
         yield from $this->yieldParentBlock("body_javascript", $context, $blocks);
         yield "
-    <script src=\"";
-        // line 15
-        yield Twig\Extension\EscaperExtension::escape($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/admin.js"), "html", null, true);
-        yield "\"></script>
     <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>
+";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        return; yield '';
+    }
+
+    // line 18
+    public function block_main($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "main"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "main"));
+
+        // line 19
+        yield "    <style>
+        .iframe-container {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+
+    <div class=\"iframe-container\">
+        <iframe src=\"";
+        // line 33
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("actividad");
+        yield "\"></iframe>
+    </div>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -162,7 +190,7 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
      */
     public function getDebugInfo()
     {
-        return array (  129 => 15,  124 => 14,  114 => 13,  99 => 9,  89 => 8,  76 => 5,  71 => 4,  61 => 3,  38 => 1,);
+        return array (  159 => 33,  143 => 19,  133 => 18,  116 => 12,  106 => 11,  91 => 7,  81 => 6,  62 => 3,  39 => 1,);
     }
 
     public function getSourceContext()
@@ -170,8 +198,6 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
         return new Source("{% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel=\"stylesheet\" href=\"{{ asset('css/admin.css') }}\">
 {% endblock %}
 
 {% block head_stylesheets %}
@@ -181,10 +207,28 @@ class __TwigTemplate_1721e64f1c4953fb9605f3e3244566df extends Template
 
 {% block body_javascript %}
     {{ parent() }}
-    <script src=\"{{ asset('js/admin.js') }}\"></script>
     <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>
+{% endblock %}
+
+{% block main %}
+    <style>
+        .iframe-container {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+
+    <div class=\"iframe-container\">
+        <iframe src=\"{{ path('actividad') }}\"></iframe>
+    </div>
 {% endblock %}
 ", "admin/index.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\admin\\index.html.twig");
     }

@@ -16,10 +16,10 @@ class Actividad
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fecha_hora_inicio = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $fecha_hora_fin = null;
 
     #[ORM\ManyToOne(inversedBy: 'actividads')]
@@ -33,6 +33,9 @@ class Actividad
 
     #[ORM\Column(length: 255)]
     private ?string $tipo = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $descripcion = null;
 
     public function __construct()
     {
@@ -118,6 +121,18 @@ class Actividad
     public function setTipo(string $tipo): static
     {
         $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): static
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }

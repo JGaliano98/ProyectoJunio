@@ -29,7 +29,7 @@
 /* Agrega tus estilos personalizados aquí */
 .card-img-top {
     width: 100%;
-    height: 500px; /* Puedes ajustar esta altura según tus preferencias */
+    height: 200px; /* Puedes ajustar esta altura según tus preferencias */
     object-fit: cover; /* Esto asegura que la imagen mantenga su relación de aspecto */
 }
 
