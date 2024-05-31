@@ -2,7 +2,10 @@
 namespace App\Controller\API;
 
 use App\Entity\Actividad;
+use App\Entity\DetalleActividad;
+use App\Entity\Espacio;
 use App\Entity\Evento;
+use App\Entity\Ponente;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +19,11 @@ class ActividadControllerAPI extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         $actividades = $em->getRepository(Actividad::class)->findAll();
-        return $this->json($actividades);
+        $data = [];
+        foreach ($actividades as $actividad) {
+            $data[] = $this->serializeActividad($actividad);
+        }
+        return $this->json($data);
     }
 
     #[Route('/actividades/{id}', name: 'actividad_show', methods: ['GET'])]
@@ -26,7 +33,42 @@ class ActividadControllerAPI extends AbstractController
         if (!$actividad) {
             return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
         }
-        return $this->json($actividad);
+        $data = $this->serializeActividad($actividad);
+        return $this->json($data);
+    }
+
+    private function serializeActividad(Actividad $actividad): array
+    {
+        $data = [
+            'id' => $actividad->getId(),
+            'descripcion' => $actividad->getDescripcion(),
+            'fechaHoraInicio' => $actividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+            'fechaHoraFin' => $actividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+            'tipo' => $actividad->getTipo(),
+            'evento' => $actividad->getEvento() ? [
+                'id' => $actividad->getEvento()->getId(),
+                'titulo' => $actividad->getEvento()->getTitulo()
+            ] : null,
+        ];
+
+        if ($actividad->getDetalleActividads()) {
+            $subactividades = [];
+            foreach ($actividad->getDetalleActividads() as $subactividad) {
+                $subactividades[] = [
+                    'id' => $subactividad->getId(),
+                    'titulo' => $subactividad->getTitulo(),
+                    'fechaHoraInicio' => $subactividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+                    'fechaHoraFin' => $subactividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+                    'espacio' => $subactividad->getEspacio() ? [
+                        'id' => $subactividad->getEspacio()->getId(),
+                        'nombre' => $subactividad->getEspacio()->getNombre()
+                    ] : null,
+                ];
+            }
+            $data['subactividades'] = $subactividades;
+        }
+
+        return $data;
     }
 
     #[Route('/actividades', name: 'actividad_create', methods: ['POST'])]
@@ -35,23 +77,79 @@ class ActividadControllerAPI extends AbstractController
         $data = json_decode($request->getContent(), true);
         error_log('Solicitud de creación de actividad recibida: ' . print_r($data, true));
 
-        // Verificar si se recibe el campo 'tipo'
         if (!isset($data['tipo'])) {
             error_log('Error: Tipo no especificado');
             return $this->json(['error' => 'Tipo no especificado'], Response::HTTP_BAD_REQUEST);
         }
 
         try {
-            // Si el tipo es 1, verificar si 'idPadre' tiene contenido no vacío
             if ($data['tipo'] == 1) {
-                if (isset($data['idPadre']) && $data['idPadre'] !== '') {
-                    return $this->json(['message' => 'hola']);
+                if (isset($data['idPadre']) && !empty($data['idPadre'])) {
+                    if (!isset($data['descripcion']) || !isset($data['fechaInicio']) || 
+                        !isset($data['fechaFin']) || !isset($data['espacio'])) {
+                        error_log('Error: Datos incompletos para subactividad');
+                        return $this->json(['error' => 'Datos incompletos para subactividad'], Response::HTTP_BAD_REQUEST);
+                    }
+
+                    try {
+                        $fechaInicio = new \DateTime($data['fechaInicio']);
+                        $fechaFin = new \DateTime($data['fechaFin']);
+                    } catch (\Exception $e) {
+                        error_log('Error al convertir fechas: ' . $e->getMessage());
+                        return $this->json(['error' => 'Formato de fecha inválido'], Response::HTTP_BAD_REQUEST);
+                    }
+
+                    $espacio = $em->getRepository(Espacio::class)->find($data['espacio']);
+                    if (!$espacio) {
+                        error_log('Error: Espacio no encontrado');
+                        return $this->json(['error' => 'Espacio no encontrado'], Response::HTTP_NOT_FOUND);
+                    }
+
+                    try {
+                        $subactividad = new DetalleActividad();
+                        $subactividad->setTitulo($data['descripcion']);
+                        $subactividad->setFechaHoraInicio($fechaInicio);
+                        $subactividad->setFechaHoraFin($fechaFin);
+                        $subactividad->setURL(null);
+                        $subactividad->setEspacio($espacio);
+
+                        $actividadPadre = $em->getRepository(Actividad::class)->find($data['idPadre']);
+                        if (!$actividadPadre) {
+                            error_log('Error: Actividad padre no encontrada');
+                            return $this->json(['error' => 'Actividad padre no encontrada'], Response::HTTP_NOT_FOUND);
+                        }
+                        $subactividad->setActividad($actividadPadre);
+
+                        $em->persist($subactividad);
+                        $em->flush();
+
+                        // Gestionar ponentes
+                        if (isset($data['ponentes'])) {
+                            $this->updatePonentes($em, $subactividad, $data['ponentes']);
+                        }
+
+                        $em->flush();
+
+                        $response = [
+                            'id' => $subactividad->getId(),
+                            'titulo' => $subactividad->getTitulo(),
+                            'fechaHoraInicio' => $subactividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+                            'fechaHoraFin' => $subactividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+                            'actividadPadre' => $actividadPadre->getId(),
+                            'espacio' => $espacio->getId()
+                        ];
+
+                        return $this->json($response, Response::HTTP_CREATED);
+                    } catch (\Exception $e) {
+                        error_log('Error al crear subactividad: ' . $e->getMessage());
+                        error_log($e->getTraceAsString());
+                        return $this->json(['error' => 'Error interno del servidor (1)'], Response::HTTP_INTERNAL_SERVER_ERROR);
+                    }
                 } else {
-                    return $this->json(['message' => 'adios']);
+                    return $this->json(['error' => 'idPadre no especificado o vacío'], Response::HTTP_BAD_REQUEST);
                 }
             }
 
-            // Validar datos para el tipo 2
             if ($data['tipo'] == 2) {
                 if (!isset($data['descripcion']) || !isset($data['evento']) || 
                     !isset($data['fechaFin']) || !isset($data['fechaInicio'])) {
@@ -59,7 +157,6 @@ class ActividadControllerAPI extends AbstractController
                     return $this->json(['error' => 'Datos incompletos'], Response::HTTP_BAD_REQUEST);
                 }
 
-                // Convertir fechas
                 try {
                     $fechaInicio = new \DateTime($data['fechaInicio']);
                     $fechaFin = new \DateTime($data['fechaFin']);
@@ -68,7 +165,6 @@ class ActividadControllerAPI extends AbstractController
                     return $this->json(['error' => 'Formato de fecha inválido'], Response::HTTP_BAD_REQUEST);
                 }
 
-                // Crear nueva actividad
                 try {
                     $actividad = new Actividad();
                     $actividad->setDescripcion($data['descripcion']);
@@ -76,7 +172,6 @@ class ActividadControllerAPI extends AbstractController
                     $actividad->setFechaHoraFin($fechaFin);
                     $actividad->setTipo($data['tipo']);
 
-                    // Buscar el evento por ID y asignarlo
                     $evento = $em->getRepository(Evento::class)->find($data['evento']);
                     if (!$evento) {
                         error_log('Error: Evento no encontrado');
@@ -87,7 +182,6 @@ class ActividadControllerAPI extends AbstractController
                     $em->persist($actividad);
                     $em->flush();
 
-                    // Serializar manualmente la respuesta para evitar referencias circulares
                     $actividadData = [
                         'id' => $actividad->getId(),
                         'descripcion' => $actividad->getDescripcion(),
@@ -104,7 +198,7 @@ class ActividadControllerAPI extends AbstractController
                 } catch (\Exception $e) {
                     error_log('Error al crear actividad: ' . $e->getMessage());
                     error_log($e->getTraceAsString());
-                    return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
+                    return $this->json(['error' => 'Error interno del servidor (2)'], Response::HTTP_INTERNAL_SERVER_ERROR);
                 }
             }
 
@@ -113,7 +207,37 @@ class ActividadControllerAPI extends AbstractController
         } catch (\Exception $e) {
             error_log('Error en la creación de actividad: ' . $e->getMessage());
             error_log($e->getTraceAsString());
-            return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(['error' => 'Error interno del servidor (3)'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function updatePonentes(EntityManagerInterface $em, DetalleActividad $subactividad, array $ponentesData)
+    {
+        $ponenteRepository = $em->getRepository(Ponente::class);
+
+        try {
+            // Eliminar ponentes existentes de la subactividad
+            $ponentesExistentes = $ponenteRepository->findBy(['detalle_actividad' => $subactividad]);
+            foreach ($ponentesExistentes as $ponenteExistente) {
+                $em->remove($ponenteExistente);
+            }
+
+            // Añadir nuevos ponentes
+            foreach ($ponentesData as $ponenteData) {
+                $ponente = new Ponente();
+                $ponente->setNombre($ponenteData['nombre']);
+                $ponente->setCargo($ponenteData['cargo']);
+                $ponente->setURL($ponenteData['url']);
+                $ponente->setDetalleActividad($subactividad);
+
+                $em->persist($ponente);
+            }
+
+            $em->flush();
+        } catch (\Exception $e) {
+            error_log('Error en updatePonentes: ' . $e->getMessage());
+            error_log($e->getTraceAsString());
+            throw $e; // Re-lanzar la excepción para que el controlador pueda manejarla
         }
     }
 }

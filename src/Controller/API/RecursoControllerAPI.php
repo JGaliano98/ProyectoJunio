@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Controller\API;
 
 use App\Entity\Recurso;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +18,11 @@ class RecursoControllerAPI extends AbstractController
         if ($id === null) {
             // Si no se proporciona ID, devolver todos los recursos
             $recursos = $recursoRepository->findAll();
-            return $this->json($recursos);
+            $data = [];
+            foreach ($recursos as $recurso) {
+                $data[] = $this->serializeRecurso($recurso);
+            }
+            return $this->json($data);
         } else {
             // Si se proporciona ID, devolver el recurso específico
             $recurso = $recursoRepository->find($id);
@@ -29,10 +31,19 @@ class RecursoControllerAPI extends AbstractController
                 return $this->json(['message' => 'No se ha encontrado el recurso con ID ' . $id], Response::HTTP_NOT_FOUND);
             }
 
-            return $this->json($recurso);
+            $data = $this->serializeRecurso($recurso);
+            return $this->json($data);
         }
     }
+
+    private function serializeRecurso(Recurso $recurso): array
+    {
+        // Serializar manualmente los datos necesarios del recurso.
+        return [
+            'id' => $recurso->getId(),
+            'nombre' => $recurso->getDescripcion(),
+            // Añadir otros campos necesarios
+            // 'otroCampo' => $recurso->getOtroCampo(),
+        ];
+    }
 }
-
-
-?>

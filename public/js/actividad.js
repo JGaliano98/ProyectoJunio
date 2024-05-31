@@ -16,10 +16,25 @@ function ventanaActividad(idPadre) {
         const fuenteGrupos = document.getElementById('fuenteGrupos');
         const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
         const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
+        const selectEspacios = document.getElementById('selectEspacios');
 
         if (!idPadre) {
             tipoActividadSelect.value = '1';
         }
+
+        
+
+        // Crear la opción para "Aula 27"
+        const option1 = document.createElement('option');
+        option1.value = '9';
+        option1.text = 'Aula 27';
+        selectEspacios.appendChild(option1);
+
+        // Crear la opción para "Aula 25"
+        const option2 = document.createElement('option');
+        option2.value = '10';
+        option2.text = 'Aula 25';
+        selectEspacios.appendChild(option2);
 
         cargarEventos();
 
@@ -83,22 +98,23 @@ function ventanaActividad(idPadre) {
                 console.log(`Enviando solicitud de guardar actividad desde ${type}`);
                 const fechaInicio = fechaInicioInput.value;
                 const fechaFin = fechaFinInput.value;
-
+        
                 // Validar fechas antes de enviar
                 if (!fechaInicio || !fechaFin) {
                     console.error('Fechas inválidas');
                     return;
                 }
-
+        
                 let objetoGuardado = {
                     descripcion: descripcionInput.value,
                     evento: parseInt(eventoSelect.value),
                     fechaFin: fechaFin,
                     fechaInicio: fechaInicio,
                     idPadre: idInput.value,
-                    tipo: tipoActividadSelect.value
+                    tipo: tipoActividadSelect.value,
+                    espacio: selectEspacios.value // Añadir el ID del espacio seleccionado
                 };
-
+        
                 if (type === 'tab4') {
                     objetoGuardado = {
                         ...objetoGuardado,
@@ -112,9 +128,9 @@ function ventanaActividad(idPadre) {
                         gruposSeleccionados: Array.from(seleccionadosGrupos.options).map(option => option.value)
                     };
                 }
-
+        
                 console.log('Datos enviados a la API:', objetoGuardado);
-
+        
                 fetch('/API/actividades', {
                     method: 'POST',
                     headers: {
@@ -134,6 +150,7 @@ function ventanaActividad(idPadre) {
                 .catch(error => console.error('Error al guardar la actividad:', error));
             });
         }
+        
 
         if (!guardarButtonTab1.dataset.listenerAdded) {
             validateAndSendForm(guardarButtonTab1, 'tab1');
@@ -167,12 +184,16 @@ function ventanaActividad(idPadre) {
     }, { once: true });
 }
 
-// Llamar a la función ventanaActividad una sola vez
+
+ 
+
 //ventanaActividad(null);
+
+
 
 // Llamar a la función ventanaActividad con un objeto padre
 const objetoPadre = {
-    id: '1',
+    id: '14',
     evento: '1'
 };
-ventanaActividad(objetoPadre);
+ventanaActividad(null);

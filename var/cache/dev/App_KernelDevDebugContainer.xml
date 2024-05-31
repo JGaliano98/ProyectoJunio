@@ -1485,6 +1485,7 @@
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\validator/Resources/translations</argument>
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\form/Resources/translations</argument>
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\security-core/Resources/translations</argument>
+        <argument>C:\xampp\htdocs\ProyectoJunio\vendor\easycorp\easyadmin-bundle\src/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -1511,6 +1512,7 @@
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\validator/Resources/translations</argument>
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\form/Resources/translations</argument>
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\security-core/Resources/translations</argument>
+        <argument>C:\xampp\htdocs\ProyectoJunio\vendor\easycorp\easyadmin-bundle\src/Resources/translations</argument>
       </argument>
       <argument type="collection">
         <argument>C:\xampp\htdocs\ProyectoJunio\vendor\symfony\twig-bridge/Resources/views/Email</argument>
@@ -3883,7 +3885,7 @@
       <tag name="serializer.normalizer" priority="-890"/>
     </service>
     <service id="serializer.normalizer.translatable" class="Symfony\Component\Serializer\Normalizer\TranslatableNormalizer">
-      <tag name="serializer.normalizer" priority="-890"/>
+      <tag name="serializer.normalizer" priority="-920"/>
       <argument type="service" id="translator.data_collector"/>
     </service>
     <service id="serializer.normalizer.form_error" class="Symfony\Component\Serializer\Normalizer\FormErrorNormalizer">
@@ -3904,6 +3906,8 @@
       <argument type="service" id="property_info" on-invalid="ignore"/>
       <argument type="service" id="serializer.mapping.class_discriminator_resolver" on-invalid="ignore"/>
       <argument>null</argument>
+      <argument type="collection"/>
+      <argument type="service" id="property_info" on-invalid="ignore"/>
     </service>
     <service id="serializer.denormalizer.array" class="Symfony\Component\Serializer\Normalizer\ArrayDenormalizer">
       <tag name="serializer.normalizer" priority="-990"/>
@@ -3974,7 +3978,7 @@
       </argument>
     </service>
     <service id="serializer.normalizer.backed_enum" class="Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer">
-      <tag name="serializer.normalizer" priority="-880"/>
+      <tag name="serializer.normalizer" priority="-915"/>
     </service>
     <service id="property_info" class="Symfony\Component\PropertyInfo\PropertyInfoExtractor">
       <argument type="iterator">
@@ -7416,6 +7420,7 @@
       <argument type="service" id="maker.file_manager"/>
       <argument type="service" id="maker.doctrine_helper"/>
       <argument type="service" id="maker.entity_class_generator"/>
+      <argument type="service" id="router.default" on-invalid="ignore"/>
     </service>
     <service id="maker.maker.make_schedule" class="Symfony\Bundle\MakerBundle\Maker\MakeSchedule">
       <tag name="maker.command"/>
@@ -7469,6 +7474,11 @@
       <argument type="service" id="maker.file_manager"/>
       <argument type="service" id="maker.security_config_updater"/>
       <argument type="service" id="maker.security_controller_builder"/>
+    </service>
+    <service id="maker.maker.make_custom_authenticator" class="Symfony\Bundle\MakerBundle\Maker\Security\MakeCustomAuthenticator">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.file_manager"/>
+      <argument type="service" id="maker.generator"/>
     </service>
     <service id="maker.maker.make_webhook" class="Symfony\Bundle\MakerBundle\Maker\MakeWebhook">
       <tag name="maker.command"/>
@@ -8376,6 +8386,20 @@
         <argument>Generate the code needed for the form_login authenticator</argument>
       </call>
     </service>
+    <service id="maker.auto_command.make_security_custom" class="Symfony\Bundle\MakerBundle\Command\MakerCommand">
+      <tag name="console.command" command="make:security:custom" description="Create a custom security authenticator."/>
+      <tag name="container.no_preload"/>
+      <argument type="service" id="maker.maker.make_custom_authenticator"/>
+      <argument type="service" id="maker.file_manager"/>
+      <argument type="service" id="maker.generator"/>
+      <argument type="service" id="maker.template_linter"/>
+      <call method="setName">
+        <argument>make:security:custom</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Create a custom security authenticator.</argument>
+      </call>
+    </service>
     <service id="maker.auto_command.make_webhook" class="Symfony\Bundle\MakerBundle\Command\MakerCommand">
       <tag name="console.command" command="make:webhook" description="Create a new Webhook"/>
       <tag name="container.no_preload"/>
@@ -8997,10 +9021,6 @@
       <argument type="service" id="serializer.denormalizer.unwrapping"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
-    <service id=".debug.serializer.normalizer.serializer.normalizer.backed_enum" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
-      <argument type="service" id="serializer.normalizer.backed_enum"/>
-      <argument type="service" id="serializer.data_collector"/>
-    </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.flatten_exception" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
       <argument type="service" id="serializer.normalizer.flatten_exception"/>
       <argument type="service" id="serializer.data_collector"/>
@@ -9011,10 +9031,6 @@
     </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.uid" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
       <argument type="service" id="serializer.normalizer.uid"/>
-      <argument type="service" id="serializer.data_collector"/>
-    </service>
-    <service id=".debug.serializer.normalizer.serializer.normalizer.translatable" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
-      <argument type="service" id="serializer.normalizer.translatable"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.datetime" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
@@ -9041,8 +9057,16 @@
       <argument type="service" id="serializer.normalizer.form_error"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
+    <service id=".debug.serializer.normalizer.serializer.normalizer.backed_enum" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+      <argument type="service" id="serializer.normalizer.backed_enum"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.data_uri" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
       <argument type="service" id="serializer.normalizer.data_uri"/>
+      <argument type="service" id="serializer.data_collector"/>
+    </service>
+    <service id=".debug.serializer.normalizer.serializer.normalizer.translatable" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+      <argument type="service" id="serializer.normalizer.translatable"/>
       <argument type="service" id="serializer.data_collector"/>
     </service>
     <service id=".debug.serializer.normalizer.serializer.normalizer.json_serializable" class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
@@ -10091,12 +10115,6 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
-            <argument type="service" id="serializer.normalizer.backed_enum"/>
-            <argument type="service" id="serializer.data_collector"/>
-          </service>
-        </argument>
-        <argument type="service">
-          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
             <argument type="service" id="serializer.normalizer.flatten_exception"/>
             <argument type="service" id="serializer.data_collector"/>
           </service>
@@ -10110,12 +10128,6 @@
         <argument type="service">
           <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
             <argument type="service" id="serializer.normalizer.uid"/>
-            <argument type="service" id="serializer.data_collector"/>
-          </service>
-        </argument>
-        <argument type="service">
-          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
-            <argument type="service" id="serializer.normalizer.translatable"/>
             <argument type="service" id="serializer.data_collector"/>
           </service>
         </argument>
@@ -10157,7 +10169,19 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+            <argument type="service" id="serializer.normalizer.backed_enum"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
             <argument type="service" id="serializer.normalizer.data_uri"/>
+            <argument type="service" id="serializer.data_collector"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Debug\TraceableNormalizer">
+            <argument type="service" id="serializer.normalizer.translatable"/>
             <argument type="service" id="serializer.data_collector"/>
           </service>
         </argument>
@@ -10991,6 +11015,13 @@
       <argument>false</argument>
       <argument type="service_closure" id="maker.auto_command.make_security_form_login"/>
     </service>
+    <service id=".maker.auto_command.make_security_custom.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>make:security:custom</argument>
+      <argument type="collection"/>
+      <argument>Create a custom security authenticator.</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="maker.auto_command.make_security_custom"/>
+    </service>
     <service id=".maker.auto_command.make_webhook.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>make:webhook</argument>
       <argument type="collection"/>
@@ -11000,7 +11031,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.DywXR7y"/>
+      <argument type="service" id=".service_locator.k1mjfZa"/>
       <argument type="collection">
         <argument key="app:activate-user-list">App\Command\ActivateUserListCommand</argument>
         <argument key="app:enable-user">App\Command\ActivateUserListCommand</argument>
@@ -11122,10 +11153,11 @@
         <argument key="make:migration">maker.auto_command.make_migration</argument>
         <argument key="make:stimulus-controller">maker.auto_command.make_stimulus_controller</argument>
         <argument key="make:security:form-login">maker.auto_command.make_security_form_login</argument>
+        <argument key="make:security:custom">maker.auto_command.make_security_custom</argument>
         <argument key="make:webhook">maker.auto_command.make_webhook</argument>
       </argument>
     </service>
-    <service id=".service_locator.DywXR7y" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.k1mjfZa" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Command\ActivateUserListCommand" type="service_closure" id=".App\Command\ActivateUserListCommand.lazy"/>
@@ -11228,6 +11260,7 @@
         <argument key="maker.auto_command.make_registration_form" type="service_closure" id=".maker.auto_command.make_registration_form.lazy"/>
         <argument key="maker.auto_command.make_reset_password" type="service_closure" id=".maker.auto_command.make_reset_password.lazy"/>
         <argument key="maker.auto_command.make_schedule" type="service_closure" id=".maker.auto_command.make_schedule.lazy"/>
+        <argument key="maker.auto_command.make_security_custom" type="service_closure" id=".maker.auto_command.make_security_custom.lazy"/>
         <argument key="maker.auto_command.make_security_form_login" type="service_closure" id=".maker.auto_command.make_security_form_login.lazy"/>
         <argument key="maker.auto_command.make_serializer_encoder" type="service_closure" id=".maker.auto_command.make_serializer_encoder.lazy"/>
         <argument key="maker.auto_command.make_serializer_normalizer" type="service_closure" id=".maker.auto_command.make_serializer_normalizer.lazy"/>
