@@ -196,4 +196,4 @@ const objetoPadre = {
     id: '14',
     evento: '1'
 };
-ventanaActividad(null);
+ventanaActividad(objetoPadre);
