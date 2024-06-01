@@ -695,7 +695,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.BQLfjoN"/>
+      <argument type="service" id=".service_locator.7iPLE9j"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3652,7 +3652,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.BQLfjoN"/>
+      <argument type="service" id=".service_locator.7iPLE9j"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -8559,7 +8559,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.BQLfjoN" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.7iPLE9j" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\API\ActividadControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8580,6 +8580,7 @@
         <argument key="App\Controller\API\UserControllerAPI::delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI::update" type="service_closure" id=".service_locator.jedxEFU"/>
+        <argument key="App\Controller\ActivityController::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\Admin\AlumnoCrudController::autocomplete" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\AlumnoCrudController::batchDelete" type="service_closure" id=".service_locator.twrFs.m"/>
         <argument key="App\Controller\Admin\AlumnoCrudController::configureActions" type="service_closure" id=".service_locator.UrOEf8r"/>
@@ -8797,6 +8798,7 @@
         <argument key="App\Controller\API\UserControllerAPI:delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI:update" type="service_closure" id=".service_locator.jedxEFU"/>
+        <argument key="App\Controller\ActivityController:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\Admin\AlumnoCrudController:autocomplete" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\AlumnoCrudController:batchDelete" type="service_closure" id=".service_locator.twrFs.m"/>
         <argument key="App\Controller\Admin\AlumnoCrudController:configureActions" type="service_closure" id=".service_locator.UrOEf8r"/>
@@ -11516,7 +11518,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.BQLfjoN"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.7iPLE9j"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>

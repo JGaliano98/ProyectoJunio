@@ -44,30 +44,31 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "actividad/actividad.html.twig"));
 
-        // line 1
-        yield "<!DOCTYPE html>
+        // line 2
+        yield "
+<!DOCTYPE html>
 <html lang=\"en\">
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>";
-        // line 6
+        // line 8
         yield from $this->unwrap()->yieldBlock('title', $context, $blocks);
         yield "</title>
     
     ";
-        // line 8
+        // line 10
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
-        // line 12
+        // line 14
         yield "    ";
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 18
+        // line 20
         yield "</head>
 <body>
     ";
-        // line 20
+        // line 22
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 115
+        // line 119
         yield "</body>
 </html>
 ";
@@ -80,7 +81,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 6
+    // line 8
     public function block_title($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -100,7 +101,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 8
+    // line 10
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -110,9 +111,9 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 9
+        // line 11
         yield "    ";
-        // line 10
+        // line 12
         yield "    <link rel=\"stylesheet\" href=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("css/estilospestañas.css"), "html", null, true);
         yield "\">
@@ -126,7 +127,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 12
+    // line 14
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -136,20 +137,20 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 13
+        // line 15
         yield "    <script src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/select.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 14
+        // line 16
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/ficheros.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 15
+        // line 17
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/actividad.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 16
+        // line 18
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/tablaPonentes.js"), "html", null, true);
         yield "\"></script>
     ";
@@ -162,7 +163,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 20
+    // line 22
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -172,28 +173,30 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 21
-        yield "    <div class=\"tabs\">
+        // line 23
+        yield "    <form id=\"formActividad\" method=\"post\" action=\"";
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("actividad_create");
+        yield "\">
+    <div class=\"tabs\">
         <div class=\"tab-container\">
             <div id=\"tab4\" class=\"tab\">
                 <a href=\"#tab4\">Grupos</a>
                 <div class=\"tab-content\">
                     <table>
                         <tr>
-                            <td> <select class=\"recursos\" id=\"fuenteGrupos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"fuenteGrupos\" size=\"10\" multiple=\"multiple\"></select></td>
                             <td>
                                 <span id=\"pasarIzqGrupos\">&lt;</span><br>
                                 <span id=\"pasarIzqTodosGrupos\">&lt;&lt;</span><br>
                                 <span id=\"pasarDerGrupos\">&gt;</span><br>
                                 <span id=\"pasarDerTodosGrupos\">&gt;&gt;</span>
                             </td>
-                            <td> <select class=\"recursos\" id=\"seleccionadosGrupos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"seleccionadosGrupos\" size=\"10\" multiple=\"multiple\"></select></td>
                         </tr>
                     </table>
                     <input type=\"submit\" value=\"Guardar\">
                 </div>
             </div>
-            
             <div id=\"tab3\" class=\"tab\">
                 <a href=\"#tab3\">Ponentes</a>
                 <div class=\"tab-content\">
@@ -211,34 +214,29 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                                 <td><input type=\"text\" id=\"nombre\" placeholder=\"Introduce el nombre\"></td>
                                 <td><input type=\"text\" id=\"cargo\" placeholder=\"Introduce el cargo\"></td>
                                 <td><input type=\"text\" id=\"url\" placeholder=\"Introduce la URL\"></td>
-                                <td>
-                                    <button onclick=\"agregarPonente()\">Agregar</button>
-                                </td>
+                                <td><button type=\"button\" onclick=\"agregarPonente()\">Agregar</button></td>
                             </tr>
                             <!-- Aquí se agregarán las filas dinámicamente -->
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
             <div id=\"tab2\" class=\"tab\">
                 <a href=\"#tab2\">Recursos</a>
                 <div class=\"tab-content\">
                     <table>
                         <tr>
-                            <td> <select class=\"recursos\" id=\"fuenteRecursos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"fuenteRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                             <td>
                                 <span id=\"pasarIzqRecursos\">&lt;</span><br>
                                 <span id=\"pasarIzqTodosRecursos\">&lt;&lt;</span><br>
                                 <span id=\"pasarDerRecursos\">&gt;</span><br>
                                 <span id=\"pasarDerTodosRecursos\">&gt;&gt;</span>
                             </td>
-                            <td> <select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                         </tr>
                     </table>
-                    <select id=\"selectEspacios\">
-                    </select>
+                    <select id=\"selectEspacios\"></select>
                 </div>
             </div>
             <div id=\"tab1\" class=\"tab\">
@@ -246,26 +244,33 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                 <div class=\"tab-content form-actividad two-columns\">
                     <label>TIPO:</label>
                     <select class=\"tipoActividad\" id=\"tipoActividad\">
-                        <option value=\"\">-</option> <!-- Opción vacía o con \"-\" -->
+                        <option value=\"\">-</option>
                         <option value=\"1\">Simple</option>
                         <option value=\"2\">Compuesta</option>
                     </select>
                     <label>EVENTO:</label>
                     <select class=\"tipoActividad\" id=\"evento\">
-                        <option value=\"\">-</option> <!-- Opción vacía o con \"-\" -->
+                        <option value=\"\">-</option>
                         <option value=\"1\">Evento1</option>
                         <option value=\"2\">Evento2</option>
                     </select>
-                    <label>ID:</label><input type=\"text\" id=\"valorID\">
-                    <label>DESCRIPCIÓN:</label><input type=\"text\" id=\"descripcionID\">
-                    <label>AFORO:</label><input type=\"text\" id=\"aforo\">
-                    <label>FECHA DE INICIO:</label><input type=\"date\" id=\"fechaInicio\">
-                    <label>FECHA DE FIN:</label><input type=\"date\" id=\"fechaFin\">
+                    <label>ID:</label>
+                    <input type=\"text\" id=\"valorID\" name=\"idPadre\">
+                    <label>DESCRIPCIÓN:</label>
+                    <input type=\"text\" id=\"descripcionID\" name=\"descripcion\">
+                    <label>AFORO:</label>
+                    <input type=\"text\" id=\"aforo\" name=\"aforo\">
+                    <label>FECHA DE INICIO:</label>
+                    <input type=\"date\" id=\"fechaInicio\" name=\"fechaInicio\">
+                    <label>FECHA DE FIN:</label>
+                    <input type=\"date\" id=\"fechaFin\" name=\"fechaFin\">
                     <input type=\"submit\" id=\"guardarGeneral\" value=\"Guardar\">
-
                 </div>
             </div>
+        </div>
     </div>
+</form>
+
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -289,12 +294,14 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  176 => 21,  166 => 20,  153 => 16,  149 => 15,  145 => 14,  140 => 13,  130 => 12,  116 => 10,  114 => 9,  104 => 8,  84 => 6,  71 => 115,  69 => 20,  65 => 18,  62 => 12,  60 => 8,  55 => 6,  48 => 1,);
+        return array (  177 => 23,  167 => 22,  154 => 18,  150 => 17,  146 => 16,  141 => 15,  131 => 14,  117 => 12,  115 => 11,  105 => 10,  85 => 8,  72 => 119,  70 => 22,  66 => 20,  63 => 14,  61 => 10,  56 => 8,  48 => 2,);
     }
 
     public function getSourceContext()
     {
-        return new Source("<!DOCTYPE html>
+        return new Source("{# actividad.html.twig #}
+
+<!DOCTYPE html>
 <html lang=\"en\">
 <head>
     <meta charset=\"UTF-8\">
@@ -314,6 +321,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
 </head>
 <body>
     {% block body %}
+    <form id=\"formActividad\" method=\"post\" action=\"{{ path('actividad_create') }}\">
     <div class=\"tabs\">
         <div class=\"tab-container\">
             <div id=\"tab4\" class=\"tab\">
@@ -321,20 +329,19 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                 <div class=\"tab-content\">
                     <table>
                         <tr>
-                            <td> <select class=\"recursos\" id=\"fuenteGrupos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"fuenteGrupos\" size=\"10\" multiple=\"multiple\"></select></td>
                             <td>
                                 <span id=\"pasarIzqGrupos\">&lt;</span><br>
                                 <span id=\"pasarIzqTodosGrupos\">&lt;&lt;</span><br>
                                 <span id=\"pasarDerGrupos\">&gt;</span><br>
                                 <span id=\"pasarDerTodosGrupos\">&gt;&gt;</span>
                             </td>
-                            <td> <select class=\"recursos\" id=\"seleccionadosGrupos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"seleccionadosGrupos\" size=\"10\" multiple=\"multiple\"></select></td>
                         </tr>
                     </table>
                     <input type=\"submit\" value=\"Guardar\">
                 </div>
             </div>
-            
             <div id=\"tab3\" class=\"tab\">
                 <a href=\"#tab3\">Ponentes</a>
                 <div class=\"tab-content\">
@@ -352,34 +359,29 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                                 <td><input type=\"text\" id=\"nombre\" placeholder=\"Introduce el nombre\"></td>
                                 <td><input type=\"text\" id=\"cargo\" placeholder=\"Introduce el cargo\"></td>
                                 <td><input type=\"text\" id=\"url\" placeholder=\"Introduce la URL\"></td>
-                                <td>
-                                    <button onclick=\"agregarPonente()\">Agregar</button>
-                                </td>
+                                <td><button type=\"button\" onclick=\"agregarPonente()\">Agregar</button></td>
                             </tr>
                             <!-- Aquí se agregarán las filas dinámicamente -->
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
             <div id=\"tab2\" class=\"tab\">
                 <a href=\"#tab2\">Recursos</a>
                 <div class=\"tab-content\">
                     <table>
                         <tr>
-                            <td> <select class=\"recursos\" id=\"fuenteRecursos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"fuenteRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                             <td>
                                 <span id=\"pasarIzqRecursos\">&lt;</span><br>
                                 <span id=\"pasarIzqTodosRecursos\">&lt;&lt;</span><br>
                                 <span id=\"pasarDerRecursos\">&gt;</span><br>
                                 <span id=\"pasarDerTodosRecursos\">&gt;&gt;</span>
                             </td>
-                            <td> <select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select> </td>
+                            <td><select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                         </tr>
                     </table>
-                    <select id=\"selectEspacios\">
-                    </select>
+                    <select id=\"selectEspacios\"></select>
                 </div>
             </div>
             <div id=\"tab1\" class=\"tab\">
@@ -387,26 +389,33 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                 <div class=\"tab-content form-actividad two-columns\">
                     <label>TIPO:</label>
                     <select class=\"tipoActividad\" id=\"tipoActividad\">
-                        <option value=\"\">-</option> <!-- Opción vacía o con \"-\" -->
+                        <option value=\"\">-</option>
                         <option value=\"1\">Simple</option>
                         <option value=\"2\">Compuesta</option>
                     </select>
                     <label>EVENTO:</label>
                     <select class=\"tipoActividad\" id=\"evento\">
-                        <option value=\"\">-</option> <!-- Opción vacía o con \"-\" -->
+                        <option value=\"\">-</option>
                         <option value=\"1\">Evento1</option>
                         <option value=\"2\">Evento2</option>
                     </select>
-                    <label>ID:</label><input type=\"text\" id=\"valorID\">
-                    <label>DESCRIPCIÓN:</label><input type=\"text\" id=\"descripcionID\">
-                    <label>AFORO:</label><input type=\"text\" id=\"aforo\">
-                    <label>FECHA DE INICIO:</label><input type=\"date\" id=\"fechaInicio\">
-                    <label>FECHA DE FIN:</label><input type=\"date\" id=\"fechaFin\">
+                    <label>ID:</label>
+                    <input type=\"text\" id=\"valorID\" name=\"idPadre\">
+                    <label>DESCRIPCIÓN:</label>
+                    <input type=\"text\" id=\"descripcionID\" name=\"descripcion\">
+                    <label>AFORO:</label>
+                    <input type=\"text\" id=\"aforo\" name=\"aforo\">
+                    <label>FECHA DE INICIO:</label>
+                    <input type=\"date\" id=\"fechaInicio\" name=\"fechaInicio\">
+                    <label>FECHA DE FIN:</label>
+                    <input type=\"date\" id=\"fechaFin\" name=\"fechaFin\">
                     <input type=\"submit\" id=\"guardarGeneral\" value=\"Guardar\">
-
                 </div>
             </div>
+        </div>
     </div>
+</form>
+
     {% endblock %}
 </body>
 </html>

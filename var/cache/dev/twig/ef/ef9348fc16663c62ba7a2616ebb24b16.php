@@ -13,7 +13,7 @@ use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
 
-/* actividad/actividades.html.twig */
+/* /actividad/actividades.html.twig */
 class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
 {
     private $source;
@@ -39,10 +39,10 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
     {
         $macros = $this->macros;
         $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "actividad/actividades.html.twig"));
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "/actividad/actividades.html.twig"));
 
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "actividad/actividades.html.twig"));
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "/actividad/actividades.html.twig"));
 
         // line 1
         yield "<!DOCTYPE html>
@@ -58,16 +58,16 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
     ";
         // line 8
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
-        // line 13
+        // line 11
         yield "    ";
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 17
+        // line 16
         yield "</head>
 <body>
     ";
-        // line 19
+        // line 18
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 63
+        // line 59
         yield "</body>
 </html>
 ";
@@ -90,7 +90,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        yield "Document";
+        yield "Actividades";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -112,8 +112,6 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
 
         // line 9
         yield "    <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
-
-    
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -124,7 +122,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         return; yield '';
     }
 
-    // line 13
+    // line 11
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -134,9 +132,13 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 14
+        // line 12
         yield "    <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>
+    <script src=\"";
+        // line 14
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/actividad.js"), "html", null, true);
+        yield "\"></script>
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -147,7 +149,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         return; yield '';
     }
 
-    // line 19
+    // line 18
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -157,19 +159,61 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 20
+        // line 19
         yield "    <div class=\"container\">
-        <div class=\"d-flex justify-content-between align-items-center mb-3\"> <!-- Contenedor flexbox para alinear -->
-            <h1 class=\"mb-0\">ACTIVIDADES</h1> <!-- Agregamos clase mb-0 para eliminar el margen inferior -->
+        <div class=\"d-flex justify-content-between align-items-center mb-3\">
+            <h1 class=\"mb-0\">ACTIVIDADES</h1>
             <button class=\"btn btn-primary\" style=\"background-color: #5368d5;\" data-toggle=\"modal\" data-target=\"#modalAgregarActividad\">AÑADIR ACTIVIDAD</button>
         </div>
 
-        ";
-        // line 42
-        yield "
+        <div id=\"actividades\">
+            ";
+        // line 26
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["actividades"]) || array_key_exists("actividades", $context) ? $context["actividades"] : (function () { throw new RuntimeError('Variable "actividades" does not exist.', 26, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["actividad"]) {
+            // line 27
+            yield "                <div class=\"card mb-3\">
+                    <div class=\"card-body\">
+                        <h5 class=\"card-title\">";
+            // line 29
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "descripcion", [], "any", false, false, false, 29), "html", null, true);
+            yield "</h5>
+                        <button class=\"btn btn-primary btn-sm\" onclick=\"agregarSubactividad(this)\" data-actividad-id=\"";
+            // line 30
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 30), "html", null, true);
+            yield "\">AÑADIR SUBACTIVIDAD</button>
+                        <div class=\"subactividades mt-2\">
+                            ";
+            // line 32
+            $context['_parent'] = $context;
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "detalleActividads", [], "any", false, false, false, 32));
+            foreach ($context['_seq'] as $context["_key"] => $context["subactividad"]) {
+                // line 33
+                yield "                                <div class=\"card-text\">";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "titulo", [], "any", false, false, false, 33), "html", null, true);
+                yield "</div>
+                            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['subactividad'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 35
+            yield "                        </div>
+                    </div>
+                </div>
+            ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['actividad'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 39
+        yield "        </div>
+    </div>
+
     <!-- Modal para agregar actividad -->
     <div class=\"modal fade\" id=\"modalAgregarActividad\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modalAgregarActividadLabel\" aria-hidden=\"true\">
-        <div class=\"modal-dialog modal-lg\" role=\"document\"> <!-- Ajusta el tamaño del modal según sea necesario -->
+        <div class=\"modal-dialog modal-lg\" role=\"document\">
             <div class=\"modal-content\">
                 <div class=\"modal-header\">
                     <h5 class=\"modal-title\" id=\"modalAgregarActividadLabel\">Añadir Actividad</h5>
@@ -179,19 +223,13 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                 </div>
                 <div class=\"modal-body\">
                     ";
+        // line 53
+        yield from         $this->loadTemplate("actividad/actividad.html.twig", "/actividad/actividades.html.twig", 53)->unwrap()->yield($context);
         // line 54
-        yield from         $this->loadTemplate("actividad/actividad.html.twig", "actividad/actividades.html.twig", 54)->unwrap()->yield($context);
-        yield " <!-- Incluye el contenido de /actividades -->
-                </div>
-                <!-- Puedes agregar un pie de página con botones adicionales si es necesario -->
+        yield "                </div>
             </div>
         </div>
     </div>
-
-    <script src=\"";
-        // line 61
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/actividad.js"), "html", null, true);
-        yield "\"></script>
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -207,7 +245,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
      */
     public function getTemplateName()
     {
-        return "actividad/actividades.html.twig";
+        return "/actividad/actividades.html.twig";
     }
 
     /**
@@ -215,7 +253,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  193 => 61,  183 => 54,  169 => 42,  161 => 20,  151 => 19,  138 => 14,  128 => 13,  114 => 9,  104 => 8,  84 => 6,  71 => 63,  69 => 19,  65 => 17,  62 => 13,  60 => 8,  55 => 6,  48 => 1,);
+        return array (  229 => 54,  227 => 53,  211 => 39,  202 => 35,  193 => 33,  189 => 32,  184 => 30,  180 => 29,  176 => 27,  172 => 26,  163 => 19,  153 => 18,  140 => 14,  136 => 12,  126 => 11,  114 => 9,  104 => 8,  84 => 6,  71 => 59,  69 => 18,  65 => 16,  62 => 11,  60 => 8,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -225,46 +263,45 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>{% block title %}Document{% endblock %}</title>
+    <title>{% block title %}Actividades{% endblock %}</title>
     
     {% block stylesheets %}
     <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
-
-    
     {% endblock %}
     {% block javascripts %}
     <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>
+    <script src=\"{{ asset('js/actividad.js') }}\"></script>
     {% endblock %}
 </head>
 <body>
     {% block body %}
     <div class=\"container\">
-        <div class=\"d-flex justify-content-between align-items-center mb-3\"> <!-- Contenedor flexbox para alinear -->
-            <h1 class=\"mb-0\">ACTIVIDADES</h1> <!-- Agregamos clase mb-0 para eliminar el margen inferior -->
+        <div class=\"d-flex justify-content-between align-items-center mb-3\">
+            <h1 class=\"mb-0\">ACTIVIDADES</h1>
             <button class=\"btn btn-primary\" style=\"background-color: #5368d5;\" data-toggle=\"modal\" data-target=\"#modalAgregarActividad\">AÑADIR ACTIVIDAD</button>
         </div>
 
-        {# <div id=\"actividades\"> 
+        <div id=\"actividades\">
             {% for actividad in actividades %}
                 <div class=\"card mb-3\">
                     <div class=\"card-body\">
-                        <h5 class=\"card-title\">{{ actividad.titulo }}</h5>
-                        <button class=\"btn btn-primary btn-sm\" onclick=\"agregarSubactividad(this)\">AÑADIR SUBACTIVIDAD</button>
+                        <h5 class=\"card-title\">{{ actividad.descripcion }}</h5>
+                        <button class=\"btn btn-primary btn-sm\" onclick=\"agregarSubactividad(this)\" data-actividad-id=\"{{ actividad.id }}\">AÑADIR SUBACTIVIDAD</button>
                         <div class=\"subactividades mt-2\">
-                            {% for subactividad in actividad.subactividades %}
-                                <div class=\"card-text\">{{ subactividad }}</div>
+                            {% for subactividad in actividad.detalleActividads %}
+                                <div class=\"card-text\">{{ subactividad.titulo }}</div>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    </div> #}
+    </div>
 
     <!-- Modal para agregar actividad -->
     <div class=\"modal fade\" id=\"modalAgregarActividad\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"modalAgregarActividadLabel\" aria-hidden=\"true\">
-        <div class=\"modal-dialog modal-lg\" role=\"document\"> <!-- Ajusta el tamaño del modal según sea necesario -->
+        <div class=\"modal-dialog modal-lg\" role=\"document\">
             <div class=\"modal-content\">
                 <div class=\"modal-header\">
                     <h5 class=\"modal-title\" id=\"modalAgregarActividadLabel\">Añadir Actividad</h5>
@@ -273,17 +310,14 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                     </button>
                 </div>
                 <div class=\"modal-body\">
-                    {% include 'actividad/actividad.html.twig' %} <!-- Incluye el contenido de /actividades -->
+                    {% include 'actividad/actividad.html.twig' %}
                 </div>
-                <!-- Puedes agregar un pie de página con botones adicionales si es necesario -->
             </div>
         </div>
     </div>
-
-    <script src=\"{{ asset('js/actividad.js') }}\"></script>
     {% endblock %}
 </body>
 </html>
-", "actividad/actividades.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\actividad\\actividades.html.twig");
+", "/actividad/actividades.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\actividad\\actividades.html.twig");
     }
 }
