@@ -92,13 +92,14 @@
                         {% elseif ea.i18n.translationParameters['%entity_name%'] == "Alumno" %}
                         <!-- Configuración para 'Alumno' -->
                         
-                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^[\s\S]*?;[\s\S]*?@[\s\S]*?;\d{4}-\d{2}-\d{2}$" data-campo="3">
+                        <input type="file" id="csvFileInput" accept=".csv" data-entidad={{ea.i18n.translationParameters['%entity_name%']}} data-patron="^[^;]+;[^;]+@[^;]+;\d{4}-\d{2}-\d{2};\d$" data-campo="4">
                         <table id="modalTable" class="table mt-3">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Fecha de Nacimiento</th>
+                                    <th>Grupo</th>
                                 </tr>
                             </thead>
                             <input type="checkbox" value="0" id="actEdTabla"/> Activar Edición

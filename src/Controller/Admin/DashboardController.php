@@ -46,17 +46,18 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToUrl('Página Principal', 'fas fa-arrow-left', 'http://127.0.0.1:8000');
-        yield MenuItem::section('Gestión de Recursos');
-        yield MenuItem::linkToCrud('Edificios', 'fas fa-building', Edificio::class);
-        yield MenuItem::linkToCrud('Recursos', 'fas fa-boxes', Recurso::class);
-        yield MenuItem::linkToCrud('Espacios', 'fas fa-map-marker-alt', Espacio::class);
+        
+        yield MenuItem::section('Gestión de Eventos');
         yield MenuItem::linkToRoute('Actividades', 'fas fa-map-marker-alt', 'admin_actividad');
-        yield MenuItem::linkToCrud('Eventos', 'fas fa-map-marker-alt', Evento::class);
+        yield MenuItem::linkToCrud('Eventos', 'fas fa-map-calendar-alt', Evento::class);
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            yield MenuItem::section('Gestión de Eventos');
+            
+            yield MenuItem::section('Gestión de Recursos');
+            yield MenuItem::linkToCrud('Edificios', 'fas fa-building', Edificio::class);
+            yield MenuItem::linkToCrud('Recursos', 'fas fa-boxes', Recurso::class);
+            yield MenuItem::linkToCrud('Espacios', 'fas fa-map-marker-alt', Espacio::class);
             yield MenuItem::linkToCrud('Ponentes', 'fas fa-chalkboard-teacher', Ponente::class);
-            yield MenuItem::linkToCrud('Eventos', 'fas fa-calendar-alt', Evento::class);
 
             yield MenuItem::section('Gestión Educativa');
             yield MenuItem::linkToCrud('Nivel Educativo', 'fas fa-graduation-cap', NivelEducativo::class);

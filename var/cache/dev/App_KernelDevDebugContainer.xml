@@ -437,6 +437,13 @@
         <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\EdificioControllerAPI"/>
       </call>
     </service>
+    <service id="App\Controller\API\EspacioControllerAPI" class="App\Controller\API\EspacioControllerAPI" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jUv.zyj.App\Controller\API\EspacioControllerAPI"/>
+      </call>
+    </service>
     <service id="App\Controller\API\EventoControllerAPI" class="App\Controller\API\EventoControllerAPI" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -695,7 +702,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.7iPLE9j"/>
+      <argument type="service" id=".service_locator.9mqldDY"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3652,7 +3659,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.7iPLE9j"/>
+      <argument type="service" id=".service_locator.9mqldDY"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7825,6 +7832,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\EdificioControllerAPI" class="App\Controller\API\EdificioControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\EspacioControllerAPI" class="App\Controller\API\EspacioControllerAPI" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\EspacioControllerAPI" class="App\Controller\API\EspacioControllerAPI" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\API\EspacioControllerAPI" class="App\Controller\API\EspacioControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\API\EventoControllerAPI" class="App\Controller\API\EventoControllerAPI" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\API\EventoControllerAPI" class="App\Controller\API\EventoControllerAPI" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\API\EventoControllerAPI" class="App\Controller\API\EventoControllerAPI" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8559,7 +8569,7 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.7iPLE9j" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.9mqldDY" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\API\ActividadControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8573,6 +8583,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI::delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\EspacioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EventoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\GrupoControllerAPI::index" type="service_closure" id=".service_locator.Km2KOcc"/>
         <argument key="App\Controller\API\RecursoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8791,6 +8802,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI:delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\EspacioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EventoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\GrupoControllerAPI:index" type="service_closure" id=".service_locator.Km2KOcc"/>
         <argument key="App\Controller\API\RecursoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -9717,6 +9729,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.jUv.zyj" method="withContext"/>
     </service>
+    <service id=".service_locator.jUv.zyj.App\Controller\API\EspacioControllerAPI" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\API\EspacioControllerAPI"/>
+      <argument>App\Controller\API\EspacioControllerAPI</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jUv.zyj" method="withContext"/>
+    </service>
     <service id=".service_locator.jUv.zyj.App\Controller\API\EventoControllerAPI" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\API\EventoControllerAPI"/>
       <argument>App\Controller\API\EventoControllerAPI</argument>
@@ -10062,6 +10080,7 @@
           <argument>App\Controller\API\ActividadControllerAPI</argument>
           <argument>App\Controller\API\AlumnoControllerAPI</argument>
           <argument>App\Controller\API\EdificioControllerAPI</argument>
+          <argument>App\Controller\API\EspacioControllerAPI</argument>
           <argument>App\Controller\API\EventoControllerAPI</argument>
           <argument>App\Controller\API\GrupoControllerAPI</argument>
           <argument>App\Controller\API\RecursoControllerAPI</argument>
@@ -11518,7 +11537,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.7iPLE9j"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.9mqldDY"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>

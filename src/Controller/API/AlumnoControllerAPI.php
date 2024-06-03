@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\Entity\Alumno;
+use App\Entity\Grupo;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,7 @@ public function index(?int $id, EntityManagerInterface $em): Response
 
 
 #[Route('/alumnos', name: 'alumno_create', methods: ['POST'])]
-public function create(Request $request, EntityManagerInterface $em ): Response
+public function create(Request $request, EntityManagerInterface $em): Response
 {
     $data = json_decode($request->getContent(), true);
     $resultados = [];
@@ -60,14 +61,20 @@ public function create(Request $request, EntityManagerInterface $em ): Response
             // Dividir el nombre completo en nombre y apellidos
             $nombreYApellidos = explode(', ', $nombreCompleto);
             $nombre = $nombreYApellidos[1]; // Primer elemento del array es el nombre
-     
-
 
             $alumno = new Alumno();
             $alumno->setNombre($nombre);
             $alumno->setCorreo($alumnoData[1]);
             $alumno->setFechaNacimiento(new \DateTime($alumnoData[2]));
-            // Supongo que tienes alguna lógica para asignar el grupo, así que lo dejo como está en tu código original
+
+            // Asignar el grupo al alumno
+            if (isset($alumnoData[3])) {
+                $grupo = $em->getRepository(Grupo::class)->find($alumnoData[3]);
+                if (!$grupo) {
+                    throw new \Exception('Grupo no encontrado con ID: ' . $alumnoData[3]);
+                }
+                $alumno->setGrupo($grupo);
+            }
 
             $em->persist($alumno);
             $em->flush();
@@ -81,6 +88,7 @@ public function create(Request $request, EntityManagerInterface $em ): Response
 
     return $this->json(['status' => 'finished', 'results' => $resultados, 'errors' => $errores], Response::HTTP_CREATED);
 }
+
 
 
 

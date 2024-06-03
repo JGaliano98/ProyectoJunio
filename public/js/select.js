@@ -8,15 +8,10 @@ function cargarDatosSelect(datos, donde) {
     for (let i = 0; i < datos.length; i++) {
         let option = document.createElement("option");
         option.value = datos[i][0];
-        if (donde.id === 'fuenteRecursos') { // Si es la lista de recursos
-            option.innerHTML = datos[i][1];
-        } else { // Si es la lista de grupos
-            option.innerHTML = datos[i][0];
-        }
+        option.innerHTML = datos[i][1]; // Mostrar el nombre correctamente
         donde.appendChild(option);
     }
 }
-
 
 //Función que pasándole un objeto DOM select lo vacia
 function vaciarSelect(select){

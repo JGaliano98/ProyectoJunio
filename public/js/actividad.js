@@ -35,28 +35,66 @@ function ventanaActividad() {
     const fuenteGrupos = document.getElementById('fuenteGrupos');
     const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
     const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
-    // const selectEspacios = document.getElementById('selectEspacios');
     const selectEspacios = document.getElementById('selectEspacios');
 
-    function cargarEspacios() {
-        // Simular la carga de espacios (puedes reemplazar esto con una llamada AJAX si es necesario)
-        const espacios = [
-            { id: 9, nombre: 'Aula 27' },
-            { id: 10, nombre: 'Aula 25' }
-        ];
+    let espaciosData = [];
 
-        espacios.forEach(espacio => {
+    function cargarEspacios() {
+        const aforo = aforoInput.value ? parseInt(aforoInput.value) : null;
+        const recursosSeleccionados = Array.from(seleccionadosRecursos.options).map(option => parseInt(option.value));
+
+        const filteredEspacios = espaciosData.filter(espacio => {
+            // Filtrar por aforo
+            const cumpleAforo = !aforo || espacio.aforo > aforo;
+            // Filtrar por recursos seleccionados
+            const cumpleRecursos = recursosSeleccionados.length === 0 || recursosSeleccionados.every(recursoId =>
+                espacio.recursos.includes(recursoId)
+            );
+            return cumpleAforo && cumpleRecursos;
+        });
+
+        selectEspacios.innerHTML = '';
+        filteredEspacios.forEach(espacio => {
             const option = document.createElement('option');
             option.value = espacio.id;
-            option.textContent = espacio.nombre;
+            option.textContent = `${espacio.nombre} (Aforo: ${espacio.aforo})`;
             selectEspacios.appendChild(option);
         });
     }
 
-    cargarEspacios();
+    function fetchEspacios() {
+        fetch('/API/espacios')
+            .then(response => response.json())
+            .then(data => {
+                espaciosData = data;
+                cargarEspacios();
+            })
+            .catch(error => console.error('Error al cargar espacios:', error));
+    }
 
+    fetchEspacios();
 
+    aforoInput.addEventListener('input', cargarEspacios);
 
+    // Agregar eventos a los botones de intercambio de elementos para actualizar los espacios
+    document.getElementById('pasarIzqRecursos').addEventListener('click', () => {
+        pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
+        cargarEspacios();
+    });
+    document.getElementById('pasarIzqTodosRecursos').addEventListener('click', () => {
+        pasarTodosSelect(seleccionadosRecursos, fuenteRecursos);
+        cargarEspacios();
+    });
+    document.getElementById('pasarDerRecursos').addEventListener('click', () => {
+        pasarSeleccionadosSelect(fuenteRecursos, seleccionadosRecursos);
+        cargarEspacios();
+    });
+    document.getElementById('pasarDerTodosRecursos').addEventListener('click', () => {
+        pasarTodosSelect(fuenteRecursos, seleccionadosRecursos);
+        cargarEspacios();
+    });
+
+    seleccionadosRecursos.addEventListener('change', cargarEspacios);
 
     function cargarEventos() {
         fetch('/API/eventos')
@@ -194,4 +232,18 @@ function ventanaActividad() {
     });
 
     showTabContent('tab1');
+}
+
+function pasarSeleccionadosSelect(origen, destino) {
+    const seleccionados = Array.from(origen.selectedOptions);
+    seleccionados.forEach(option => {
+        destino.appendChild(option);
+    });
+}
+
+function pasarTodosSelect(origen, destino) {
+    const todos = Array.from(origen.options);
+    todos.forEach(option => {
+        destino.appendChild(option);
+    });
 }

@@ -22,38 +22,14 @@ class Grupo
     private ?NivelEducativo $nivelEducativo = null;
 
     /**
-     * @var Collection<int, User>
+     * @var Collection<int, Alumno>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'grupos')]
-    private Collection $users;
+    #[ORM\OneToMany(targetEntity: Alumno::class, mappedBy: 'grupo')]
+    private Collection $alumnos;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addGrupo($this);  // Esto garantiza que la relación bidireccional se mantenga
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeGrupo($this);  // Esto también mantiene la relación bidireccional
-        }
-
-        return $this;
-    }
-
-    public function getUsers(): Collection
-    {
-        return $this->users;
+        $this->alumnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,6 +56,41 @@ class Grupo
     public function setNivelEducativo(?NivelEducativo $nivelEducativo): self
     {
         $this->nivelEducativo = $nivelEducativo;
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s - %s', $this->nivelEducativo ? $this->nivelEducativo->getNombre() : 'Sin Nivel Educativo', $this->nombre);
+    }
+
+    /**
+     * @return Collection|Alumno[]
+     */
+    public function getAlumnos(): Collection
+    {
+        return $this->alumnos;
+    }
+
+    public function addAlumno(Alumno $alumno): self
+    {
+        if (!$this->alumnos->contains($alumno)) {
+            $this->alumnos[] = $alumno;
+            $alumno->setGrupo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlumno(Alumno $alumno): self
+    {
+        if ($this->alumnos->removeElement($alumno)) {
+            // set the owning side to null (unless already changed)
+            if ($alumno->getGrupo() === $this) {
+                $alumno->setGrupo(null);
+            }
+        }
+
         return $this;
     }
 }

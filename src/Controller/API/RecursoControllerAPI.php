@@ -38,12 +38,10 @@ class RecursoControllerAPI extends AbstractController
 
     private function serializeRecurso(Recurso $recurso): array
     {
-        // Serializar manualmente los datos necesarios del recurso.
         return [
             'id' => $recurso->getId(),
-            'nombre' => $recurso->getDescripcion(),
-            // Añadir otros campos necesarios
-            // 'otroCampo' => $recurso->getOtroCampo(),
+            'nombre' => $recurso->getDescripcion(), // Asegúrate de que este campo es correcto
         ];
     }
+    
 }

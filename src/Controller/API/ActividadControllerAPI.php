@@ -5,13 +5,13 @@ use App\Entity\Actividad;
 use App\Entity\DetalleActividad;
 use App\Entity\Espacio;
 use App\Entity\Evento;
+use App\Entity\Grupo;
 use App\Entity\Ponente;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 #[Route('/API')]
 class ActividadControllerAPI extends AbstractController
@@ -145,6 +145,11 @@ class ActividadControllerAPI extends AbstractController
                         $this->updatePonentes($em, $detalleActividad, $data['ponentes']);
                     }
 
+                    // Gestionar la inscripción de alumnos si el tipo es 1 y se proporcionan grupos
+                    if (isset($data['gruposSeleccionados']) && is_array($data['gruposSeleccionados'])) {
+                        $this->inscribirAlumnosEnActividad($em, $detalleActividad, $data['gruposSeleccionados']);
+                    }
+
                     $em->commit();
 
                     $response = [
@@ -214,6 +219,11 @@ class ActividadControllerAPI extends AbstractController
                             // Gestionar ponentes
                             if (isset($data['ponentes'])) {
                                 $this->updatePonentes($em, $subactividad, $data['ponentes']);
+                            }
+
+                            // Gestionar la inscripción de alumnos si se proporcionan grupos
+                            if (isset($data['gruposSeleccionados']) && is_array($data['gruposSeleccionados'])) {
+                                $this->inscribirAlumnosEnActividad($em, $subactividad, $data['gruposSeleccionados']);
                             }
 
                             $response = [
@@ -305,6 +315,19 @@ class ActividadControllerAPI extends AbstractController
             $em->rollback();
             return $this->json(['error' => 'Error interno del servidor (3)'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private function inscribirAlumnosEnActividad(EntityManagerInterface $em, DetalleActividad $detalleActividad, array $grupoIds)
+    {
+        foreach ($grupoIds as $grupoId) {
+            $grupo = $em->getRepository(Grupo::class)->find($grupoId);
+            if ($grupo) {
+                foreach ($grupo->getAlumnos() as $alumno) {
+                    $detalleActividad->addAlumno($alumno);
+                }
+            }
+        }
+        $em->flush();
     }
 
     private function updatePonentes(EntityManagerInterface $em, DetalleActividad $subactividad, array $ponentesData)
