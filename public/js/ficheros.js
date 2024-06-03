@@ -84,7 +84,7 @@ window.addEventListener("load", function() {
         console.log("Elementos <select> no encontrados.");
     }
 
-    function pulsadoCancelar(fila) {
+     function pulsadoCancelar(fila) {
         return function() {
             fila.cancelar();
         }
@@ -111,8 +111,6 @@ window.addEventListener("load", function() {
         }
     }
   
-
-  
     checkActEdTabla.onchange=function(){
       if (this.checked){
         tabla.activarEdicion(pulsadoBorrar,pulsadoEditar,pulsadoGuardar,pulsadoCancelar);
@@ -137,7 +135,8 @@ window.addEventListener("load", function() {
     } else {
         alert("El fichero subido no tiene el formato csv");
     }
-};
+
+
 
 function subirDatos(datos, ruta) {
     var rutaAPI = 'API/' + ruta;
@@ -166,7 +165,7 @@ function subirDatos(datos, ruta) {
             alert('Datos subidos con éxito');
             setTimeout(function() {
                 location.reload();
-            }, 2000); // Recarga la página después de 2 segundos
+            }, 500); // Recarga la página después de 0.5 segundos
         } else {
             let errorIndices = data.errors.join(', ');
             alert(`Los siguientes usuarios no se han podido añadir: ${errorIndices}`);
@@ -274,11 +273,7 @@ function subirDatos(datos, ruta) {
         alert('Hubo un error al subir los datos.');
     });
 }
-
-
-
-
-
+}
 
 
     function cargarDatosSelect(datos, selectElement) {
@@ -304,44 +299,6 @@ function subirDatos(datos, ruta) {
         });
     }
 
-    function subirDatos(datos, ruta) {
-        var rutaAPI = 'API/' + ruta;
-        fetch('/' + rutaAPI, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Éxito:', data);
-
-            var tBody = document.getElementById("modalTable").tBodies[0];
-            var filas = tBody.rows;
-            var nFilas = filas.length;
-
-            for (let i = nFilas - 1; i >= 0; i--) {
-                if (data.errors.indexOf(i) == -1) {
-                    tBody.removeChild(filas[i]);
-                }
-            }
-
-            if (data.errors.length === 0) {
-                alert('Datos subidos con éxito');
-                setTimeout(function() {
-                    location.reload();
-                }, 500); // Recarga la página después de 0.5 segundos
-            } else {
-                let errorIndices = data.errors.join(', ');
-                alert(`Los siguientes usuarios no se han podido añadir: ${errorIndices}`);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Hubo un error al subir los datos.');
-        });
-    }
 
 
     function validarDatos(datos, patron) {

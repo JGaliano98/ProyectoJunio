@@ -317,6 +317,43 @@ class ActividadControllerAPI extends AbstractController
         }
     }
 
+    #[Route('/actividades/{id}', name: 'actividad_delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $em, int $id): Response
+    {
+        $em->beginTransaction();
+        try {
+            $actividad = $em->getRepository(Actividad::class)->find($id);
+            if ($actividad) {
+                // Eliminar actividad principal y sus subactividades
+                $detalleActividades = $actividad->getDetalleActividads();
+                foreach ($detalleActividades as $detalleActividad) {
+                    $em->remove($detalleActividad);
+                }
+                $em->remove($actividad);
+                $em->flush();
+                $em->commit();
+                return $this->json(['success' => 'Actividad eliminada exitosamente'], Response::HTTP_OK);
+            } else {
+                // Intentar encontrar la subactividad (detalleActividad)
+                $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
+                if ($detalleActividad) {
+                    $em->remove($detalleActividad);
+                    $em->flush();
+                    $em->commit();
+                    return $this->json(['success' => 'Detalle de Actividad eliminado exitosamente'], Response::HTTP_OK);
+                }
+            }
+            
+            return $this->json(['error' => 'Actividad o Detalle de Actividad no encontrado'], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            $em->rollback();
+            return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+
+
+
     private function inscribirAlumnosEnActividad(EntityManagerInterface $em, DetalleActividad $detalleActividad, array $grupoIds)
     {
         foreach ($grupoIds as $grupoId) {

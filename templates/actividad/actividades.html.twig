@@ -26,11 +26,30 @@
             {% for actividad in actividades %}
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">{{ actividad.descripcion }}</h5>
-                        <button class="btn btn-primary btn-sm" onclick="agregarSubactividad(this)" data-actividad-id="{{ actividad.id }}">AÑADIR SUBACTIVIDAD</button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">{{ actividad.descripcion }}</h5>
+                            <div>
+                                <button class="btn btn-warning btn-sm" onclick="editarActividad({{ actividad.id }})">EDITAR</button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarActividad({{ actividad.id }})">ELIMINAR</button>
+                                <button class="btn btn-primary btn-sm" 
+                                        onclick="agregarSubactividad(this)" 
+                                        data-actividad-id="{{ actividad.id }}" 
+                                        data-actividad-evento="{{ actividad.evento }}" 
+                                        data-actividad-fechainicio="{{ actividad.fechaHoraInicio|date('Y-m-d\TH:i') }}" 
+                                        data-actividad-fechafin="{{ actividad.fechaHoraFin|date('Y-m-d\TH:i') }}">
+                                    AÑADIR SUBACTIVIDAD
+                                </button>
+                            </div>
+                        </div>
                         <div class="subactividades mt-2">
                             {% for subactividad in actividad.detalleActividads %}
-                                <div class="card-text">{{ subactividad.titulo }}</div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="card-text">{{ subactividad.titulo }}</div>
+                                    <div>
+                                        <button class="btn btn-warning btn-sm" onclick="editarSubactividad({{ subactividad.id }})">EDITAR</button>
+                                        <button class="btn btn-danger btn-sm" onclick="eliminarSubactividad({{ subactividad.id }})">ELIMINAR</button>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </div>
                     </div>

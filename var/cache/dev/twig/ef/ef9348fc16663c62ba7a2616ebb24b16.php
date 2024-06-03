@@ -67,7 +67,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
     ";
         // line 18
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 59
+        // line 78
         yield "</body>
 </html>
 ";
@@ -175,30 +175,71 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
             // line 27
             yield "                <div class=\"card mb-3\">
                     <div class=\"card-body\">
-                        <h5 class=\"card-title\">";
-            // line 29
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "descripcion", [], "any", false, false, false, 29), "html", null, true);
-            yield "</h5>
-                        <button class=\"btn btn-primary btn-sm\" onclick=\"agregarSubactividad(this)\" data-actividad-id=\"";
+                        <div class=\"d-flex justify-content-between align-items-center\">
+                            <h5 class=\"card-title\">";
             // line 30
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 30), "html", null, true);
-            yield "\">AÑADIR SUBACTIVIDAD</button>
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "descripcion", [], "any", false, false, false, 30), "html", null, true);
+            yield "</h5>
+                            <div>
+                                <button class=\"btn btn-warning btn-sm\" onclick=\"editarActividad(";
+            // line 32
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 32), "html", null, true);
+            yield ")\">EDITAR</button>
+                                <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarActividad(";
+            // line 33
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 33), "html", null, true);
+            yield ")\">ELIMINAR</button>
+                                <button class=\"btn btn-primary btn-sm\" 
+                                        onclick=\"agregarSubactividad(this)\" 
+                                        data-actividad-id=\"";
+            // line 36
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 36), "html", null, true);
+            yield "\" 
+                                        data-actividad-evento=\"";
+            // line 37
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 37), "html", null, true);
+            yield "\" 
+                                        data-actividad-fechainicio=\"";
+            // line 38
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraInicio", [], "any", false, false, false, 38), "Y-m-dTH:i"), "html", null, true);
+            yield "\" 
+                                        data-actividad-fechafin=\"";
+            // line 39
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraFin", [], "any", false, false, false, 39), "Y-m-dTH:i"), "html", null, true);
+            yield "\">
+                                    AÑADIR SUBACTIVIDAD
+                                </button>
+                            </div>
+                        </div>
                         <div class=\"subactividades mt-2\">
                             ";
-            // line 32
+            // line 45
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "detalleActividads", [], "any", false, false, false, 32));
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "detalleActividads", [], "any", false, false, false, 45));
             foreach ($context['_seq'] as $context["_key"] => $context["subactividad"]) {
-                // line 33
-                yield "                                <div class=\"card-text\">";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "titulo", [], "any", false, false, false, 33), "html", null, true);
+                // line 46
+                yield "                                <div class=\"d-flex justify-content-between align-items-center\">
+                                    <div class=\"card-text\">";
+                // line 47
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "titulo", [], "any", false, false, false, 47), "html", null, true);
                 yield "</div>
+                                    <div>
+                                        <button class=\"btn btn-warning btn-sm\" onclick=\"editarSubactividad(";
+                // line 49
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 49), "html", null, true);
+                yield ")\">EDITAR</button>
+                                        <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarSubactividad(";
+                // line 50
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 50), "html", null, true);
+                yield ")\">ELIMINAR</button>
+                                    </div>
+                                </div>
                             ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['subactividad'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 35
+            // line 54
             yield "                        </div>
                     </div>
                 </div>
@@ -207,7 +248,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['actividad'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 39
+        // line 58
         yield "        </div>
     </div>
 
@@ -223,9 +264,9 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                 </div>
                 <div class=\"modal-body\">
                     ";
-        // line 53
-        yield from         $this->loadTemplate("actividad/actividad.html.twig", "/actividad/actividades.html.twig", 53)->unwrap()->yield($context);
-        // line 54
+        // line 72
+        yield from         $this->loadTemplate("actividad/actividad.html.twig", "/actividad/actividades.html.twig", 72)->unwrap()->yield($context);
+        // line 73
         yield "                </div>
             </div>
         </div>
@@ -253,7 +294,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  229 => 54,  227 => 53,  211 => 39,  202 => 35,  193 => 33,  189 => 32,  184 => 30,  180 => 29,  176 => 27,  172 => 26,  163 => 19,  153 => 18,  140 => 14,  136 => 12,  126 => 11,  114 => 9,  104 => 8,  84 => 6,  71 => 59,  69 => 18,  65 => 16,  62 => 11,  60 => 8,  55 => 6,  48 => 1,);
+        return array (  270 => 73,  268 => 72,  252 => 58,  243 => 54,  233 => 50,  229 => 49,  224 => 47,  221 => 46,  217 => 45,  208 => 39,  204 => 38,  200 => 37,  196 => 36,  190 => 33,  186 => 32,  181 => 30,  176 => 27,  172 => 26,  163 => 19,  153 => 18,  140 => 14,  136 => 12,  126 => 11,  114 => 9,  104 => 8,  84 => 6,  71 => 78,  69 => 18,  65 => 16,  62 => 11,  60 => 8,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -286,11 +327,30 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
             {% for actividad in actividades %}
                 <div class=\"card mb-3\">
                     <div class=\"card-body\">
-                        <h5 class=\"card-title\">{{ actividad.descripcion }}</h5>
-                        <button class=\"btn btn-primary btn-sm\" onclick=\"agregarSubactividad(this)\" data-actividad-id=\"{{ actividad.id }}\">AÑADIR SUBACTIVIDAD</button>
+                        <div class=\"d-flex justify-content-between align-items-center\">
+                            <h5 class=\"card-title\">{{ actividad.descripcion }}</h5>
+                            <div>
+                                <button class=\"btn btn-warning btn-sm\" onclick=\"editarActividad({{ actividad.id }})\">EDITAR</button>
+                                <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarActividad({{ actividad.id }})\">ELIMINAR</button>
+                                <button class=\"btn btn-primary btn-sm\" 
+                                        onclick=\"agregarSubactividad(this)\" 
+                                        data-actividad-id=\"{{ actividad.id }}\" 
+                                        data-actividad-evento=\"{{ actividad.evento }}\" 
+                                        data-actividad-fechainicio=\"{{ actividad.fechaHoraInicio|date('Y-m-d\\TH:i') }}\" 
+                                        data-actividad-fechafin=\"{{ actividad.fechaHoraFin|date('Y-m-d\\TH:i') }}\">
+                                    AÑADIR SUBACTIVIDAD
+                                </button>
+                            </div>
+                        </div>
                         <div class=\"subactividades mt-2\">
                             {% for subactividad in actividad.detalleActividads %}
-                                <div class=\"card-text\">{{ subactividad.titulo }}</div>
+                                <div class=\"d-flex justify-content-between align-items-center\">
+                                    <div class=\"card-text\">{{ subactividad.titulo }}</div>
+                                    <div>
+                                        <button class=\"btn btn-warning btn-sm\" onclick=\"editarSubactividad({{ subactividad.id }})\">EDITAR</button>
+                                        <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarSubactividad({{ subactividad.id }})\">ELIMINAR</button>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </div>
                     </div>

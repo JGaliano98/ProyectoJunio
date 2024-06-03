@@ -702,7 +702,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.9mqldDY"/>
+      <argument type="service" id=".service_locator.DCEoMuX"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3659,7 +3659,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.9mqldDY"/>
+      <argument type="service" id=".service_locator.DCEoMuX"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -8569,10 +8569,11 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.9mqldDY" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.DCEoMuX" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\API\ActividadControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\ActividadControllerAPI::delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI::show" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8792,6 +8793,7 @@
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Controller\API\ActividadControllerAPI:create" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\ActividadControllerAPI:delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI:show" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:create" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -11537,7 +11539,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.9mqldDY"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.DCEoMuX"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>

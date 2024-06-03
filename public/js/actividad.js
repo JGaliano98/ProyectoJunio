@@ -2,10 +2,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modalAgregarActividad');
     const modalTitle = modal.querySelector('.modal-title');
     const idInput = document.getElementById('valorID');
+    const tipoActividadSelect = document.getElementById('tipoActividad');
+    const eventoSelect = document.getElementById('evento');
+    const fechaInicioInput = document.getElementById('fechaInicio');
+    const fechaFinInput = document.getElementById('fechaFin');
 
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
+        const actividadEvento = button.getAttribute('data-actividad-evento');
+        const actividadFechaInicio = button.getAttribute('data-actividad-fechainicio');
+        const actividadFechaFin = button.getAttribute('data-actividad-fechafin');
+
         idInput.value = actividadId;
+        idInput.disabled = true;
+        tipoActividadSelect.value = '1';
+        tipoActividadSelect.disabled = (actividadId !== '');
+
+        // Rellenar los nuevos campos con los datos de la actividad padre
+        eventoSelect.value = actividadEvento;
+        fechaInicioInput.value = actividadFechaInicio;
+        fechaFinInput.value = actividadFechaFin;
+
         modalTitle.textContent = 'Añadir Subactividad';
         $('#modalAgregarActividad').modal('show');
     };
@@ -13,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const addActividadButton = document.querySelector('[data-target="#modalAgregarActividad"]');
     addActividadButton.addEventListener('click', function() {
         idInput.value = '';
+        eventoSelect.value = '';
+        fechaInicioInput.value = '';
+        fechaFinInput.value = '';
         modalTitle.textContent = 'Añadir Actividad';
     });
 
@@ -36,6 +56,7 @@ function ventanaActividad() {
     const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
     const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
     const selectEspacios = document.getElementById('selectEspacios');
+    const idInput = document.getElementById('valorID');
 
     let espaciosData = [];
 
@@ -118,6 +139,7 @@ function ventanaActividad() {
         if (valor == '1') {
             guardarButtonTab1.disabled = true;
             guardarButtonTab4.disabled = false;
+            idInput.disabled = true;
             aforoInput.disabled = false;
             tabs.forEach(tab => {
                 const tabId = tab.getAttribute('id');
@@ -129,6 +151,7 @@ function ventanaActividad() {
         } else if (valor == '2') {
             guardarButtonTab1.disabled = false;
             guardarButtonTab4.disabled = true;
+            idInput.disabled = true;
             aforoInput.disabled = true;
             tabs.forEach(tab => {
                 const tabId = tab.getAttribute('id');
@@ -198,19 +221,33 @@ function ventanaActividad() {
             })
             .then(data => {
                 console.log('Respuesta de la API:', data);
+                alert('Actividad creada con éxito');
+
+
+                setTimeout(function() {
+                    location.reload();      //Modifica el tiempo de recarga de la pagina una vez 
+                }, 500); 
+
+
             })
             .catch(error => console.error('Error al guardar la actividad:', error));
+
+            
         });
     }
 
     if (!guardarButtonTab1.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab1, 'tab1');
         guardarButtonTab1.dataset.listenerAdded = true;
+
+
     }
 
     if (!guardarButtonTab4.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab4, 'tab4');
         guardarButtonTab4.dataset.listenerAdded = true;
+
+
     }
 
     function showTabContent(tabId) {
@@ -234,16 +271,42 @@ function ventanaActividad() {
     showTabContent('tab1');
 }
 
-function pasarSeleccionadosSelect(origen, destino) {
-    const seleccionados = Array.from(origen.selectedOptions);
-    seleccionados.forEach(option => {
-        destino.appendChild(option);
-    });
+function eliminarActividad(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
+        fetch(`/API/actividades/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta de la API:', data);
+            alert('Actividad eliminada con éxito');
+            location.reload();
+        })
+        .catch(error => console.error('Error al eliminar la actividad:', error));
+    }
 }
 
-function pasarTodosSelect(origen, destino) {
-    const todos = Array.from(origen.options);
-    todos.forEach(option => {
-        destino.appendChild(option);
-    });
+function eliminarSubactividad(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta subactividad?')) {
+        fetch(`/API/actividades/${id}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta de la API:', data);
+            alert('Subactividad eliminada con éxito');
+            location.reload();
+        })
+        .catch(error => console.error('Error al eliminar la subactividad:', error));
+    }
 }

@@ -52,37 +52,39 @@ return [
                 .')'
                 .'|/API/(?'
                     .'|a(?'
-                        .'|ctividades/([^/]++)(*:233)'
+                        .'|ctividades/([^/]++)(?'
+                            .'|(*:236)'
+                        .')'
                         .'|lumnos(?'
-                            .'|(?:/([^/]++))?(*:264)'
-                            .'|(*:272)'
+                            .'|(?:/([^/]++))?(*:268)'
+                            .'|(*:276)'
                             .'|/([^/]++)(?'
-                                .'|(*:292)'
+                                .'|(*:296)'
                             .')'
                         .')'
                     .')'
                     .'|e(?'
                         .'|dificios(?'
-                            .'|(?:/([^/]++))?(*:332)'
-                            .'|(*:340)'
+                            .'|(?:/([^/]++))?(*:336)'
+                            .'|(*:344)'
                             .'|/([^/]++)(?'
-                                .'|(*:360)'
+                                .'|(*:364)'
                             .')'
                         .')'
-                        .'|spacios(?:/([^/]++))?(*:391)'
+                        .'|spacios(?:/([^/]++))?(*:395)'
                     .')'
-                    .'|grupos(?:/([^/]++))?(*:420)'
-                    .'|recursos(?:/([^/]++))?(*:450)'
+                    .'|grupos(?:/([^/]++))?(*:424)'
+                    .'|recursos(?:/([^/]++))?(*:454)'
                     .'|users(?'
-                        .'|(?:/([^/]++))?(*:480)'
-                        .'|(*:488)'
+                        .'|(?:/([^/]++))?(*:484)'
+                        .'|(*:492)'
                         .'|/([^/]++)(?'
-                            .'|(*:508)'
+                            .'|(*:512)'
                         .')'
                     .')'
                 .')'
-                .'|/enviar\\-pdf/([^/]++)(*:540)'
-                .'|/activate/([^/]++)(*:566)'
+                .'|/enviar\\-pdf/([^/]++)(*:544)'
+                .'|/activate/([^/]++)(*:570)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -94,30 +96,33 @@ return [
         168 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        233 => [[['_route' => 'actividad_show', '_controller' => 'App\\Controller\\API\\ActividadControllerAPI::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        264 => [[['_route' => 'alumno_index', 'id' => null, '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        272 => [[['_route' => 'alumno_create', '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
-        292 => [
+        236 => [
+            [['_route' => 'actividad_show', '_controller' => 'App\\Controller\\API\\ActividadControllerAPI::show'], ['id'], ['GET' => 0], null, false, true, null],
+            [['_route' => 'actividad_delete', '_controller' => 'App\\Controller\\API\\ActividadControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
+        ],
+        268 => [[['_route' => 'alumno_index', 'id' => null, '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        276 => [[['_route' => 'alumno_create', '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
+        296 => [
             [['_route' => 'alumno_update', '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'alumno_delete', '_controller' => 'App\\Controller\\API\\AlumnoControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        332 => [[['_route' => 'edificio_index', 'id' => null, '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        340 => [[['_route' => 'edificio_create', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
-        360 => [
+        336 => [[['_route' => 'edificio_index', 'id' => null, '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        344 => [[['_route' => 'edificio_create', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
+        364 => [
             [['_route' => 'edificio_update', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'edificio_delete', '_controller' => 'App\\Controller\\API\\EdificioControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        391 => [[['_route' => 'espacio_index', 'id' => null, '_controller' => 'App\\Controller\\API\\EspacioControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        420 => [[['_route' => 'grupo_index', 'id' => null, '_controller' => 'App\\Controller\\API\\GrupoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        450 => [[['_route' => 'recurso_index', 'id' => null, '_controller' => 'App\\Controller\\API\\RecursoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        480 => [[['_route' => 'user_index', 'id' => null, '_controller' => 'App\\Controller\\API\\UserControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
-        488 => [[['_route' => 'user_create', '_controller' => 'App\\Controller\\API\\UserControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
-        508 => [
+        395 => [[['_route' => 'espacio_index', 'id' => null, '_controller' => 'App\\Controller\\API\\EspacioControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        424 => [[['_route' => 'grupo_index', 'id' => null, '_controller' => 'App\\Controller\\API\\GrupoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        454 => [[['_route' => 'recurso_index', 'id' => null, '_controller' => 'App\\Controller\\API\\RecursoControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        484 => [[['_route' => 'user_index', 'id' => null, '_controller' => 'App\\Controller\\API\\UserControllerAPI::index'], ['id'], ['GET' => 0], null, false, true, null]],
+        492 => [[['_route' => 'user_create', '_controller' => 'App\\Controller\\API\\UserControllerAPI::create'], [], ['POST' => 0], null, false, false, null]],
+        512 => [
             [['_route' => 'user_update', '_controller' => 'App\\Controller\\API\\UserControllerAPI::update'], ['id'], ['PUT' => 0], null, false, true, null],
             [['_route' => 'user_delete', '_controller' => 'App\\Controller\\API\\UserControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
-        540 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
-        566 => [
+        544 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
+        570 => [
             [['_route' => 'app_activate', '_controller' => 'App\\Controller\\RegistrationController::activate'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
