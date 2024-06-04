@@ -1,0 +1,29 @@
+{# templates/actividad/lista_actividades.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Actividades{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="mb-3">Lista de Actividades</h1>
+    <div class="row">
+        {% for actividad in actividades %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ actividad.descripcion }}</h5>
+                        <p class="card-text">
+                            <strong>Fecha Inicio:</strong> {{ actividad.fechaHoraInicio|date('Y-m-d H:i') }}<br>
+                            <strong>Fecha Fin:</strong> {{ actividad.fechaHoraFin|date('Y-m-d H:i') }}
+                        </p>
+                        <a href="#" class="btn btn-primary">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>No hay actividades disponibles.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

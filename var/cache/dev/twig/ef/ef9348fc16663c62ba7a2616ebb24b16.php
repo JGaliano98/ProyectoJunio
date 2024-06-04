@@ -58,16 +58,16 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
     ";
         // line 8
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
-        // line 11
+        // line 16
         yield "    ";
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 16
+        // line 21
         yield "</head>
 <body>
     ";
-        // line 18
+        // line 23
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 78
+        // line 83
         yield "</body>
 </html>
 ";
@@ -112,6 +112,11 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
 
         // line 9
         yield "    <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+    <style>
+        .subactividad-item {
+            margin-bottom: 1rem; /* Añade espacio entre subactividades */
+        }
+    </style>
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -122,7 +127,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         return; yield '';
     }
 
-    // line 11
+    // line 16
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -132,11 +137,11 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 12
+        // line 17
         yield "    <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>
     <script src=\"";
-        // line 14
+        // line 19
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/actividad.js"), "html", null, true);
         yield "\"></script>
     ";
@@ -149,7 +154,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         return; yield '';
     }
 
-    // line 18
+    // line 23
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -159,7 +164,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 19
+        // line 24
         yield "    <div class=\"container\">
         <div class=\"d-flex justify-content-between align-items-center mb-3\">
             <h1 class=\"mb-0\">ACTIVIDADES</h1>
@@ -168,44 +173,44 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
 
         <div id=\"actividades\">
             ";
-        // line 26
+        // line 31
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["actividades"]) || array_key_exists("actividades", $context) ? $context["actividades"] : (function () { throw new RuntimeError('Variable "actividades" does not exist.', 26, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["actividades"]) || array_key_exists("actividades", $context) ? $context["actividades"] : (function () { throw new RuntimeError('Variable "actividades" does not exist.', 31, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["actividad"]) {
-            // line 27
+            // line 32
             yield "                <div class=\"card mb-3\">
                     <div class=\"card-body\">
                         <div class=\"d-flex justify-content-between align-items-center\">
                             <h5 class=\"card-title\">";
-            // line 30
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "descripcion", [], "any", false, false, false, 30), "html", null, true);
+            // line 35
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "descripcion", [], "any", false, false, false, 35), "html", null, true);
             yield "</h5>
                             <div>
                                 <button class=\"btn btn-warning btn-sm\" onclick=\"editarActividad(";
-            // line 32
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 32), "html", null, true);
+            // line 37
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 37), "html", null, true);
             yield ")\">EDITAR</button>
                                 <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarActividad(";
-            // line 33
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 33), "html", null, true);
+            // line 38
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 38), "html", null, true);
             yield ")\">ELIMINAR</button>
                                 <button class=\"btn btn-primary btn-sm\" 
                                         onclick=\"agregarSubactividad(this)\" 
                                         data-actividad-id=\"";
-            // line 36
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 36), "html", null, true);
+            // line 41
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "id", [], "any", false, false, false, 41), "html", null, true);
             yield "\" 
                                         data-actividad-evento=\"";
-            // line 37
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 37), "html", null, true);
+            // line 42
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 42), "html", null, true);
             yield "\" 
                                         data-actividad-fechainicio=\"";
-            // line 38
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraInicio", [], "any", false, false, false, 38), "Y-m-dTH:i"), "html", null, true);
+            // line 43
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraInicio", [], "any", false, false, false, 43), "d-m-Y"), "html", null, true);
             yield "\" 
                                         data-actividad-fechafin=\"";
-            // line 39
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraFin", [], "any", false, false, false, 39), "Y-m-dTH:i"), "html", null, true);
+            // line 44
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraFin", [], "any", false, false, false, 44), "d-m-Y"), "html", null, true);
             yield "\">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
@@ -213,24 +218,24 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                         </div>
                         <div class=\"subactividades mt-2\">
                             ";
-            // line 45
+            // line 50
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "detalleActividads", [], "any", false, false, false, 45));
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "detalleActividads", [], "any", false, false, false, 50));
             foreach ($context['_seq'] as $context["_key"] => $context["subactividad"]) {
-                // line 46
-                yield "                                <div class=\"d-flex justify-content-between align-items-center\">
+                // line 51
+                yield "                                <div class=\"d-flex justify-content-between align-items-center subactividad-item\">
                                     <div class=\"card-text\">";
-                // line 47
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "titulo", [], "any", false, false, false, 47), "html", null, true);
+                // line 52
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "titulo", [], "any", false, false, false, 52), "html", null, true);
                 yield "</div>
                                     <div>
                                         <button class=\"btn btn-warning btn-sm\" onclick=\"editarSubactividad(";
-                // line 49
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 49), "html", null, true);
+                // line 54
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 54), "html", null, true);
                 yield ")\">EDITAR</button>
                                         <button class=\"btn btn-danger btn-sm\" onclick=\"eliminarSubactividad(";
-                // line 50
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 50), "html", null, true);
+                // line 55
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["subactividad"], "id", [], "any", false, false, false, 55), "html", null, true);
                 yield ")\">ELIMINAR</button>
                                     </div>
                                 </div>
@@ -239,7 +244,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['subactividad'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 54
+            // line 59
             yield "                        </div>
                     </div>
                 </div>
@@ -248,7 +253,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['actividad'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 58
+        // line 63
         yield "        </div>
     </div>
 
@@ -264,9 +269,9 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                 </div>
                 <div class=\"modal-body\">
                     ";
-        // line 72
-        yield from         $this->loadTemplate("actividad/actividad.html.twig", "/actividad/actividades.html.twig", 72)->unwrap()->yield($context);
-        // line 73
+        // line 77
+        yield from         $this->loadTemplate("actividad/nuevaActividad.html.twig", "/actividad/actividades.html.twig", 77)->unwrap()->yield($context);
+        // line 78
         yield "                </div>
             </div>
         </div>
@@ -294,7 +299,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  270 => 73,  268 => 72,  252 => 58,  243 => 54,  233 => 50,  229 => 49,  224 => 47,  221 => 46,  217 => 45,  208 => 39,  204 => 38,  200 => 37,  196 => 36,  190 => 33,  186 => 32,  181 => 30,  176 => 27,  172 => 26,  163 => 19,  153 => 18,  140 => 14,  136 => 12,  126 => 11,  114 => 9,  104 => 8,  84 => 6,  71 => 78,  69 => 18,  65 => 16,  62 => 11,  60 => 8,  55 => 6,  48 => 1,);
+        return array (  275 => 78,  273 => 77,  257 => 63,  248 => 59,  238 => 55,  234 => 54,  229 => 52,  226 => 51,  222 => 50,  213 => 44,  209 => 43,  205 => 42,  201 => 41,  195 => 38,  191 => 37,  186 => 35,  181 => 32,  177 => 31,  168 => 24,  158 => 23,  145 => 19,  141 => 17,  131 => 16,  114 => 9,  104 => 8,  84 => 6,  71 => 83,  69 => 23,  65 => 21,  62 => 16,  60 => 8,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -308,6 +313,11 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
     
     {% block stylesheets %}
     <link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" rel=\"stylesheet\">
+    <style>
+        .subactividad-item {
+            margin-bottom: 1rem; /* Añade espacio entre subactividades */
+        }
+    </style>
     {% endblock %}
     {% block javascripts %}
     <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>
@@ -336,15 +346,15 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                                         onclick=\"agregarSubactividad(this)\" 
                                         data-actividad-id=\"{{ actividad.id }}\" 
                                         data-actividad-evento=\"{{ actividad.evento }}\" 
-                                        data-actividad-fechainicio=\"{{ actividad.fechaHoraInicio|date('Y-m-d\\TH:i') }}\" 
-                                        data-actividad-fechafin=\"{{ actividad.fechaHoraFin|date('Y-m-d\\TH:i') }}\">
+                                        data-actividad-fechainicio=\"{{ actividad.fechaHoraInicio|date('d-m-Y') }}\" 
+                                        data-actividad-fechafin=\"{{ actividad.fechaHoraFin|date('d-m-Y') }}\">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
                             </div>
                         </div>
                         <div class=\"subactividades mt-2\">
                             {% for subactividad in actividad.detalleActividads %}
-                                <div class=\"d-flex justify-content-between align-items-center\">
+                                <div class=\"d-flex justify-content-between align-items-center subactividad-item\">
                                     <div class=\"card-text\">{{ subactividad.titulo }}</div>
                                     <div>
                                         <button class=\"btn btn-warning btn-sm\" onclick=\"editarSubactividad({{ subactividad.id }})\">EDITAR</button>
@@ -370,7 +380,7 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                     </button>
                 </div>
                 <div class=\"modal-body\">
-                    {% include 'actividad/actividad.html.twig' %}
+                    {% include 'actividad/nuevaActividad.html.twig' %}
                 </div>
             </div>
         </div>

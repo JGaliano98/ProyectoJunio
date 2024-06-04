@@ -6,6 +6,7 @@ use App\Repository\GrupoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GrupoRepository::class)]
 class Grupo
@@ -16,9 +17,17 @@ class Grupo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El nombre debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El nombre no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $nombre = null;
 
     #[ORM\ManyToOne(targetEntity: NivelEducativo::class, inversedBy: 'grupos')]
+    #[Assert\NotNull(message: "El nivel educativo no puede estar vacío")]
     private ?NivelEducativo $nivelEducativo = null;
 
     /**

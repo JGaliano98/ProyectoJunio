@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PonenteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PonenteRepository::class)]
 class Ponente
@@ -14,9 +15,23 @@ class Ponente
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El nombre debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El nombre no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El cargo no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El cargo debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El cargo no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $cargo = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -38,7 +53,6 @@ class Ponente
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
         return $this;
     }
 
@@ -50,7 +64,6 @@ class Ponente
     public function setCargo(string $cargo): static
     {
         $this->cargo = $cargo;
-
         return $this;
     }
 
@@ -62,7 +75,6 @@ class Ponente
     public function setURL(?string $URL): static
     {
         $this->URL = $URL;
-
         return $this;
     }
 
@@ -74,7 +86,6 @@ class Ponente
     public function setDetalleActividad(?DetalleActividad $detalle_actividad): static
     {
         $this->detalle_actividad = $detalle_actividad;
-
         return $this;
     }
 }

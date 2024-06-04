@@ -6,6 +6,7 @@ use App\Repository\RecursoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RecursoRepository::class)]
 class Recurso
@@ -16,6 +17,13 @@ class Recurso
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La descripción no puede estar vacía")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "La descripción debe tener al menos {{ limit }} caracteres",
+        maxMessage: "La descripción no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $descripcion = null;
 
     /**
@@ -42,7 +50,6 @@ class Recurso
     public function setDescripcion(string $descripcion): static
     {
         $this->descripcion = $descripcion;
-
         return $this;
     }
 

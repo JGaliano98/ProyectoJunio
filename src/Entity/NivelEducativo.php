@@ -5,6 +5,7 @@ use App\Repository\NivelEducativoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NivelEducativoRepository::class)]
 class NivelEducativo
@@ -15,6 +16,13 @@ class NivelEducativo
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El nombre debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El nombre no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $nombre = null;
 
     #[ORM\OneToMany(targetEntity: Grupo::class, mappedBy: 'nivelEducativo')]
@@ -70,5 +78,4 @@ class NivelEducativo
         // Retorna la descripción del recurso como cadena de texto
         return $this->nombre;
     }
-
 }

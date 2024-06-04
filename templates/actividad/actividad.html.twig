@@ -7,6 +7,23 @@
     
     {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/estilospestañas.css') }}">
+    <style>
+        .recursos {
+            width: 200px; /* Define el ancho deseado */
+            height: 200px; /* Define el alto deseado */
+            box-sizing: border-box; /* Asegura que el padding y el border no incrementen el ancho del elemento */
+        }
+        .tab-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacio entre elementos */
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+    </style>
     {% endblock %}
     {% block javascripts %}
     <script src="{{ asset('js/select.js') }}"></script>
@@ -78,7 +95,7 @@
                                 </td>
                                 <td><select class="recursos" id="seleccionadosRecursos" size="10" multiple="multiple"></select></td>
                                 <td>
-                                    <select id="selectEspacios" size="10" multiple="multiple"></select>
+                                    <select class="recursos" id="selectEspacios" size="10" multiple="multiple"></select>
                                 </td>
                             </tr>
                         </table>
@@ -88,13 +105,13 @@
                     <a href="#tab1">General</a>
                     <div class="tab-content form-actividad two-columns">
                         <label>TIPO:</label>
-                        <select class="tipoActividad" id="tipoActividad">
+                        <select id="tipoActividad">
                             <option value="">-</option>
                             <option value="1">Simple</option>
                             <option value="2">Compuesta</option>
                         </select>
                         <label>EVENTO:</label>
-                        <select class="tipoActividad" id="evento">
+                        <select id="evento">
                             <option value="">-</option>
                             <option value="1">Evento1</option>
                             <option value="2">Evento2</option>

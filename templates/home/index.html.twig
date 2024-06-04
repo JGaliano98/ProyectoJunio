@@ -22,9 +22,9 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ path('lista_eventos') }}">
                                 <i class="fas fa-calendar-alt"></i> Eventos
                             </a>
                         </li>
@@ -32,7 +32,7 @@
                             <span class="nav-link">|</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ path('lista_actividades') }}">
                                 <i class="fas fa-list"></i> Actividades
                             </a>
                         </li>
@@ -42,7 +42,6 @@
                         
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-                        
                         <li class="nav-item">
                             <a href="http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController" id="cart-icon" class="nav-link"> 
                                 <i class="fas fa-cog"></i> Acceder Administrador
@@ -70,8 +69,6 @@
                             </li>
                         {% endif %}
                     </ul>
-
-
                 </div>
             </div>
         </nav>
@@ -148,7 +145,7 @@
 
             </div>
         </div>
-        </div>
+    </div>
     {% endblock %}
 
     <footer class="footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center">
@@ -162,7 +159,6 @@
             © {{ "now"|date("Y") }} Jesus Galiano
         </div>
     </footer>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

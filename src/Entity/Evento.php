@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventoRepository::class)]
 class Evento
@@ -17,12 +18,27 @@ class Evento
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El título no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El título debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El título no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $titulo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull(message: "La fecha de inicio no puede estar vacía")]
+    #[Assert\Date(message: "La fecha de inicio '{{ value }}' no es una fecha válida")]
     private ?\DateTimeInterface $fecha_inicio = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotNull(message: "La fecha de fin no puede estar vacía")]
+    #[Assert\Date(message: "La fecha de fin '{{ value }}' no es una fecha válida")]
+    #[Assert\Expression(
+        "this.getFechaInicio() <= this.getFechaFin()",
+        message: "La fecha de fin no puede ser anterior a la fecha de inicio"
+    )]
     private ?\DateTimeInterface $fecha_fin = null;
 
     /**
@@ -49,7 +65,6 @@ class Evento
     public function setTitulo(string $titulo): static
     {
         $this->titulo = $titulo;
-
         return $this;
     }
 
@@ -61,7 +76,6 @@ class Evento
     public function setFechaInicio(?\DateTimeInterface $fecha_inicio): static
     {
         $this->fecha_inicio = $fecha_inicio;
-
         return $this;
     }
 
@@ -73,7 +87,6 @@ class Evento
     public function setFechaFin(?\DateTimeInterface $fecha_fin): static
     {
         $this->fecha_fin = $fecha_fin;
-
         return $this;
     }
 
@@ -106,8 +119,9 @@ class Evento
 
         return $this;
     }
+
     public function __toString(): string
     {
-        return  $this->titulo;
+        return $this->titulo;
     }
 }

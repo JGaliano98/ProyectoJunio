@@ -58,16 +58,16 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
     ";
         // line 8
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
-        // line 11
+        // line 28
         yield "    ";
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 17
+        // line 34
         yield "</head>
 <body>
     ";
-        // line 19
+        // line 36
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 119
+        // line 136
         yield "</body>
 </html>
 ";
@@ -114,6 +114,23 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         yield "    <link rel=\"stylesheet\" href=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("css/estilospestañas.css"), "html", null, true);
         yield "\">
+    <style>
+        .recursos {
+            width: 200px; /* Define el ancho deseado */
+            height: 200px; /* Define el alto deseado */
+            box-sizing: border-box; /* Asegura que el padding y el border no incrementen el ancho del elemento */
+        }
+        .tab-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacio entre elementos */
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+    </style>
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -124,7 +141,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 11
+    // line 28
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -134,20 +151,20 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 12
+        // line 29
         yield "    <script src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/select.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 13
+        // line 30
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/ficheros.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 14
+        // line 31
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/actividad.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 15
+        // line 32
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("js/tablaPonentes.js"), "html", null, true);
         yield "\"></script>
     ";
@@ -160,7 +177,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         return; yield '';
     }
 
-    // line 19
+    // line 36
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -170,7 +187,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 20
+        // line 37
         yield "    <form id=\"formActividad\" method=\"post\" action=\"";
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("actividad_create");
         yield "\">
@@ -234,7 +251,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                                 </td>
                                 <td><select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                                 <td>
-                                    <select id=\"selectEspacios\" size=\"10\" multiple=\"multiple\"></select>
+                                    <select class=\"recursos\" id=\"selectEspacios\" size=\"10\" multiple=\"multiple\"></select>
                                 </td>
                             </tr>
                         </table>
@@ -244,13 +261,13 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                     <a href=\"#tab1\">General</a>
                     <div class=\"tab-content form-actividad two-columns\">
                         <label>TIPO:</label>
-                        <select class=\"tipoActividad\" id=\"tipoActividad\">
+                        <select id=\"tipoActividad\">
                             <option value=\"\">-</option>
                             <option value=\"1\">Simple</option>
                             <option value=\"2\">Compuesta</option>
                         </select>
                         <label>EVENTO:</label>
-                        <select class=\"tipoActividad\" id=\"evento\">
+                        <select id=\"evento\">
                             <option value=\"\">-</option>
                             <option value=\"1\">Evento1</option>
                             <option value=\"2\">Evento2</option>
@@ -294,7 +311,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  174 => 20,  164 => 19,  151 => 15,  147 => 14,  143 => 13,  138 => 12,  128 => 11,  114 => 9,  104 => 8,  84 => 6,  71 => 119,  69 => 19,  65 => 17,  62 => 11,  60 => 8,  55 => 6,  48 => 1,);
+        return array (  191 => 37,  181 => 36,  168 => 32,  164 => 31,  160 => 30,  155 => 29,  145 => 28,  114 => 9,  104 => 8,  84 => 6,  71 => 136,  69 => 36,  65 => 34,  62 => 28,  60 => 8,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -308,6 +325,23 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
     
     {% block stylesheets %}
     <link rel=\"stylesheet\" href=\"{{ asset('css/estilospestañas.css') }}\">
+    <style>
+        .recursos {
+            width: 200px; /* Define el ancho deseado */
+            height: 200px; /* Define el alto deseado */
+            box-sizing: border-box; /* Asegura que el padding y el border no incrementen el ancho del elemento */
+        }
+        .tab-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espacio entre elementos */
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+    </style>
     {% endblock %}
     {% block javascripts %}
     <script src=\"{{ asset('js/select.js') }}\"></script>
@@ -379,7 +413,7 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                                 </td>
                                 <td><select class=\"recursos\" id=\"seleccionadosRecursos\" size=\"10\" multiple=\"multiple\"></select></td>
                                 <td>
-                                    <select id=\"selectEspacios\" size=\"10\" multiple=\"multiple\"></select>
+                                    <select class=\"recursos\" id=\"selectEspacios\" size=\"10\" multiple=\"multiple\"></select>
                                 </td>
                             </tr>
                         </table>
@@ -389,13 +423,13 @@ class __TwigTemplate_72492ca52180331a9efbdcce76bb8785 extends Template
                     <a href=\"#tab1\">General</a>
                     <div class=\"tab-content form-actividad two-columns\">
                         <label>TIPO:</label>
-                        <select class=\"tipoActividad\" id=\"tipoActividad\">
+                        <select id=\"tipoActividad\">
                             <option value=\"\">-</option>
                             <option value=\"1\">Simple</option>
                             <option value=\"2\">Compuesta</option>
                         </select>
                         <label>EVENTO:</label>
-                        <select class=\"tipoActividad\" id=\"evento\">
+                        <select id=\"evento\">
                             <option value=\"\">-</option>
                             <option value=\"1\">Evento1</option>
                             <option value=\"2\">Evento2</option>

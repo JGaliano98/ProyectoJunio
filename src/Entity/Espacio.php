@@ -6,6 +6,7 @@ use App\Repository\EspacioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EspacioRepository::class)]
 class Espacio
@@ -16,12 +17,22 @@ class Espacio
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "El nombre no puede estar vacío")]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: "El nombre debe tener al menos {{ limit }} caracteres",
+        maxMessage: "El nombre no puede tener más de {{ limit }} caracteres"
+    )]
     private ?string $nombre = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "El aforo no puede estar vacío")]
+    #[Assert\Positive(message: "El aforo debe ser un número positivo")]
     private ?int $aforo = null;
 
     #[ORM\ManyToOne(inversedBy: 'espacios')]
+    #[Assert\NotNull(message: "El edificio no puede estar vacío")]
     private ?Edificio $edificio = null;
 
     /**
@@ -55,7 +66,6 @@ class Espacio
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
-
         return $this;
     }
 
@@ -67,7 +77,6 @@ class Espacio
     public function setAforo(int $aforo): static
     {
         $this->aforo = $aforo;
-
         return $this;
     }
 
@@ -79,7 +88,6 @@ class Espacio
     public function setEdificio(?Edificio $edificio): static
     {
         $this->edificio = $edificio;
-
         return $this;
     }
 

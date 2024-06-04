@@ -81,9 +81,12 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                     <span class=\"navbar-toggler-icon\"></span>
                 </button>
                 <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
-                     <ul class=\"navbar-nav ml-auto\">
+                    <ul class=\"navbar-nav ml-auto\">
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"#\">
+                            <a class=\"nav-link\" href=\"";
+        // line 27
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("lista_eventos");
+        yield "\">
                                 <i class=\"fas fa-calendar-alt\"></i> Eventos
                             </a>
                         </li>
@@ -91,7 +94,10 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                             <span class=\"nav-link\">|</span>
                         </li>
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"#\">
+                            <a class=\"nav-link\" href=\"";
+        // line 35
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("lista_actividades");
+        yield "\">
                                 <i class=\"fas fa-list\"></i> Actividades
                             </a>
                         </li>
@@ -104,7 +110,6 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
         if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("IS_AUTHENTICATED_FULLY")) {
             // line 44
             yield "
-                        
                         <li class=\"nav-item\">
                             <a href=\"http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController\" id=\"cart-icon\" class=\"nav-link\"> 
                                 <i class=\"fas fa-cog\"></i> Acceder Administrador
@@ -116,7 +121,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                         </li>
                             <li class=\"nav-item\">
                                 <a class=\"nav-link\" href=\"";
-            // line 56
+            // line 55
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\">
                                     <i class=\"fas fa-sign-out-alt\"></i> Logout
@@ -125,14 +130,14 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                             <li class=\"nav-item\">
                                 <span class=\"nav-link\">
                                     <i class=\"fas fa-user\"></i> ";
-            // line 62
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 62, $this->source); })()), "user", [], "any", false, false, false, 62), "getNombre", [], "method", false, false, false, 62), "html", null, true);
+            // line 61
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 61, $this->source); })()), "user", [], "any", false, false, false, 61), "getNombre", [], "method", false, false, false, 61), "html", null, true);
             yield "
                                 </span>
                             </li>
                         ";
         } else {
-            // line 66
+            // line 65
             yield "                            <li class=\"nav-item\">
                                 <a class=\"nav-link\" href=\"#\" data-toggle=\"modal\" data-target=\"#loginModal\">
                                     <i class=\"fas fa-sign-in-alt\"></i> Login
@@ -140,19 +145,17 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                             </li>
                         ";
         }
-        // line 72
+        // line 71
         yield "                    </ul>
-
-
                 </div>
             </div>
         </nav>
     </header>
 
     ";
-        // line 80
+        // line 77
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 153
+        // line 150
         yield "
     <footer class=\"footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center\">
         <div class=\"d-flex\" style=\"margin: 0 40px;\">
@@ -163,12 +166,11 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
 
         <div class=\"text-center\" style=\"margin: 0 40px;\">
             © ";
-        // line 162
+        // line 159
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate("now", "Y"), "html", null, true);
         yield " Jesus Galiano
         </div>
     </footer>
-
 
     <script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\"></script>
     <script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js\"></script>
@@ -176,11 +178,12 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js\"></script>
     <script src=\"js/js.js\"></script>
     ";
-        // line 172
+        // line 168
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 173
+        // line 169
         yield "</body>
-</html>";
+</html>
+";
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
 
@@ -229,7 +232,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
         return; yield '';
     }
 
-    // line 80
+    // line 77
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -239,7 +242,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 81
+        // line 78
         yield "    <section id=\"hero\" class=\"jumbotron text-center\" style=\"background-image: url('img/portada.jpg');\">
         <div class=\"container\">
             <h1 class=\"display-4\">I.E.S. LAS FUENTEZUELAS - JAÉN</h1>
@@ -256,7 +259,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                         <h5 class=\"card-title\">Evento 1</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 96
+        // line 93
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -269,7 +272,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                         <h5 class=\"card-title\">Evento 2</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 106
+        // line 103
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -282,7 +285,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                         <h5 class=\"card-title\">Evento 3</h5>
                         <p class=\"card-text\">Descripción del evento.</p>
                         <a href=\"";
-        // line 116
+        // line 113
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("descargar_pdf");
         yield "\" class=\"btn btn-primary\">Descargar PDF</a>
                     </div>
@@ -302,11 +305,11 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
             <div class=\"modal-body\">
                 <!-- Aquí coloca tu formulario de inicio de sesión -->
                 <form action=\"";
-        // line 133
+        // line 130
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
         yield "\" method=\"post\">
                     ";
-        // line 135
+        // line 132
         yield "                    <input type=\"hidden\" name=\"_csrf_token\" value=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken("authenticate"), "html", null, true);
         yield "\">
@@ -325,7 +328,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
 
             </div>
         </div>
-        </div>
+    </div>
     ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -336,7 +339,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
         return; yield '';
     }
 
-    // line 172
+    // line 168
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -376,7 +379,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  340 => 172,  310 => 135,  306 => 133,  286 => 116,  273 => 106,  260 => 96,  243 => 81,  233 => 80,  214 => 11,  194 => 6,  182 => 173,  180 => 172,  167 => 162,  156 => 153,  154 => 80,  144 => 72,  136 => 66,  129 => 62,  120 => 56,  106 => 44,  104 => 43,  76 => 18,  68 => 12,  66 => 11,  59 => 7,  55 => 6,  48 => 1,);
+        return array (  343 => 168,  313 => 132,  309 => 130,  289 => 113,  276 => 103,  263 => 93,  246 => 78,  236 => 77,  217 => 11,  197 => 6,  184 => 169,  182 => 168,  170 => 159,  159 => 150,  157 => 77,  149 => 71,  141 => 65,  134 => 61,  125 => 55,  112 => 44,  110 => 43,  99 => 35,  88 => 27,  76 => 18,  68 => 12,  66 => 11,  59 => 7,  55 => 6,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -405,9 +408,9 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                     <span class=\"navbar-toggler-icon\"></span>
                 </button>
                 <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">
-                     <ul class=\"navbar-nav ml-auto\">
+                    <ul class=\"navbar-nav ml-auto\">
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"#\">
+                            <a class=\"nav-link\" href=\"{{ path('lista_eventos') }}\">
                                 <i class=\"fas fa-calendar-alt\"></i> Eventos
                             </a>
                         </li>
@@ -415,7 +418,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                             <span class=\"nav-link\">|</span>
                         </li>
                         <li class=\"nav-item\">
-                            <a class=\"nav-link\" href=\"#\">
+                            <a class=\"nav-link\" href=\"{{ path('lista_actividades') }}\">
                                 <i class=\"fas fa-list\"></i> Actividades
                             </a>
                         </li>
@@ -425,7 +428,6 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                         
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-                        
                         <li class=\"nav-item\">
                             <a href=\"http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController\" id=\"cart-icon\" class=\"nav-link\"> 
                                 <i class=\"fas fa-cog\"></i> Acceder Administrador
@@ -453,8 +455,6 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
                             </li>
                         {% endif %}
                     </ul>
-
-
                 </div>
             </div>
         </nav>
@@ -531,7 +531,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
 
             </div>
         </div>
-        </div>
+    </div>
     {% endblock %}
 
     <footer class=\"footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center\">
@@ -546,7 +546,6 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
         </div>
     </footer>
 
-
     <script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\"></script>
     <script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js\"></script>
     <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\"></script>
@@ -554,6 +553,7 @@ class __TwigTemplate_c90c14e610afb36af961f35410f30a16 extends Template
     <script src=\"js/js.js\"></script>
     {% block javascripts %}{% endblock %}
 </body>
-</html>", "home/index.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\home\\index.html.twig");
+</html>
+", "home/index.html.twig", "C:\\xampp\\htdocs\\ProyectoJunio\\templates\\home\\index.html.twig");
     }
 }

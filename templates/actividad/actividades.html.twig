@@ -7,6 +7,11 @@
     
     {% block stylesheets %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .subactividad-item {
+            margin-bottom: 1rem; /* Añade espacio entre subactividades */
+        }
+    </style>
     {% endblock %}
     {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -35,15 +40,15 @@
                                         onclick="agregarSubactividad(this)" 
                                         data-actividad-id="{{ actividad.id }}" 
                                         data-actividad-evento="{{ actividad.evento }}" 
-                                        data-actividad-fechainicio="{{ actividad.fechaHoraInicio|date('Y-m-d\TH:i') }}" 
-                                        data-actividad-fechafin="{{ actividad.fechaHoraFin|date('Y-m-d\TH:i') }}">
+                                        data-actividad-fechainicio="{{ actividad.fechaHoraInicio|date('d-m-Y') }}" 
+                                        data-actividad-fechafin="{{ actividad.fechaHoraFin|date('d-m-Y') }}">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
                             </div>
                         </div>
                         <div class="subactividades mt-2">
                             {% for subactividad in actividad.detalleActividads %}
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center subactividad-item">
                                     <div class="card-text">{{ subactividad.titulo }}</div>
                                     <div>
                                         <button class="btn btn-warning btn-sm" onclick="editarSubactividad({{ subactividad.id }})">EDITAR</button>
@@ -69,7 +74,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {% include 'actividad/actividad.html.twig' %}
+                    {% include 'actividad/nuevaActividad.html.twig' %}
                 </div>
             </div>
         </div>

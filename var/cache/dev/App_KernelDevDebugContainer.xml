@@ -568,6 +568,13 @@
         <argument type="service" id=".service_locator.ZP92gqz.App\Controller\Admin\UserCrudController"/>
       </call>
     </service>
+    <service id="App\Controller\EventoController" class="App\Controller\EventoController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.jUv.zyj.App\Controller\EventoController"/>
+      </call>
+    </service>
     <service id="App\Controller\HomeController" class="App\Controller\HomeController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -702,7 +709,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.DCEoMuX"/>
+      <argument type="service" id=".service_locator.OvkGXjg"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3659,7 +3666,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.DCEoMuX"/>
+      <argument type="service" id=".service_locator.OvkGXjg"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7893,6 +7900,9 @@
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\Admin\UserCrudController" class="App\Controller\Admin\UserCrudController" autowire="true" abstract="true"/>
     <service id=".instanceof.EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface.0.App\Controller\Admin\UserCrudController" class="App\Controller\Admin\UserCrudController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\Admin\UserCrudController" class="App\Controller\Admin\UserCrudController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\EventoController" class="App\Controller\EventoController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\EventoController" class="App\Controller\EventoController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\EventoController" class="App\Controller\EventoController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8569,13 +8579,14 @@
         <argument key="userPasswordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
-    <service id=".service_locator.DCEoMuX" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.OvkGXjg" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\API\ActividadControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI::delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI::show" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\ActividadControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::create" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::delete" type="service_closure" id=".service_locator.ig5dsP0"/>
         <argument key="App\Controller\API\AlumnoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8585,6 +8596,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI::update" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EspacioControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\EventoControllerAPI::detalleEvento" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EventoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\GrupoControllerAPI::index" type="service_closure" id=".service_locator.Km2KOcc"/>
         <argument key="App\Controller\API\RecursoControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8592,6 +8604,7 @@
         <argument key="App\Controller\API\UserControllerAPI::delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI::update" type="service_closure" id=".service_locator.jedxEFU"/>
+        <argument key="App\Controller\ActividadController::listaActividades" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ActivityController::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\Admin\AlumnoCrudController::autocomplete" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\AlumnoCrudController::batchDelete" type="service_closure" id=".service_locator.twrFs.m"/>
@@ -8783,6 +8796,8 @@
         <argument key="App\Controller\Admin\UserCrudController::persistEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Admin\UserCrudController::renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\UserCrudController::updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\EventoController::detalleEvento" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\EventoController::listaEventos" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\LoginController::login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\PdfController::downloadPdf" type="service_closure" id=".service_locator.paQrzAx"/>
         <argument key="App\Controller\PdfController::sendPdf" type="service_closure" id=".service_locator.UOI9KGN"/>
@@ -8796,6 +8811,7 @@
         <argument key="App\Controller\API\ActividadControllerAPI:delete" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\ActividadControllerAPI:show" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\ActividadControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:create" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:delete" type="service_closure" id=".service_locator.ig5dsP0"/>
         <argument key="App\Controller\API\AlumnoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8805,6 +8821,7 @@
         <argument key="App\Controller\API\EdificioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EdificioControllerAPI:update" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EspacioControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\API\EventoControllerAPI:detalleEvento" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\EventoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\GrupoControllerAPI:index" type="service_closure" id=".service_locator.Km2KOcc"/>
         <argument key="App\Controller\API\RecursoControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
@@ -8812,6 +8829,7 @@
         <argument key="App\Controller\API\UserControllerAPI:delete" type="service_closure" id=".service_locator.NaJ1gQf"/>
         <argument key="App\Controller\API\UserControllerAPI:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\API\UserControllerAPI:update" type="service_closure" id=".service_locator.jedxEFU"/>
+        <argument key="App\Controller\ActividadController:listaActividades" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\ActivityController:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\Admin\AlumnoCrudController:autocomplete" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\AlumnoCrudController:batchDelete" type="service_closure" id=".service_locator.twrFs.m"/>
@@ -9003,6 +9021,8 @@
         <argument key="App\Controller\Admin\UserCrudController:persistEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
         <argument key="App\Controller\Admin\UserCrudController:renderFilters" type="service_closure" id=".service_locator.t9B7cZ4"/>
         <argument key="App\Controller\Admin\UserCrudController:updateEntity" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\EventoController:detalleEvento" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\EventoController:listaEventos" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\LoginController:login" type="service_closure" id=".service_locator.rSTd.nA"/>
         <argument key="App\Controller\PdfController:downloadPdf" type="service_closure" id=".service_locator.paQrzAx"/>
         <argument key="App\Controller\PdfController:sendPdf" type="service_closure" id=".service_locator.UOI9KGN"/>
@@ -9879,6 +9899,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.ZP92gqz" method="withContext"/>
     </service>
+    <service id=".service_locator.jUv.zyj.App\Controller\EventoController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EventoController"/>
+      <argument>App\Controller\EventoController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.jUv.zyj" method="withContext"/>
+    </service>
     <service id=".service_locator.jUv.zyj.App\Controller\HomeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\HomeController"/>
       <argument>App\Controller\HomeController</argument>
@@ -10099,6 +10125,7 @@
           <argument>App\Controller\Admin\PonenteCrudController</argument>
           <argument>App\Controller\Admin\RecursoCrudController</argument>
           <argument>App\Controller\Admin\UserCrudController</argument>
+          <argument>App\Controller\EventoController</argument>
           <argument>App\Controller\HomeController</argument>
           <argument>App\Controller\LoginController</argument>
           <argument>App\Controller\PdfController</argument>
@@ -11539,7 +11566,7 @@
     <service id="EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface" alias="EasyCorp\Bundle\EasyAdminBundle\Orm\EntityPaginator"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.bJ.4HC5" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.DCEoMuX"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.OvkGXjg"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>

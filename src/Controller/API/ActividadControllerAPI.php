@@ -317,6 +317,97 @@ class ActividadControllerAPI extends AbstractController
         }
     }
 
+
+
+
+    #[Route('/actividades/{id}', name: 'actividad_update', methods: ['PUT'])]
+    public function update(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        $data = json_decode($request->getContent(), true);
+    
+        $em->beginTransaction();
+        try {
+            $actividad = $em->getRepository(Actividad::class)->find($id);
+            if ($actividad) {
+                // Actualizar la actividad principal
+                if (isset($data['descripcion'])) {
+                    $actividad->setDescripcion($data['descripcion']);
+                }
+                if (isset($data['fechaInicio'])) {
+                    try {
+                        $fechaInicio = new \DateTime($data['fechaInicio']);
+                        $actividad->setFechaHoraInicio($fechaInicio);
+                    } catch (\Exception $e) {
+                        return $this->json(['error' => 'Formato de fecha de inicio inválido'], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+                if (isset($data['fechaFin'])) {
+                    try {
+                        $fechaFin = new \DateTime($data['fechaFin']);
+                        $actividad->setFechaHoraFin($fechaFin);
+                    } catch (\Exception $e) {
+                        return $this->json(['error' => 'Formato de fecha de fin inválido'], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+                if (isset($data['evento'])) {
+                    $evento = $em->getRepository(Evento::class)->find($data['evento']);
+                    if ($evento) {
+                        $actividad->setEvento($evento);
+                    } else {
+                        return $this->json(['error' => 'Evento no encontrado'], Response::HTTP_NOT_FOUND);
+                    }
+                }
+                $em->flush();
+                $em->commit();
+                return $this->json(['success' => 'Actividad actualizada exitosamente'], Response::HTTP_OK);
+            } else {
+                // Intentar encontrar y actualizar el detalle de la actividad (DetalleActividad)
+                $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
+                if ($detalleActividad) {
+                    if (isset($data['titulo'])) {
+                        $detalleActividad->setTitulo($data['titulo']);
+                    }
+                    if (isset($data['fechaInicio'])) {
+                        try {
+                            $fechaInicio = new \DateTime($data['fechaInicio']);
+                            $detalleActividad->setFechaHoraInicio($fechaInicio);
+                        } catch (\Exception $e) {
+                            return $this->json(['error' => 'Formato de fecha de inicio inválido'], Response::HTTP_BAD_REQUEST);
+                        }
+                    }
+                    if (isset($data['fechaFin'])) {
+                        try {
+                            $fechaFin = new \DateTime($data['fechaFin']);
+                            $detalleActividad->setFechaHoraFin($fechaFin);
+                        } catch (\Exception $e) {
+                            return $this->json(['error' => 'Formato de fecha de fin inválido'], Response::HTTP_BAD_REQUEST);
+                        }
+                    }
+                    if (isset($data['espacio'])) {
+                        $espacio = $em->getRepository(Espacio::class)->find($data['espacio']);
+                        if ($espacio) {
+                            $detalleActividad->setEspacio($espacio);
+                        } else {
+                            return $this->json(['error' => 'Espacio no encontrado'], Response::HTTP_NOT_FOUND);
+                        }
+                    }
+                    $em->flush();
+                    $em->commit();
+                    return $this->json(['success' => 'Detalle de Actividad actualizado exitosamente'], Response::HTTP_OK);
+                }
+            }
+            
+            return $this->json(['error' => 'Actividad o Detalle de Actividad no encontrado'], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            $em->rollback();
+            return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    
+
+
+
     #[Route('/actividades/{id}', name: 'actividad_delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
