@@ -16,16 +16,22 @@ class Evento extends \App\Entity\Evento implements \Doctrine\ORM\Proxy\InternalP
     }
 
     private const LAZY_OBJECT_PROPERTY_SCOPES = [
+        "\0".parent::class."\0".'ImagenURL' => [parent::class, 'ImagenURL', null],
         "\0".parent::class."\0".'actividads' => [parent::class, 'actividads', null],
         "\0".parent::class."\0".'fecha_fin' => [parent::class, 'fecha_fin', null],
         "\0".parent::class."\0".'fecha_inicio' => [parent::class, 'fecha_inicio', null],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null],
+        "\0".parent::class."\0".'imagenFile' => [parent::class, 'imagenFile', null],
         "\0".parent::class."\0".'titulo' => [parent::class, 'titulo', null],
+        "\0".parent::class."\0".'updatedAt' => [parent::class, 'updatedAt', null],
+        'ImagenURL' => [parent::class, 'ImagenURL', null],
         'actividads' => [parent::class, 'actividads', null],
         'fecha_fin' => [parent::class, 'fecha_fin', null],
         'fecha_inicio' => [parent::class, 'fecha_inicio', null],
         'id' => [parent::class, 'id', null],
+        'imagenFile' => [parent::class, 'imagenFile', null],
         'titulo' => [parent::class, 'titulo', null],
+        'updatedAt' => [parent::class, 'updatedAt', null],
     ];
 
     public function __isInitialized(): bool

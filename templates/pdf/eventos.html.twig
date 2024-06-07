@@ -1,0 +1,48 @@
+{# templates/pdf/eventos.html.twig #}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Evento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .event-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .event-details {
+            margin-bottom: 20px;
+        }
+        .activities-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .activities-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="event-title">{{ evento.titulo }}</h1>
+        <div class="event-details">
+            <p><strong>Fecha Inicio:</strong> {{ evento.fechaInicio|date('d-m-Y') }}</p>
+            <p><strong>Fecha Fin:</strong> {{ evento.fechaFin|date('d-m-Y') }}</p>
+        </div>
+        <h2>Actividades</h2>
+        <ul class="activities-list">
+            {% for actividad in actividades %}
+                <li>{{ actividad.descripcion }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

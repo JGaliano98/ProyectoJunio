@@ -32,3 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const titles = document.querySelectorAll('.card-title');
+
+    titles.forEach(title => {
+        let fontSize = parseInt(window.getComputedStyle(title).fontSize);
+
+        while (title.scrollWidth > title.clientWidth && fontSize > 10) { // Establece un tamaño mínimo de fuente para evitar textos demasiado pequeños
+            fontSize--;
+            title.style.fontSize = fontSize + 'px';
+        }
+    });
+});

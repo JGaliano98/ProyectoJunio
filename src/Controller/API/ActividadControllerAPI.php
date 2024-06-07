@@ -317,94 +317,125 @@ class ActividadControllerAPI extends AbstractController
         }
     }
 
-
-
-
     #[Route('/actividades/{id}', name: 'actividad_update', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $em, int $id): Response
     {
         $data = json_decode($request->getContent(), true);
     
-        $em->beginTransaction();
+        // Iniciar la transacción
+        $em->getConnection()->beginTransaction();
+    
         try {
-            $actividad = $em->getRepository(Actividad::class)->find($id);
-            if ($actividad) {
-                // Actualizar la actividad principal
+            // Verificar si estamos actualizando una subactividad
+            if (isset($data['idPadre']) && !empty($data['idPadre'])) {
+                // Actualizar una subactividad (DetalleActividad)
+                $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
+    
+                if (!$detalleActividad) {
+                    return $this->json(['error' => 'Subactividad no encontrada'], Response::HTTP_NOT_FOUND);
+                }
+    
+                if (isset($data['titulo'])) {
+                    $detalleActividad->setTitulo($data['titulo']);
+                }
+    
+                if (isset($data['fechaInicio'])) {
+                    try {
+                        $fechaInicio = new \DateTime($data['fechaInicio']);
+                        $detalleActividad->setFechaHoraInicio($fechaInicio);
+                    } catch (\Exception $e) {
+                        return $this->json(['error' => 'Formato de fecha inválido para fechaInicio'], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+    
+                if (isset($data['fechaFin'])) {
+                    try {
+                        $fechaFin = new \DateTime($data['fechaFin']);
+                        $detalleActividad->setFechaHoraFin($fechaFin);
+                    } catch (\Exception $e) {
+                        return $this->json(['error' => 'Formato de fecha inválido para fechaFin'], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+    
+                if (isset($data['espacio'])) {
+                    $espacio = $em->getRepository(Espacio::class)->find($data['espacio']);
+                    if (!$espacio) {
+                        return $this->json(['error' => 'Espacio no encontrado'], Response::HTTP_NOT_FOUND);
+                    }
+                    $detalleActividad->setEspacio($espacio);
+                }
+    
+                $em->persist($detalleActividad);
+                $em->flush();
+                $em->getConnection()->commit();
+    
+                return $this->json($this->serializeDetalleActividad($detalleActividad), Response::HTTP_OK);
+            } else {
+                // Actualizar una actividad (Actividad)
+                $actividad = $em->getRepository(Actividad::class)->find($id);
+    
+                if (!$actividad) {
+                    return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
+                }
+    
                 if (isset($data['descripcion'])) {
                     $actividad->setDescripcion($data['descripcion']);
                 }
+    
                 if (isset($data['fechaInicio'])) {
                     try {
                         $fechaInicio = new \DateTime($data['fechaInicio']);
                         $actividad->setFechaHoraInicio($fechaInicio);
                     } catch (\Exception $e) {
-                        return $this->json(['error' => 'Formato de fecha de inicio inválido'], Response::HTTP_BAD_REQUEST);
+                        return $this->json(['error' => 'Formato de fecha inválido para fechaInicio'], Response::HTTP_BAD_REQUEST);
                     }
                 }
+    
                 if (isset($data['fechaFin'])) {
                     try {
                         $fechaFin = new \DateTime($data['fechaFin']);
                         $actividad->setFechaHoraFin($fechaFin);
                     } catch (\Exception $e) {
-                        return $this->json(['error' => 'Formato de fecha de fin inválido'], Response::HTTP_BAD_REQUEST);
+                        return $this->json(['error' => 'Formato de fecha inválido para fechaFin'], Response::HTTP_BAD_REQUEST);
                     }
                 }
+    
                 if (isset($data['evento'])) {
                     $evento = $em->getRepository(Evento::class)->find($data['evento']);
-                    if ($evento) {
-                        $actividad->setEvento($evento);
-                    } else {
+                    if (!$evento) {
                         return $this->json(['error' => 'Evento no encontrado'], Response::HTTP_NOT_FOUND);
                     }
+                    $actividad->setEvento($evento);
                 }
+    
+                $em->persist($actividad);
                 $em->flush();
-                $em->commit();
-                return $this->json(['success' => 'Actividad actualizada exitosamente'], Response::HTTP_OK);
-            } else {
-                // Intentar encontrar y actualizar el detalle de la actividad (DetalleActividad)
-                $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
-                if ($detalleActividad) {
-                    if (isset($data['titulo'])) {
-                        $detalleActividad->setTitulo($data['titulo']);
-                    }
-                    if (isset($data['fechaInicio'])) {
-                        try {
-                            $fechaInicio = new \DateTime($data['fechaInicio']);
-                            $detalleActividad->setFechaHoraInicio($fechaInicio);
-                        } catch (\Exception $e) {
-                            return $this->json(['error' => 'Formato de fecha de inicio inválido'], Response::HTTP_BAD_REQUEST);
-                        }
-                    }
-                    if (isset($data['fechaFin'])) {
-                        try {
-                            $fechaFin = new \DateTime($data['fechaFin']);
-                            $detalleActividad->setFechaHoraFin($fechaFin);
-                        } catch (\Exception $e) {
-                            return $this->json(['error' => 'Formato de fecha de fin inválido'], Response::HTTP_BAD_REQUEST);
-                        }
-                    }
-                    if (isset($data['espacio'])) {
-                        $espacio = $em->getRepository(Espacio::class)->find($data['espacio']);
-                        if ($espacio) {
-                            $detalleActividad->setEspacio($espacio);
-                        } else {
-                            return $this->json(['error' => 'Espacio no encontrado'], Response::HTTP_NOT_FOUND);
-                        }
-                    }
-                    $em->flush();
-                    $em->commit();
-                    return $this->json(['success' => 'Detalle de Actividad actualizado exitosamente'], Response::HTTP_OK);
-                }
+                $em->getConnection()->commit();
+    
+                return $this->json($this->serializeActividad($actividad), Response::HTTP_OK);
             }
-            
-            return $this->json(['error' => 'Actividad o Detalle de Actividad no encontrado'], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            $em->rollback();
+            $em->getConnection()->rollBack();
             return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     
+
     
+private function serializeDetalleActividad(DetalleActividad $detalleActividad): array
+{
+    return [
+        'id' => $detalleActividad->getId(),
+        'titulo' => $detalleActividad->getTitulo(),
+        'fechaHoraInicio' => $detalleActividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+        'fechaHoraFin' => $detalleActividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+        'espacio' => $detalleActividad->getEspacio() ? [
+            'id' => $detalleActividad->getEspacio()->getId(),
+            'nombre' => $detalleActividad->getEspacio()->getNombre()
+        ] : null,
+    ];
+}
+
 
 
 

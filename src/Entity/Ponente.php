@@ -1,12 +1,16 @@
 <?php
+// src/Entity/Ponente.php
 
 namespace App\Entity;
 
 use App\Repository\PonenteRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: PonenteRepository::class)]
+#[Vich\Uploadable]
 class Ponente
 {
     #[ORM\Id]
@@ -36,6 +40,12 @@ class Ponente
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $URL = null;
+
+    #[Vich\UploadableField(mapping: 'ponente_image', fileNameProperty: 'URL')]
+    private ?File $imagenFile = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'ponentes')]
     private ?DetalleActividad $detalle_actividad = null;
@@ -76,6 +86,20 @@ class Ponente
     {
         $this->URL = $URL;
         return $this;
+    }
+
+    public function getImagenFile(): ?File
+    {
+        return $this->imagenFile;
+    }
+
+    public function setImagenFile(?File $imagenFile = null): void
+    {
+        $this->imagenFile = $imagenFile;
+
+        if (null !== $imagenFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     public function getDetalleActividad(): ?DetalleActividad

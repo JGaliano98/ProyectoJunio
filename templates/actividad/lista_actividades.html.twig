@@ -1,8 +1,12 @@
 {# templates/actividad/lista_actividades.html.twig #}
 
-{% extends 'base.html.twig' %}
+{% extends 'home/base.html.twig' %}
 
 {% block title %}Lista de Actividades{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/actividad.css') }}">
+{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -10,7 +14,7 @@
     <div class="row">
         {% for actividad in actividades %}
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title">{{ actividad.descripcion }}</h5>
                         <p class="card-text">
@@ -22,8 +26,14 @@
                 </div>
             </div>
         {% else %}
-            <p>No hay actividades disponibles.</p>
+            <div class="col-12">
+                <p class="text-center">No hay actividades disponibles.</p>
+            </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/listaActividades.js') }}"></script>
 {% endblock %}

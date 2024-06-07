@@ -1,0 +1,135 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Eventos I.E.S. Las Fuentezuelas - Jaén{% endblock %}</title>
+    <link rel="icon" href="{{ asset('/img/icono.jpg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+        .footer {
+            margin-top: auto;
+        }
+    </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="http://127.0.0.1:8000">
+                    <img src="{{ asset('img/icono2.png') }}" alt="Logo I.E.S. Las Fuentezuelas" width="80">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+
+
+                       <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000">
+                                <i class="fas fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('lista_eventos') }}">
+                                <i class="fas fa-calendar-alt"></i> Eventos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('lista_actividades') }}">
+                                <i class="fas fa-list"></i> Actividades
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                        
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                        <li class="nav-item">
+                            <a href="http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController" id="cart-icon" class="nav-link"> 
+                                <i class="fas fa-cog"></i> Acceder Administrador
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <span class="nav-link">|</span>
+                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_logout') }}">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    <i class="fas fa-user"></i> {{ app.user.getNombre() }}
+                                </span>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block body %}{% endblock %}
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-dark text-white d-flex justify-content-between align-items-center">
+        <div class="d-flex" style="margin: 0 40px;">
+            <a href="https://facebook.com" class="btn btn-social-icon btn-facebook mr-2" style="font-size: 28px;"><i class="fab fa-facebook-f" style="color: white;"></i></a>
+            <a href="https://twitter.com" class="btn btn-social-icon btn-twitter mr-2" style="font-size: 28px;"><i class="fab fa-twitter" style="color: white;"></i></a>
+            <a href="https://instagram.com" class="btn btn-social-icon btn-instagram" style="font-size: 28px;"><i class="fab fa-instagram" style="color: white;"></i></a>
+        </div>
+
+        <div class="text-center" style="margin: 0 40px;">
+            © {{ "now"|date("Y") }} Jesus Galiano
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    {% block javascripts %}
+
+    <script src="{{ asset('js/evento.js') }}"></script>
+        <script src="{{ asset('js/listaActividades.js') }}"></script>
+
+
+    {% endblock %}
+</body>
+</html>

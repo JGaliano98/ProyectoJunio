@@ -22,7 +22,7 @@ class EventoController extends AbstractController
     #[Route('/lista-eventos', name: 'lista_eventos')]
     public function listaEventos(EntityManagerInterface $em): Response
     {
-        $eventos = $em->getRepository(Evento::class)->findAll();
+        $eventos = $em->getRepository(Evento::class)->findBy([], ['fecha_inicio' => 'ASC']);
         return $this->render('evento/lista_eventos.html.twig', [
             'eventos' => $eventos,
         ]);

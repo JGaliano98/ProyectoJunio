@@ -1,4 +1,5 @@
 <?php
+// src/Entity/Evento.php
 
 namespace App\Entity;
 
@@ -8,8 +9,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: EventoRepository::class)]
+#[Vich\Uploadable]
 class Evento
 {
     #[ORM\Id]
@@ -28,24 +32,22 @@ class Evento
     private ?string $titulo = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull(message: "La fecha de inicio no puede estar vacía")]
-    #[Assert\Date(message: "La fecha de inicio '{{ value }}' no es una fecha válida")]
     private ?\DateTimeInterface $fecha_inicio = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Assert\NotNull(message: "La fecha de fin no puede estar vacía")]
-    #[Assert\Date(message: "La fecha de fin '{{ value }}' no es una fecha válida")]
-    #[Assert\Expression(
-        "this.getFechaInicio() <= this.getFechaFin()",
-        message: "La fecha de fin no puede ser anterior a la fecha de inicio"
-    )]
     private ?\DateTimeInterface $fecha_fin = null;
 
-    /**
-     * @var Collection<int, Actividad>
-     */
     #[ORM\OneToMany(targetEntity: Actividad::class, mappedBy: 'evento')]
     private Collection $actividads;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ImagenURL = null;
+
+    #[Vich\UploadableField(mapping: 'event_image', fileNameProperty: 'ImagenURL')]
+    private ?File $imagenFile = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()
     {
@@ -90,9 +92,31 @@ class Evento
         return $this;
     }
 
-    /**
-     * @return Collection<int, Actividad>
-     */
+    public function getImagenURL(): ?string
+    {
+        return $this->ImagenURL;
+    }
+
+    public function setImagenURL(?string $ImagenURL): static
+    {
+        $this->ImagenURL = $ImagenURL;
+        return $this;
+    }
+
+    public function getImagenFile(): ?File
+    {
+        return $this->imagenFile;
+    }
+
+    public function setImagenFile(?File $imagenFile = null): void
+    {
+        $this->imagenFile = $imagenFile;
+
+        if (null !== $imagenFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
     public function getActividads(): Collection
     {
         return $this->actividads;
@@ -111,7 +135,6 @@ class Evento
     public function removeActividad(Actividad $actividad): static
     {
         if ($this->actividads->removeElement($actividad)) {
-            // set the owning side to null (unless already changed)
             if ($actividad->getEvento() === $this) {
                 $actividad->setEvento(null);
             }

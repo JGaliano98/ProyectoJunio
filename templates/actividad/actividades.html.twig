@@ -39,9 +39,9 @@
                                 <button class="btn btn-primary btn-sm" 
                                         onclick="agregarSubactividad(this)" 
                                         data-actividad-id="{{ actividad.id }}" 
-                                        data-actividad-evento="{{ actividad.evento }}" 
-                                        data-actividad-fechainicio="{{ actividad.fechaHoraInicio|date('d-m-Y') }}" 
-                                        data-actividad-fechafin="{{ actividad.fechaHoraFin|date('d-m-Y') }}">
+                                        data-actividad-evento="{{ actividad.evento ? actividad.evento.id : '' }}" 
+                                        data-actividad-fechainicio="{{ actividad.fechaHoraInicio|date('Y-m-d') }}" 
+                                        data-actividad-fechafin="{{ actividad.fechaHoraFin|date('Y-m-d') }}">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
                             </div>

@@ -34,7 +34,7 @@ class __TwigTemplate_88ad04ae51ad4c62c3eeaa0084fd5020 extends Template
     protected function doGetParent(array $context)
     {
         // line 3
-        return "base.html.twig";
+        return "home/base.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = [])
@@ -46,7 +46,7 @@ class __TwigTemplate_88ad04ae51ad4c62c3eeaa0084fd5020 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "actividad/lista_actividades.html.twig"));
 
-        $this->parent = $this->loadTemplate("base.html.twig", "actividad/lista_actividades.html.twig", 3);
+        $this->parent = $this->loadTemplate("home/base.html.twig", "actividad/lista_actividades.html.twig", 3);
         yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -170,7 +170,7 @@ class __TwigTemplate_88ad04ae51ad4c62c3eeaa0084fd5020 extends Template
     {
         return new Source("{# templates/actividad/lista_actividades.html.twig #}
 
-{% extends 'base.html.twig' %}
+{% extends 'home/base.html.twig' %}
 
 {% block title %}Lista de Actividades{% endblock %}
 

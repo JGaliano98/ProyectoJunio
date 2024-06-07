@@ -202,15 +202,15 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
             yield "\" 
                                         data-actividad-evento=\"";
             // line 42
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 42), "html", null, true);
+            ((CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 42)) ? (yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "evento", [], "any", false, false, false, 42), "id", [], "any", false, false, false, 42), "html", null, true)) : (yield ""));
             yield "\" 
                                         data-actividad-fechainicio=\"";
             // line 43
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraInicio", [], "any", false, false, false, 43), "d-m-Y"), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraInicio", [], "any", false, false, false, 43), "Y-m-d"), "html", null, true);
             yield "\" 
                                         data-actividad-fechafin=\"";
             // line 44
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraFin", [], "any", false, false, false, 44), "d-m-Y"), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["actividad"], "fechaHoraFin", [], "any", false, false, false, 44), "Y-m-d"), "html", null, true);
             yield "\">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
@@ -345,9 +345,9 @@ class __TwigTemplate_65f34d74e481b83bae09860f98034f40 extends Template
                                 <button class=\"btn btn-primary btn-sm\" 
                                         onclick=\"agregarSubactividad(this)\" 
                                         data-actividad-id=\"{{ actividad.id }}\" 
-                                        data-actividad-evento=\"{{ actividad.evento }}\" 
-                                        data-actividad-fechainicio=\"{{ actividad.fechaHoraInicio|date('d-m-Y') }}\" 
-                                        data-actividad-fechafin=\"{{ actividad.fechaHoraFin|date('d-m-Y') }}\">
+                                        data-actividad-evento=\"{{ actividad.evento ? actividad.evento.id : '' }}\" 
+                                        data-actividad-fechainicio=\"{{ actividad.fechaHoraInicio|date('Y-m-d') }}\" 
+                                        data-actividad-fechafin=\"{{ actividad.fechaHoraFin|date('Y-m-d') }}\">
                                     AÑADIR SUBACTIVIDAD
                                 </button>
                             </div>

@@ -118,8 +118,7 @@ class __TwigTemplate_0fd21a128ae46feddf9053b45b22ba19 extends Template
         yield "
     <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"></script>
-    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>
-";
+    ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -190,7 +189,7 @@ class __TwigTemplate_0fd21a128ae46feddf9053b45b22ba19 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  159 => 33,  143 => 19,  133 => 18,  116 => 12,  106 => 11,  91 => 7,  81 => 6,  62 => 3,  39 => 1,);
+        return array (  158 => 33,  142 => 19,  132 => 18,  116 => 12,  106 => 11,  91 => 7,  81 => 6,  62 => 3,  39 => 1,);
     }
 
     public function getSourceContext()
@@ -209,7 +208,7 @@ class __TwigTemplate_0fd21a128ae46feddf9053b45b22ba19 extends Template
     {{ parent() }}
     <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>
     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"></script>
-    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>
+    {# <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script> #}
 {% endblock %}
 
 {% block main %}

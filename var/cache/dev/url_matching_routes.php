@@ -31,7 +31,6 @@ return [
         '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::login'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, null, null, false, false, null]],
-        '/descargar-pdf' => [[['_route' => 'descargar_pdf', '_controller' => 'App\\Controller\\PdfController::downloadPdf'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -90,9 +89,10 @@ return [
                 .')'
                 .'|/e(?'
                     .'|vento/([^/]++)(*:565)'
-                    .'|nviar\\-pdf/([^/]++)(*:592)'
+                    .'|nviar\\-pdf/([^/]++)/([^/]++)(*:601)'
                 .')'
-                .'|/activate/([^/]++)(*:619)'
+                .'|/descargar\\-pdf/([^/]++)(*:634)'
+                .'|/activate/([^/]++)(*:660)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -132,8 +132,9 @@ return [
             [['_route' => 'user_delete', '_controller' => 'App\\Controller\\API\\UserControllerAPI::delete'], ['id'], ['DELETE' => 0], null, false, true, null],
         ],
         565 => [[['_route' => 'evento_detalle', '_controller' => 'App\\Controller\\EventoController::detalleEvento'], ['id'], ['GET' => 0], null, false, true, null]],
-        592 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['destinatario'], null, null, false, true, null]],
-        619 => [
+        601 => [[['_route' => 'enviar_pdf', '_controller' => 'App\\Controller\\PdfController::sendPdf'], ['eventoId', 'destinatario'], null, null, false, true, null]],
+        634 => [[['_route' => 'descargar_pdf', '_controller' => 'App\\Controller\\PdfController::downloadPdf'], ['eventoId'], null, null, false, true, null]],
+        660 => [
             [['_route' => 'app_activate', '_controller' => 'App\\Controller\\RegistrationController::activate'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

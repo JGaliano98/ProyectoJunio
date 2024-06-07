@@ -1,5 +1,4 @@
 <?php
-
 // src/Controller/ActividadController.php
 
 namespace App\Controller;
@@ -21,7 +20,9 @@ class ActividadController extends AbstractController
     #[Route('/lista-actividades', name: 'lista_actividades')]
     public function listaActividades(EntityManagerInterface $em): Response
     {
-        $actividades = $em->getRepository(Actividad::class)->findAll();
+        // Filtrar actividades sin eventos asociados
+        $actividades = $em->getRepository(Actividad::class)->findBy(['evento' => null]);
+        
         return $this->render('actividad/lista_actividades.html.twig', [
             'actividades' => $actividades,
         ]);
@@ -32,5 +33,4 @@ class ActividadController extends AbstractController
     {
         return $this->render('actividad/nuevaActividad.html.twig');
     }
-
 }

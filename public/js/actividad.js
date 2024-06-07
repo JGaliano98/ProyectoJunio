@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventoSelect = document.getElementById('evento');
     const fechaInicioInput = document.getElementById('fechaInicio');
     const fechaFinInput = document.getElementById('fechaFin');
-    const descripcionInput = document.getElementById('descripcionID');
 
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
@@ -19,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tipoActividadSelect.value = '1';
         tipoActividadSelect.disabled = (actividadId !== '');
 
+        // Rellenar los nuevos campos con los datos de la actividad padre
         eventoSelect.value = actividadEvento;
         fechaInicioInput.value = actividadFechaInicio;
         fechaFinInput.value = actividadFechaFin;
@@ -33,106 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
         eventoSelect.value = '';
         fechaInicioInput.value = '';
         fechaFinInput.value = '';
-        descripcionInput.value = '';
-        tipoActividadSelect.value = '2';
         modalTitle.textContent = 'Añadir Actividad';
     });
 
     ventanaActividad(); // Inicializamos la función ventanaActividad
-
-    window.editarActividad = function(id) {
-        fetch(`/API/actividades/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                idInput.value = data.id;
-                eventoSelect.value = data.evento ? data.evento.id : '';
-                fechaInicioInput.value = data.fechaHoraInicio.split('T')[0];
-                fechaFinInput.value = data.fechaHoraFin.split('T')[0];
-                descripcionInput.value = data.descripcion;
-                tipoActividadSelect.value = data.tipo;
-                modalTitle.textContent = 'Editar Actividad';
-                $('#modalAgregarActividad').modal('show');
-
-                const guardarButton = document.querySelector('#guardarButton');
-                guardarButton.addEventListener('click', function() {
-                    const updatedData = {
-                        descripcion: descripcionInput.value,
-                        evento: parseInt(eventoSelect.value),
-                        fechaInicio: fechaInicioInput.value,
-                        fechaFin: fechaFinInput.value,
-                        tipo: tipoActividadSelect.value
-                    };
-
-                    fetch(`/API/actividades/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updatedData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la respuesta del servidor');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Respuesta de la API:', data);
-                        alert('Actividad actualizada con éxito');
-                        location.reload();
-                    })
-                    .catch(error => console.error('Error al actualizar la actividad:', error));
-                });
-            })
-            .catch(error => console.error('Error al cargar la actividad:', error));
-    };
-
-    window.editarSubactividad = function(id) {
-        fetch(`/API/actividades/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                idInput.value = data.id;
-                eventoSelect.value = data.evento ? data.evento.id : '';
-                fechaInicioInput.value = data.fechaHoraInicio.split('T')[0];
-                fechaFinInput.value = data.fechaHoraFin.split('T')[0];
-                descripcionInput.value = data.titulo;
-                tipoActividadSelect.value = '1';
-                modalTitle.textContent = 'Editar Subactividad';
-                $('#modalAgregarActividad').modal('show');
-
-                const guardarButton = document.querySelector('#guardarButton');
-                guardarButton.addEventListener('click', function() {
-                    const updatedData = {
-                        titulo: descripcionInput.value,
-                        evento: parseInt(eventoSelect.value),
-                        fechaInicio: fechaInicioInput.value,
-                        fechaFin: fechaFinInput.value,
-                        tipo: tipoActividadSelect.value
-                    };
-
-                    fetch(`/API/actividades/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updatedData)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la respuesta del servidor');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Respuesta de la API:', data);
-                        alert('Subactividad actualizada con éxito');
-                        location.reload();
-                    })
-                    .catch(error => console.error('Error al actualizar la subactividad:', error));
-                });
-            })
-            .catch(error => console.error('Error al cargar la subactividad:', error));
-    };
 });
 
 function ventanaActividad() {
@@ -161,7 +65,9 @@ function ventanaActividad() {
         const recursosSeleccionados = Array.from(seleccionadosRecursos.options).map(option => parseInt(option.value));
 
         const filteredEspacios = espaciosData.filter(espacio => {
+            // Filtrar por aforo
             const cumpleAforo = !aforo || espacio.aforo > aforo;
+            // Filtrar por recursos seleccionados
             const cumpleRecursos = recursosSeleccionados.length === 0 || recursosSeleccionados.every(recursoId =>
                 espacio.recursos.includes(recursoId)
             );
@@ -191,6 +97,7 @@ function ventanaActividad() {
 
     aforoInput.addEventListener('input', cargarEspacios);
 
+    // Agregar eventos a los botones de intercambio de elementos para actualizar los espacios
     document.getElementById('pasarIzqRecursos').addEventListener('click', () => {
         pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
         cargarEspacios();
@@ -271,6 +178,8 @@ function ventanaActividad() {
                 return;
             }
 
+            const idInput = document.getElementById('valorID'); // Asegurarnos de obtener idInput aquí
+
             let objetoGuardado = {
                 descripcion: descripcionInput.value,
                 evento: parseInt(eventoSelect.value),
@@ -313,22 +222,32 @@ function ventanaActividad() {
             .then(data => {
                 console.log('Respuesta de la API:', data);
                 alert('Actividad creada con éxito');
+
+
                 setTimeout(function() {
-                    location.reload();
-                }, 500);
+                    location.reload();      //Modifica el tiempo de recarga de la pagina una vez 
+                }, 500); 
+
+
             })
             .catch(error => console.error('Error al guardar la actividad:', error));
+
+            
         });
     }
 
     if (!guardarButtonTab1.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab1, 'tab1');
         guardarButtonTab1.dataset.listenerAdded = true;
+
+
     }
 
     if (!guardarButtonTab4.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab4, 'tab4');
         guardarButtonTab4.dataset.listenerAdded = true;
+
+
     }
 
     function showTabContent(tabId) {

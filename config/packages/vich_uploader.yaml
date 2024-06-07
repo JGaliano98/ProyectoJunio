@@ -1,0 +1,19 @@
+# config/packages/vich_uploader.yaml
+vich_uploader:
+    db_driver: orm
+    mappings:
+        event_image:
+            uri_prefix: /images
+            upload_destination: '%kernel.project_dir%/public/images/'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_remove: true
+            delete_on_update: true
+            inject_on_load: true
+
+        ponente_image:
+            uri_prefix: /images/ponentes
+            upload_destination: '%kernel.project_dir%/public/images/ponentes'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_remove: true
+            delete_on_update: true
+            inject_on_load: true
