@@ -12,11 +12,21 @@ class ActivityController extends AbstractController
     #[Route('/actividad', name: 'actividad')]
     public function index(EntityManagerInterface $em): Response
     {
-        // Obtener todas las actividades desde la base de datos
-        $actividades = $em->getRepository(Actividad::class)->findAll();
+        // Obtener todas las actividades desde la base de datos, ordenadas por fecha_hora_inicio ascendente
+        $actividades = $em->getRepository(Actividad::class)->findBy([], ['fecha_hora_inicio' => 'ASC']);
+
+        // Agrupar las actividades por evento
+        $actividadesAgrupadas = [];
+        foreach ($actividades as $actividad) {
+            $eventoId = $actividad->getEvento() ? $actividad->getEvento()->getId() : 'sin_evento';
+            if (!isset($actividadesAgrupadas[$eventoId])) {
+                $actividadesAgrupadas[$eventoId] = [];
+            }
+            $actividadesAgrupadas[$eventoId][] = $actividad;
+        }
 
         return $this->render('/actividad/actividades.html.twig', [
-            'actividades' => $actividades,
+            'actividades_agrupadas' => $actividadesAgrupadas,
         ]);
     }
 }

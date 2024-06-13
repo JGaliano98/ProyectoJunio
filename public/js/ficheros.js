@@ -48,30 +48,46 @@ window.addEventListener("load", function() {
                 console.error("Error al cargar los datos de la API de grupos:", error);
             });
 
-        pasarIzqRecursos.onclick = function() {
-            pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
+        if (pasarIzqRecursos) {
+            pasarIzqRecursos.onclick = function() {
+                pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
+            };
         }
-        pasarIzqTodosRecursos.onclick = function() {
-            pasarTodosSelect(seleccionadosRecursos, fuenteRecursos);
+        if (pasarIzqTodosRecursos) {
+            pasarIzqTodosRecursos.onclick = function() {
+                pasarTodosSelect(seleccionadosRecursos, fuenteRecursos);
+            };
         }
-        pasarDerRecursos.onclick = function() {
-            pasarSeleccionadosSelect(fuenteRecursos, seleccionadosRecursos);
+        if (pasarDerRecursos) {
+            pasarDerRecursos.onclick = function() {
+                pasarSeleccionadosSelect(fuenteRecursos, seleccionadosRecursos);
+            };
         }
-        pasarDerTodosRecursos.onclick = function() {
-            pasarTodosSelect(fuenteRecursos, seleccionadosRecursos);
+        if (pasarDerTodosRecursos) {
+            pasarDerTodosRecursos.onclick = function() {
+                pasarTodosSelect(fuenteRecursos, seleccionadosRecursos);
+            };
         }
 
-        pasarIzqGrupos.onclick = function() {
-            pasarSeleccionadosSelect(seleccionadosGrupos, fuenteGrupos);
+        if (pasarIzqGrupos) {
+            pasarIzqGrupos.onclick = function() {
+                pasarSeleccionadosSelect(seleccionadosGrupos, fuenteGrupos);
+            };
         }
-        pasarIzqTodosGrupos.onclick = function() {
-            pasarTodosSelect(seleccionadosGrupos, fuenteGrupos);
+        if (pasarIzqTodosGrupos) {
+            pasarIzqTodosGrupos.onclick = function() {
+                pasarTodosSelect(seleccionadosGrupos, fuenteGrupos);
+            };
         }
-        pasarDerGrupos.onclick = function() {
-            pasarSeleccionadosSelect(fuenteGrupos, seleccionadosGrupos);
+        if (pasarDerGrupos) {
+            pasarDerGrupos.onclick = function() {
+                pasarSeleccionadosSelect(fuenteGrupos, seleccionadosGrupos);
+            };
         }
-        pasarDerTodosGrupos.onclick = function() {
-            pasarTodosSelect(fuenteGrupos, seleccionadosGrupos);
+        if (pasarDerTodosGrupos) {
+            pasarDerTodosGrupos.onclick = function() {
+                pasarTodosSelect(fuenteGrupos, seleccionadosGrupos);
+            };
         }
     } else {
         console.log("Elementos <select> no encontrados.");
@@ -80,7 +96,7 @@ window.addEventListener("load", function() {
     function pulsadoCancelar(fila) {
         return function() {
             fila.cancelar();
-        }
+        };
     }
 
     function pulsadoBorrar(fila) {
@@ -89,44 +105,85 @@ window.addEventListener("load", function() {
             if (respuesta) {
                 fila.parentElement.removeChild(fila);
             }
-        }
+        };
     }
 
     function pulsadoEditar(fila) {
         return function() {
             fila.editar();
-        }
+        };
     }
 
-    function pulsadoGuardar(fila){
-        return function(){
+    function pulsadoGuardar(fila) {
+        return function() {
             fila.guardar();
-        }
+        };
     }
 
-    checkActEdTabla.onchange = function(){
-        if (this.checked){
-            tabla.activarEdicion(pulsadoBorrar,pulsadoEditar,pulsadoGuardar,pulsadoCancelar);
-        }else{
-            tabla.desactivarEdicion();
-        }
+    if (checkActEdTabla) {
+        checkActEdTabla.onchange = function() {
+            if (this.checked) {
+                tabla.activarEdicion(pulsadoBorrar, pulsadoEditar, pulsadoGuardar, pulsadoCancelar);
+            } else {
+                tabla.desactivarEdicion();
+            }
+        };
     }
 
-    fichero.onchange = function() {
-        const ficheroSubido = this.files[0];
-        const patron = new RegExp(this.dataset.patron);
-        const campos = parseInt(this.dataset.campo);
+    if (fichero) {
+        fichero.onchange = function() {
+            const ficheroSubido = this.files[0];
+            const patron = new RegExp(this.dataset.patron);
+            const campos = parseInt(this.dataset.campo);
 
-        if ((/\.csv$/i).test(ficheroSubido.name)) {
-            const lector = new FileReader();
-            lector.readAsText(ficheroSubido);
-            lector.onload = function() {
-                const informacion = obtenerInformacion(this.result, patron, campos);
-                tabla.setData(informacion);
-            };
-        } else {
-            alert("El fichero subido no tiene el formato csv");
-        }
+            if ((/\.csv$/i).test(ficheroSubido.name)) {
+                const lector = new FileReader();
+                lector.readAsText(ficheroSubido);
+                lector.onload = function() {
+                    const informacion = obtenerInformacion(this.result, patron, campos);
+                    tabla.setData(informacion);
+                };
+            } else {
+                alert("El fichero subido no tiene el formato csv");
+            }
+        };
+    }
+
+    if (guardarBtn) {
+        guardarBtn.addEventListener("click", function() {
+            const entidad = fichero.dataset.entidad;
+
+            if (checkActEdTabla && checkActEdTabla.checked) {
+                alert("Tienes que quitar el modo edición para poder guardar.");
+            } else {
+                const datos = tabla.getData();
+                const patron = new RegExp(fichero.dataset.patron);
+
+                const validacion = validarDatos(datos, patron);
+                if (!validacion.valido) {
+                    alert(`Algunos datos no cumplen con el patrón requerido. Error en la línea: ${validacion.linea + 1}`);
+                    return;
+                }
+
+                datos.forEach(fila => {
+                    if (fila[1]) {
+                        fila[1] = fila[1].toLowerCase();
+                    }
+                });
+
+                console.log(tabla.getData());
+
+                if (entidad === 'User') {
+                    subirDatos(datos, 'users');
+                }
+                if (entidad === 'Alumno') {
+                    subirDatos(datos, 'alumnos');
+                }
+                if (entidad === 'Edificio') {
+                    subirDatos(datos, 'edificios');
+                }
+            }
+        });
     }
 
     function subirDatos(datos, ruta) {
@@ -167,41 +224,6 @@ window.addEventListener("load", function() {
             alert('Hubo un error al subir los datos.');
         });
     }
-
-    guardarBtn.addEventListener("click", function() {
-        const entidad = fichero.dataset.entidad;
-
-        if (checkActEdTabla.checked) {
-            alert("Tienes que quitar el modo edición para poder guardar.");
-        } else {
-            const datos = tabla.getData();
-            const patron = new RegExp(fichero.dataset.patron);
-
-            const validacion = validarDatos(datos, patron);
-            if (!validacion.valido) {
-                alert(`Algunos datos no cumplen con el patrón requerido. Error en la línea: ${validacion.linea + 1}`);
-                return;
-            }
-
-            datos.forEach(fila => {
-                if (fila[1]) {
-                    fila[1] = fila[1].toLowerCase();
-                }
-            });
-
-            console.log(tabla.getData());
-
-            if (entidad === 'User') {
-                subirDatos(datos, 'users');
-            }
-            if (entidad === 'Alumno') {
-                subirDatos(datos, 'alumnos');
-            }
-            if (entidad === 'Edificio') {
-                subirDatos(datos, 'edificios');
-            }
-        }
-    });
 
     function cargarDatosSelect(datos, selectElement) {
         datos.forEach(dato => {

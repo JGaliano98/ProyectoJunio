@@ -19,6 +19,8 @@ class ActividadControllerAPI extends AbstractController
     #[Route('/actividades', name: 'actividad_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $actividades = $em->getRepository(Actividad::class)->findAll();
         $data = [];
         foreach ($actividades as $actividad) {
@@ -30,6 +32,8 @@ class ActividadControllerAPI extends AbstractController
     #[Route('/actividades/{id}', name: 'actividad_show', methods: ['GET'])]
     public function show(EntityManagerInterface $em, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $actividad = $em->getRepository(Actividad::class)->find($id);
         if (!$actividad) {
             return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
@@ -37,6 +41,7 @@ class ActividadControllerAPI extends AbstractController
         $data = $this->serializeActividad($actividad);
         return $this->json($data);
     }
+
 
     private function serializeActividad(Actividad $actividad): array
     {
@@ -75,6 +80,8 @@ class ActividadControllerAPI extends AbstractController
     #[Route('/actividades', name: 'actividad_create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $data = json_decode($request->getContent(), true);
         error_log('Solicitud de creación de actividad recibida: ' . print_r($data, true));
 
@@ -178,7 +185,7 @@ class ActividadControllerAPI extends AbstractController
                 } else {
                     // Código existente para manejar idPadre proporcionado...
                     if (isset($data['idPadre']) && !empty($data['idPadre'])) {
-                        if (!isset($data['descripcion']) || !isset($data['fechaInicio']) || 
+                        if (!isset($data['titulo']) || !isset($data['fechaInicio']) || 
                             !isset($data['fechaFin']) || !isset($data['espacio'])) {
                             error_log('Error: Datos incompletos para subactividad');
                             return $this->json(['error' => 'Datos incompletos para subactividad'], Response::HTTP_BAD_REQUEST);
@@ -200,7 +207,7 @@ class ActividadControllerAPI extends AbstractController
 
                         try {
                             $subactividad = new DetalleActividad();
-                            $subactividad->setTitulo($data['descripcion']);
+                            $subactividad->setTitulo($data['titulo']);
                             $subactividad->setFechaHoraInicio($fechaInicio);
                             $subactividad->setFechaHoraFin($fechaFin);
                             $subactividad->setURL(null);
@@ -320,6 +327,8 @@ class ActividadControllerAPI extends AbstractController
     #[Route('/actividades/{id}', name: 'actividad_update', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $em, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $data = json_decode($request->getContent(), true);
     
         // Iniciar la transacción
@@ -421,27 +430,11 @@ class ActividadControllerAPI extends AbstractController
     }
     
 
-    
-private function serializeDetalleActividad(DetalleActividad $detalleActividad): array
-{
-    return [
-        'id' => $detalleActividad->getId(),
-        'titulo' => $detalleActividad->getTitulo(),
-        'fechaHoraInicio' => $detalleActividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
-        'fechaHoraFin' => $detalleActividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
-        'espacio' => $detalleActividad->getEspacio() ? [
-            'id' => $detalleActividad->getEspacio()->getId(),
-            'nombre' => $detalleActividad->getEspacio()->getNombre()
-        ] : null,
-    ];
-}
-
-
-
-
     #[Route('/actividades/{id}', name: 'actividad_delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $em, int $id): Response
+    public function deleteActividad(EntityManagerInterface $em, int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $em->beginTransaction();
         try {
             $actividad = $em->getRepository(Actividad::class)->find($id);
@@ -456,25 +449,50 @@ private function serializeDetalleActividad(DetalleActividad $detalleActividad): 
                 $em->commit();
                 return $this->json(['success' => 'Actividad eliminada exitosamente'], Response::HTTP_OK);
             } else {
-                // Intentar encontrar la subactividad (detalleActividad)
-                $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
-                if ($detalleActividad) {
-                    $em->remove($detalleActividad);
-                    $em->flush();
-                    $em->commit();
-                    return $this->json(['success' => 'Detalle de Actividad eliminado exitosamente'], Response::HTTP_OK);
-                }
+                return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
             }
-            
-            return $this->json(['error' => 'Actividad o Detalle de Actividad no encontrado'], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             $em->rollback();
-            return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
 
+    #[Route('/detalleActividades/{id}', name: 'detalle_actividad_delete', methods: ['DELETE'])]
+    public function deleteDetalleActividad(EntityManagerInterface $em, int $id): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
+        $em->beginTransaction();
+        try {
+            // Intentar encontrar la subactividad (detalleActividad)
+            $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
+            if ($detalleActividad) {
+                $em->remove($detalleActividad);
+                $em->flush();
+                $em->commit();
+                return $this->json(['success' => 'Detalle de Actividad eliminado exitosamente'], Response::HTTP_OK);
+            } else {
+                return $this->json(['error' => 'Detalle de Actividad no encontrado'], Response::HTTP_NOT_FOUND);
+            }
+        } catch (\Exception $e) {
+            $em->rollback();
+            return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function serializeDetalleActividad(DetalleActividad $detalleActividad): array
+    {
+        return [
+            'id' => $detalleActividad->getId(),
+            'titulo' => $detalleActividad->getTitulo(),
+            'fechaHoraInicio' => $detalleActividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+            'fechaHoraFin' => $detalleActividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+            'espacio' => $detalleActividad->getEspacio() ? [
+                'id' => $detalleActividad->getEspacio()->getId(),
+                'nombre' => $detalleActividad->getEspacio()->getNombre()
+            ] : null,
+        ];
+    }
 
     private function inscribirAlumnosEnActividad(EntityManagerInterface $em, DetalleActividad $detalleActividad, array $grupoIds)
     {

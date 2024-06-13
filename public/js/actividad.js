@@ -6,19 +6,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventoSelect = document.getElementById('evento');
     const fechaInicioInput = document.getElementById('fechaInicio');
     const fechaFinInput = document.getElementById('fechaFin');
+    const descripcionInput = document.getElementById('descripcionID');
+    const aforoInput = document.getElementById('aforo');
+    const selectEspacios = document.getElementById('selectEspacios');
+    const guardarButtonTab1 = document.querySelector('#tab1 input[type="submit"]');
+    const guardarButtonTab4 = document.querySelector('#tab4 input[type="submit"]');
+
+    function formatDateString(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
         const actividadEvento = button.getAttribute('data-actividad-evento');
-        const actividadFechaInicio = button.getAttribute('data-actividad-fechainicio');
-        const actividadFechaFin = button.getAttribute('data-actividad-fechafin');
+        const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
+        const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
 
-        idInput.value = actividadId;
+        idInput.value = '';
+        idInput.dataset.padreId = actividadId;
+        idInput.dataset.tipo = 'subactividad';
         idInput.disabled = true;
         tipoActividadSelect.value = '1';
-        tipoActividadSelect.disabled = (actividadId !== '');
+        tipoActividadSelect.disabled = true;
 
-        // Rellenar los nuevos campos con los datos de la actividad padre
         eventoSelect.value = actividadEvento;
         fechaInicioInput.value = actividadFechaInicio;
         fechaFinInput.value = actividadFechaFin;
@@ -27,12 +41,81 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#modalAgregarActividad').modal('show');
     };
 
+    window.editarActividad = function(button) {
+        const actividadId = button.getAttribute('data-actividad-id');
+        const actividadDescripcion = button.getAttribute('data-actividad-descripcion');
+        const actividadTipo = button.getAttribute('data-actividad-tipo');
+        const actividadEvento = button.getAttribute('data-actividad-evento');
+        const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
+        const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
+        const actividadAforo = button.getAttribute('data-actividad-aforo');
+
+        idInput.value = actividadId;
+        idInput.dataset.padreId = '';
+        idInput.dataset.tipo = 'actividad';
+        descripcionInput.value = actividadDescripcion;
+        tipoActividadSelect.value = actividadTipo;
+        eventoSelect.value = actividadEvento;
+        fechaInicioInput.value = actividadFechaInicio;
+        fechaFinInput.value = actividadFechaFin;
+        aforoInput.value = actividadAforo;
+
+        tipoActividadSelect.disabled = (actividadId !== '');
+
+        if (actividadTipo == '1') {
+            guardarButtonTab1.disabled = true;
+            guardarButtonTab4.disabled = false;
+        } else {
+            guardarButtonTab1.disabled = false;
+            guardarButtonTab4.disabled = true;
+        }
+
+        modalTitle.textContent = 'Editar Actividad';
+        $('#modalAgregarActividad').modal('show');
+    };
+
+    window.editarSubactividad = function(button) {
+        const subactividadId = button.getAttribute('data-subactividad-id');
+        const subactividadTitulo = button.getAttribute('data-subactividad-titulo');
+        const subactividadFechaInicio = formatDateString(button.getAttribute('data-subactividad-fechainicio'));
+        const subactividadFechaFin = formatDateString(button.getAttribute('data-subactividad-fechafin'));
+        const subactividadEspacio = button.getAttribute('data-subactividad-espacio');
+        const subactividadIdPadre = button.getAttribute('data-subactividad-idpadre');
+
+        idInput.value = subactividadId;
+        idInput.dataset.padreId = subactividadIdPadre;
+        idInput.dataset.tipo = 'subactividad';
+        descripcionInput.value = subactividadTitulo;
+        tipoActividadSelect.value = '1';
+        eventoSelect.value = '';
+        fechaInicioInput.value = subactividadFechaInicio;
+        fechaFinInput.value = subactividadFechaFin;
+        aforoInput.value = '';
+        selectEspacios.value = subactividadEspacio;
+
+        tipoActividadSelect.disabled = true;
+        guardarButtonTab1.disabled = true;
+        guardarButtonTab4.disabled = false;
+
+        modalTitle.textContent = 'Editar Subactividad';
+        $('#modalAgregarActividad').modal('show');
+    };
+
     const addActividadButton = document.querySelector('[data-target="#modalAgregarActividad"]');
     addActividadButton.addEventListener('click', function() {
         idInput.value = '';
+        idInput.dataset.padreId = '';
+        idInput.dataset.tipo = 'actividad';
+        descripcionInput.value = '';
+        tipoActividadSelect.value = '';
         eventoSelect.value = '';
         fechaInicioInput.value = '';
         fechaFinInput.value = '';
+        aforoInput.value = '';
+        selectEspacios.value = '';
+        tipoActividadSelect.disabled = false;
+        guardarButtonTab1.disabled = false;
+        guardarButtonTab4.disabled = true;
         modalTitle.textContent = 'Añadir Actividad';
     });
 
@@ -65,9 +148,7 @@ function ventanaActividad() {
         const recursosSeleccionados = Array.from(seleccionadosRecursos.options).map(option => parseInt(option.value));
 
         const filteredEspacios = espaciosData.filter(espacio => {
-            // Filtrar por aforo
             const cumpleAforo = !aforo || espacio.aforo > aforo;
-            // Filtrar por recursos seleccionados
             const cumpleRecursos = recursosSeleccionados.length === 0 || recursosSeleccionados.every(recursoId =>
                 espacio.recursos.includes(recursoId)
             );
@@ -93,11 +174,10 @@ function ventanaActividad() {
             .catch(error => console.error('Error al cargar espacios:', error));
     }
 
-    fetchEspacios();
+     fetchEspacios();
 
-    aforoInput.addEventListener('input', cargarEspacios);
+     aforoInput.addEventListener('input', cargarEspacios);
 
-    // Agregar eventos a los botones de intercambio de elementos para actualizar los espacios
     document.getElementById('pasarIzqRecursos').addEventListener('click', () => {
         pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
         cargarEspacios();
@@ -178,16 +258,11 @@ function ventanaActividad() {
                 return;
             }
 
-            const idInput = document.getElementById('valorID'); // Asegurarnos de obtener idInput aquí
-
             let objetoGuardado = {
-                descripcion: descripcionInput.value,
                 evento: parseInt(eventoSelect.value),
                 fechaFin: fechaFin,
                 fechaInicio: fechaInicio,
-                idPadre: idInput.value,
-                tipo: tipoActividadSelect.value,
-                espacio: selectEspacios.value
+                tipo: tipoActividadSelect.value
             };
 
             if (type === 'tab4') {
@@ -200,14 +275,29 @@ function ventanaActividad() {
                         cargo: row.cells[1].textContent,
                         url: row.cells[2].textContent
                     })),
-                    gruposSeleccionados: Array.from(seleccionadosGrupos.options).map(option => option.value)
+                    gruposSeleccionados: Array.from(seleccionadosGrupos.options).map(option => option.value),
+                    espacio: selectEspacios.value
                 };
+            }
+
+            const isEditing = !!idInput.value;
+            const isSubactividad = idInput.dataset.tipo === 'subactividad';
+
+            if (isSubactividad) {
+                objetoGuardado.titulo = descripcionInput.value;
+                objetoGuardado.idPadre = idInput.dataset.padreId;
+            } else {
+                objetoGuardado.descripcion = descripcionInput.value;
+                objetoGuardado.idPadre = null;
             }
 
             console.log('Datos enviados a la API:', objetoGuardado);
 
-            fetch('/API/actividades', {
-                method: 'POST',
+            const method = isEditing ? 'PUT' : 'POST';
+            const url = isEditing ? (isSubactividad ? `/API/actividades/${idInput.value}` : `/API/actividades/${idInput.value}`) : '/API/actividades';
+
+            fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -215,60 +305,37 @@ function ventanaActividad() {
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
+                    if (response.status === 403) {
+                        alert('No tienes permiso para realizar esta acción.');
+                        throw new Error('Acceso denegado');
+                    }
+                    return response.json().then(err => {throw new Error(err.error)});
                 }
                 return response.json();
             })
             .then(data => {
                 console.log('Respuesta de la API:', data);
-                alert('Actividad creada con éxito');
-
-
+                alert('Actividad guardada con éxito');
                 setTimeout(function() {
-                    location.reload();      //Modifica el tiempo de recarga de la pagina una vez 
-                }, 500); 
-
-
+                    location.reload();
+                }, 500);
             })
-            .catch(error => console.error('Error al guardar la actividad:', error));
-
-            
+            .catch(error => {
+                console.error('Error al guardar la actividad:', error.message);
+                alert(`Error: ${error.message}`);
+            });
         });
     }
 
     if (!guardarButtonTab1.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab1, 'tab1');
         guardarButtonTab1.dataset.listenerAdded = true;
-
-
     }
 
     if (!guardarButtonTab4.dataset.listenerAdded) {
         validateAndSendForm(guardarButtonTab4, 'tab4');
         guardarButtonTab4.dataset.listenerAdded = true;
-
-
     }
-
-    function showTabContent(tabId) {
-        tabContents.forEach(content => {
-            if (content.parentElement.getAttribute('id') === tabId) {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'none';
-            }
-        });
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(event) {
-            event.preventDefault();
-            const tabId = this.getAttribute('id');
-            showTabContent(tabId);
-        });
-    });
-
-    showTabContent('tab1');
 }
 
 function eliminarActividad(id) {
@@ -278,6 +345,10 @@ function eliminarActividad(id) {
         })
         .then(response => {
             if (!response.ok) {
+                if (response.status === 403) {
+                    alert('No tienes permiso para realizar esta acción.');
+                    throw new Error('Acceso denegado');
+                }
                 throw new Error('Error en la respuesta del servidor');
             }
             return response.json();
@@ -293,11 +364,15 @@ function eliminarActividad(id) {
 
 function eliminarSubactividad(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta subactividad?')) {
-        fetch(`/API/actividades/${id}`, {
+        fetch(`/API/detalleActividades/${id}`, {
             method: 'DELETE',
         })
         .then(response => {
             if (!response.ok) {
+                if (response.status === 403) {
+                    alert('No tienes permiso para realizar esta acción.');
+                    throw new Error('Acceso denegado');
+                }
                 throw new Error('Error en la respuesta del servidor');
             }
             return response.json();

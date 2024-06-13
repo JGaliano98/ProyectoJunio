@@ -38,6 +38,10 @@ security:
         - { path: ^/admin/sensitive, roles: [ROLE_ADMIN] }
         - { path: ^/admin, roles: [ROLE_USER] }
 
+        
+    access_decision_manager:
+        strategy: affirmative
+
 
 when@test:
     security:

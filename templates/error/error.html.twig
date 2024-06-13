@@ -1,0 +1,64 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página no encontrada (404)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .error-container {
+            text-align: center;
+            padding: 30px;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .error-container h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #dc3545;
+        }
+        .error-container p {
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+        .error-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .error-container ul li {
+            margin: 10px 0;
+        }
+        .error-container ul li a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s;
+        }
+        .error-container ul li a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Oops! Página no encontrada (404)</h1>
+        <p>Lo sentimos, pero la página a la que quiere acceder no se encuentra.</p>
+        <ul>
+            <li><a href="{{ path('home') }}">Volver a Inicio</a></li>
+            <li>Revista la URL para ver el error.</li>
+        </ul>
+    </div>
+</body>
+</html>
