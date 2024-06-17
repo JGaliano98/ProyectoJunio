@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const guardarButtonTab4 = document.querySelector('#tab4 input[type="submit"]');
     const fuenteGrupos = document.getElementById('fuenteGrupos');
     const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
+    const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
 
     function formatDateString(dateString) {
         const date = new Date(dateString);
@@ -22,22 +23,85 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${year}-${month}-${day}`;
     }
 
-    
-    
+    function validarFechasActividad() {
+        const eventoId = eventoSelect.value;
+        if (!eventoId) return true;
+
+        fetch(`/API/eventos/${eventoId}`)
+            .then(response => response.json())
+            .then(evento => {
+                const eventoFechaInicio = new Date(evento.fechaInicio);
+                const eventoFechaFin = new Date(evento.fechaFin);
+                const actividadFechaInicio = new Date(fechaInicioInput.value);
+                const actividadFechaFin = new Date(fechaFinInput.value);
+
+                if (actividadFechaInicio < eventoFechaInicio || actividadFechaInicio > eventoFechaFin) {
+                    alert('La fecha de inicio de la actividad debe estar dentro del rango de fechas del evento.');
+                    fechaInicioInput.value = '';
+                    return false;
+                }
+
+                if (actividadFechaFin < eventoFechaInicio || actividadFechaFin > eventoFechaFin) {
+                    alert('La fecha de fin de la actividad debe estar dentro del rango de fechas del evento.');
+                    fechaFinInput.value = '';
+                    return false;
+                }
+
+                return true;
+            })
+            .catch(error => console.error('Error al validar las fechas del evento:', error));
+    }
+
+    function validarFechasSubactividad() {
+        const actividadFechaInicio = new Date(fechaInicioInput.dataset.actividadFechaInicio);
+        const actividadFechaFin = new Date(fechaInicioInput.dataset.actividadFechaFin);
+        const subactividadFechaInicio = new Date(fechaInicioInput.value);
+        const subactividadFechaFin = new Date(fechaFinInput.value);
+
+        if (subactividadFechaInicio < actividadFechaInicio || subactividadFechaInicio > actividadFechaFin) {
+            alert('La fecha de inicio de la subactividad debe estar dentro del rango de fechas de la actividad.');
+            fechaInicioInput.value = '';
+            return false;
+        }
+
+        if (subactividadFechaFin < actividadFechaInicio || subactividadFechaFin > actividadFechaFin) {
+            alert('La fecha de fin de la subactividad debe estar dentro del rango de fechas de la actividad.');
+            fechaFinInput.value = '';
+            return false;
+        }
+
+        return true;
+    }
+
+    fechaInicioInput.addEventListener('change', function() {
+        if (idInput.dataset.tipo === 'actividad') {
+            validarFechasActividad();
+        } else if (idInput.dataset.tipo === 'subactividad') {
+            validarFechasSubactividad();
+        }
+    });
+
+    fechaFinInput.addEventListener('change', function() {
+        if (idInput.dataset.tipo === 'actividad') {
+            validarFechasActividad();
+        } else if (idInput.dataset.tipo === 'subactividad') {
+            validarFechasSubactividad();
+        }
+    });
 
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
         const actividadEvento = button.getAttribute('data-actividad-evento');
         const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
         const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
-    
+
         idInput.value = '';
         idInput.dataset.padreId = actividadId;
         idInput.dataset.tipo = 'subactividad';
         idInput.disabled = true;
         tipoActividadSelect.value = '1';
         tipoActividadSelect.disabled = true;
-    
+
         eventoSelect.value = actividadEvento;
         fechaInicioInput.value = '';
         fechaFinInput.value = '';
@@ -45,34 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
         fechaInicioInput.dataset.actividadFechaFin = actividadFechaFin;
         fechaFinInput.dataset.actividadFechaInicio = actividadFechaInicio;
         fechaFinInput.dataset.actividadFechaFin = actividadFechaFin;
-    
+
         modalTitle.textContent = 'Añadir Subactividad';
         $('#modalAgregarActividad').modal('show');
     };
-    
-    // Validar fechas de subactividad
-    fechaInicioInput.addEventListener('change', function() {
-        const actividadFechaInicio = new Date(fechaInicioInput.dataset.actividadFechaInicio);
-        const actividadFechaFin = new Date(fechaInicioInput.dataset.actividadFechaFin);
-        const subactividadFechaInicio = new Date(fechaInicioInput.value);
-    
-        if (subactividadFechaInicio < actividadFechaInicio || subactividadFechaInicio > actividadFechaFin) {
-            alert('La fecha de inicio de la subactividad debe estar dentro del rango de fechas de la actividad.');
-            fechaInicioInput.value = '';
-        }
-    });
-    
-    fechaFinInput.addEventListener('change', function() {
-        const actividadFechaInicio = new Date(fechaFinInput.dataset.actividadFechaInicio);
-        const actividadFechaFin = new Date(fechaFinInput.dataset.actividadFechaFin);
-        const subactividadFechaFin = new Date(fechaFinInput.value);
-    
-        if (subactividadFechaFin < actividadFechaInicio || subactividadFechaFin > actividadFechaFin) {
-            alert('La fecha de fin de la subactividad debe estar dentro del rango de fechas de la actividad.');
-            fechaFinInput.value = '';
-        }
-    });
-    
 
     window.editarActividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
@@ -82,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
         const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
         const actividadAforo = button.getAttribute('data-actividad-aforo');
-    
+
         idInput.value = actividadId;
         idInput.dataset.padreId = '';
         idInput.dataset.tipo = 'actividad';
@@ -92,11 +132,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fechaInicioInput.value = actividadFechaInicio;
         fechaFinInput.value = actividadFechaFin;
         aforoInput.value = actividadAforo;
-    
+
         tipoActividadSelect.disabled = (actividadId !== '');
         idInput.disabled = true;
         eventoSelect.disabled = true;
-    
+
         if (actividadTipo == '1') {
             guardarButtonTab1.disabled = true;
             guardarButtonTab4.disabled = false;
@@ -105,15 +145,12 @@ document.addEventListener('DOMContentLoaded', function() {
             guardarButtonTab4.disabled = true;
             deshabilitarPestanas();
         }
-    
+
         modalTitle.textContent = 'Editar Actividad';
         $('#modalAgregarActividad').modal('show');
-    
-        
-    };
-    
 
-    
+        cargarPonentes(actividadId); // Cargar los ponentes asociados a esta actividad
+    };
 
     window.editarSubactividad = function(button) {
         const subactividadId = button.getAttribute('data-subactividad-id');
@@ -141,12 +178,12 @@ document.addEventListener('DOMContentLoaded', function() {
         eventoSelect.disabled = true;
         idInput.disabled = true;
 
-
         cargarGruposSeleccionados(subactividadId); // Llamada para cargar los grupos seleccionados
 
         modalTitle.textContent = 'Editar Subactividad';
         $('#modalAgregarActividad').modal('show');
-        
+
+        cargarPonentes(subactividadId); // Cargar los ponentes asociados a esta subactividad
     };
 
     function cargarPonentes(detalleActividadId) {
@@ -154,36 +191,42 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(ponentes => {
                 const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
-                ponentesTableBody.innerHTML = ''; // Limpiar la tabla antes de llenarla
-    
+
+                // Guardar la fila de entrada
+                const entradaRow = ponentesTableBody.rows[0];
+
+                // Limpiar la tabla, excepto la primera fila
+                ponentesTableBody.innerHTML = '';
+
+                // Volver a agregar la fila de entrada
+                ponentesTableBody.appendChild(entradaRow);
+
                 ponentes.forEach(ponente => {
                     const row = ponentesTableBody.insertRow();
-    
+
                     const nombreCell = row.insertCell(0);
                     const cargoCell = row.insertCell(1);
                     const urlCell = row.insertCell(2);
                     const botonesCell = row.insertCell(3);
-    
+
                     nombreCell.textContent = ponente.nombre;
                     cargoCell.textContent = ponente.cargo;
                     urlCell.textContent = ponente.URL;
-    
+
                     const editarButton = document.createElement('button');
                     editarButton.textContent = 'Editar';
                     editarButton.onclick = function() { editarPonente(row); };
-    
+
                     const borrarButton = document.createElement('button');
                     borrarButton.textContent = 'Borrar';
                     borrarButton.onclick = function() { borrarPonente(row); };
-    
+
                     botonesCell.appendChild(editarButton);
                     botonesCell.appendChild(borrarButton);
                 });
             })
             .catch(error => console.error('Error al cargar los ponentes:', error));
     }
-    
-
 
     function cargarGruposSeleccionados(subactividadId) {
         fetch(`/API/grupos/detalle/${subactividadId}`)
@@ -248,13 +291,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             })
             .catch(error => console.error('Error al cargar todos los grupos:', error));
+
+        cargarPonentes(''); // Limpiar los ponentes en el modal de nueva actividad
     });
 
     ventanaActividad(); // Inicializamos la función ventanaActividad
 });
-
-
-
 
 function deshabilitarPestanas() {
     document.getElementById('tab2').style.pointerEvents = 'none';

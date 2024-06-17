@@ -141,7 +141,7 @@ class __TwigTemplate_4e4716d765b6c98083f767712d88aafb extends Template
             // line 74
             yield "
                         <li class=\"nav-item\">
-                            <a href=\"http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController\" id=\"cart-icon\" class=\"nav-link\"> 
+                            <a href=\"http://127.0.0.1:8000/admin?routeName=admin_actividad\" id=\"cart-icon\" class=\"nav-link\"> 
                                 <i class=\"fas fa-cog\"></i> Acceder Administrador
                             </a>
                         </li>
@@ -415,7 +415,7 @@ class __TwigTemplate_4e4716d765b6c98083f767712d88aafb extends Template
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                         <li class=\"nav-item\">
-                            <a href=\"http://127.0.0.1:8000/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CUserCrudController\" id=\"cart-icon\" class=\"nav-link\"> 
+                            <a href=\"http://127.0.0.1:8000/admin?routeName=admin_actividad\" id=\"cart-icon\" class=\"nav-link\"> 
                                 <i class=\"fas fa-cog\"></i> Acceder Administrador
                             </a>
                         </li>
