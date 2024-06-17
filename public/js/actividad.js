@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const selectEspacios = document.getElementById('selectEspacios');
     const guardarButtonTab1 = document.querySelector('#tab1 input[type="submit"]');
     const guardarButtonTab4 = document.querySelector('#tab4 input[type="submit"]');
+    const fuenteGrupos = document.getElementById('fuenteGrupos');
+    const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
 
     function formatDateString(dateString) {
         const date = new Date(dateString);
@@ -20,26 +22,57 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${year}-${month}-${day}`;
     }
 
+    
+    
+
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
         const actividadEvento = button.getAttribute('data-actividad-evento');
         const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
         const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
-
+    
         idInput.value = '';
         idInput.dataset.padreId = actividadId;
         idInput.dataset.tipo = 'subactividad';
         idInput.disabled = true;
         tipoActividadSelect.value = '1';
         tipoActividadSelect.disabled = true;
-
+    
         eventoSelect.value = actividadEvento;
-        fechaInicioInput.value = actividadFechaInicio;
-        fechaFinInput.value = actividadFechaFin;
-
+        fechaInicioInput.value = '';
+        fechaFinInput.value = '';
+        fechaInicioInput.dataset.actividadFechaInicio = actividadFechaInicio;
+        fechaInicioInput.dataset.actividadFechaFin = actividadFechaFin;
+        fechaFinInput.dataset.actividadFechaInicio = actividadFechaInicio;
+        fechaFinInput.dataset.actividadFechaFin = actividadFechaFin;
+    
         modalTitle.textContent = 'Añadir Subactividad';
         $('#modalAgregarActividad').modal('show');
     };
+    
+    // Validar fechas de subactividad
+    fechaInicioInput.addEventListener('change', function() {
+        const actividadFechaInicio = new Date(fechaInicioInput.dataset.actividadFechaInicio);
+        const actividadFechaFin = new Date(fechaInicioInput.dataset.actividadFechaFin);
+        const subactividadFechaInicio = new Date(fechaInicioInput.value);
+    
+        if (subactividadFechaInicio < actividadFechaInicio || subactividadFechaInicio > actividadFechaFin) {
+            alert('La fecha de inicio de la subactividad debe estar dentro del rango de fechas de la actividad.');
+            fechaInicioInput.value = '';
+        }
+    });
+    
+    fechaFinInput.addEventListener('change', function() {
+        const actividadFechaInicio = new Date(fechaFinInput.dataset.actividadFechaInicio);
+        const actividadFechaFin = new Date(fechaFinInput.dataset.actividadFechaFin);
+        const subactividadFechaFin = new Date(fechaFinInput.value);
+    
+        if (subactividadFechaFin < actividadFechaInicio || subactividadFechaFin > actividadFechaFin) {
+            alert('La fecha de fin de la subactividad debe estar dentro del rango de fechas de la actividad.');
+            fechaFinInput.value = '';
+        }
+    });
+    
 
     window.editarActividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
@@ -49,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const actividadFechaInicio = formatDateString(button.getAttribute('data-actividad-fechainicio'));
         const actividadFechaFin = formatDateString(button.getAttribute('data-actividad-fechafin'));
         const actividadAforo = button.getAttribute('data-actividad-aforo');
-
+    
         idInput.value = actividadId;
         idInput.dataset.padreId = '';
         idInput.dataset.tipo = 'actividad';
@@ -59,20 +92,28 @@ document.addEventListener('DOMContentLoaded', function() {
         fechaInicioInput.value = actividadFechaInicio;
         fechaFinInput.value = actividadFechaFin;
         aforoInput.value = actividadAforo;
-
+    
         tipoActividadSelect.disabled = (actividadId !== '');
-
+        idInput.disabled = true;
+        eventoSelect.disabled = true;
+    
         if (actividadTipo == '1') {
             guardarButtonTab1.disabled = true;
             guardarButtonTab4.disabled = false;
         } else {
             guardarButtonTab1.disabled = false;
             guardarButtonTab4.disabled = true;
+            deshabilitarPestanas();
         }
-
+    
         modalTitle.textContent = 'Editar Actividad';
         $('#modalAgregarActividad').modal('show');
+    
+        
     };
+    
+
+    
 
     window.editarSubactividad = function(button) {
         const subactividadId = button.getAttribute('data-subactividad-id');
@@ -81,13 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const subactividadFechaFin = formatDateString(button.getAttribute('data-subactividad-fechafin'));
         const subactividadEspacio = button.getAttribute('data-subactividad-espacio');
         const subactividadIdPadre = button.getAttribute('data-subactividad-idpadre');
+        const actividadEvento = button.closest('.card').querySelector('[data-actividad-evento]').getAttribute('data-actividad-evento'); // Obtener el evento de la actividad padre
 
         idInput.value = subactividadId;
         idInput.dataset.padreId = subactividadIdPadre;
         idInput.dataset.tipo = 'subactividad';
         descripcionInput.value = subactividadTitulo;
         tipoActividadSelect.value = '1';
-        eventoSelect.value = '';
+        eventoSelect.value = actividadEvento; // Asignar el evento de la actividad padre
         fechaInicioInput.value = subactividadFechaInicio;
         fechaFinInput.value = subactividadFechaFin;
         aforoInput.value = '';
@@ -96,10 +138,84 @@ document.addEventListener('DOMContentLoaded', function() {
         tipoActividadSelect.disabled = true;
         guardarButtonTab1.disabled = true;
         guardarButtonTab4.disabled = false;
+        eventoSelect.disabled = true;
+        idInput.disabled = true;
+
+
+        cargarGruposSeleccionados(subactividadId); // Llamada para cargar los grupos seleccionados
 
         modalTitle.textContent = 'Editar Subactividad';
         $('#modalAgregarActividad').modal('show');
+        
     };
+
+    function cargarPonentes(detalleActividadId) {
+        fetch(`/API/ponentes/detalle/${detalleActividadId}`)
+            .then(response => response.json())
+            .then(ponentes => {
+                const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
+                ponentesTableBody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+    
+                ponentes.forEach(ponente => {
+                    const row = ponentesTableBody.insertRow();
+    
+                    const nombreCell = row.insertCell(0);
+                    const cargoCell = row.insertCell(1);
+                    const urlCell = row.insertCell(2);
+                    const botonesCell = row.insertCell(3);
+    
+                    nombreCell.textContent = ponente.nombre;
+                    cargoCell.textContent = ponente.cargo;
+                    urlCell.textContent = ponente.URL;
+    
+                    const editarButton = document.createElement('button');
+                    editarButton.textContent = 'Editar';
+                    editarButton.onclick = function() { editarPonente(row); };
+    
+                    const borrarButton = document.createElement('button');
+                    borrarButton.textContent = 'Borrar';
+                    borrarButton.onclick = function() { borrarPonente(row); };
+    
+                    botonesCell.appendChild(editarButton);
+                    botonesCell.appendChild(borrarButton);
+                });
+            })
+            .catch(error => console.error('Error al cargar los ponentes:', error));
+    }
+    
+
+
+    function cargarGruposSeleccionados(subactividadId) {
+        fetch(`/API/grupos/detalle/${subactividadId}`)
+            .then(response => response.json())
+            .then(data => {
+                seleccionadosGrupos.innerHTML = '';
+                const seleccionadosIds = data.map(grupo => grupo.id); // Obtener los IDs de los grupos seleccionados
+                data.forEach(grupo => {
+                    const option = document.createElement('option');
+                    option.value = grupo.id;
+                    option.textContent = `${grupo.nivelEducativo} - ${grupo.nombre}`;
+                    seleccionadosGrupos.appendChild(option);
+                });
+
+                // Cargar los grupos disponibles y excluir los seleccionados
+                fetch('/API/grupos')
+                    .then(response => response.json())
+                    .then(allGrupos => {
+                        fuenteGrupos.innerHTML = '';
+                        allGrupos.forEach(grupo => {
+                            if (!seleccionadosIds.includes(grupo.id)) {
+                                const option = document.createElement('option');
+                                option.value = grupo.id;
+                                option.textContent = `${grupo.nivelEducativo} - ${grupo.nombre}`;
+                                fuenteGrupos.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error al cargar todos los grupos:', error));
+            })
+            .catch(error => console.error('Error al cargar grupos:', error));
+    }
 
     const addActividadButton = document.querySelector('[data-target="#modalAgregarActividad"]');
     addActividadButton.addEventListener('click', function() {
@@ -117,10 +233,37 @@ document.addEventListener('DOMContentLoaded', function() {
         guardarButtonTab1.disabled = false;
         guardarButtonTab4.disabled = true;
         modalTitle.textContent = 'Añadir Actividad';
+
+        // Resetear los selects de grupos
+        fetch('/API/grupos')
+            .then(response => response.json())
+            .then(allGrupos => {
+                fuenteGrupos.innerHTML = '';
+                seleccionadosGrupos.innerHTML = '';
+                allGrupos.forEach(grupo => {
+                    const option = document.createElement('option');
+                    option.value = grupo.id;
+                    option.textContent = `${grupo.nivelEducativo} - ${grupo.nombre}`;
+                    fuenteGrupos.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar todos los grupos:', error));
     });
 
     ventanaActividad(); // Inicializamos la función ventanaActividad
 });
+
+
+
+
+function deshabilitarPestanas() {
+    document.getElementById('tab2').style.pointerEvents = 'none';
+    document.getElementById('tab2').style.opacity = '0.5';
+    document.getElementById('tab3').style.pointerEvents = 'none';
+    document.getElementById('tab3').style.opacity = '0.5';
+    document.getElementById('tab4').style.pointerEvents = 'none';
+    document.getElementById('tab4').style.opacity = '0.5';
+}
 
 function ventanaActividad() {
     const tipoActividadSelect = document.getElementById('tipoActividad');
@@ -174,9 +317,9 @@ function ventanaActividad() {
             .catch(error => console.error('Error al cargar espacios:', error));
     }
 
-     fetchEspacios();
+    fetchEspacios();
 
-     aforoInput.addEventListener('input', cargarEspacios);
+    aforoInput.addEventListener('input', cargarEspacios);
 
     document.getElementById('pasarIzqRecursos').addEventListener('click', () => {
         pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
@@ -294,7 +437,7 @@ function ventanaActividad() {
             console.log('Datos enviados a la API:', objetoGuardado);
 
             const method = isEditing ? 'PUT' : 'POST';
-            const url = isEditing ? (isSubactividad ? `/API/actividades/${idInput.value}` : `/API/actividades/${idInput.value}`) : '/API/actividades';
+            const url = isEditing ? `/API/actividades/${idInput.value}` : '/API/actividades';
 
             fetch(url, {
                 method: method,
@@ -305,11 +448,14 @@ function ventanaActividad() {
             })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 403) {
-                        alert('No tienes permiso para realizar esta acción.');
-                        throw new Error('Acceso denegado');
-                    }
-                    return response.json().then(err => {throw new Error(err.error)});
+                    return response.text().then(text => { // Cambiado a response.text() para depuración
+                        if (response.status === 403) {
+                            alert('No tienes permiso para realizar esta acción.');
+                            throw new Error('Acceso denegado');
+                        }
+                        console.error('Respuesta del servidor:', text); // Log completo de la respuesta
+                        throw new Error(text);
+                    });
                 }
                 return response.json();
             })
@@ -338,6 +484,20 @@ function ventanaActividad() {
     }
 }
 
+function pasarSeleccionadosSelect(origen, destino) {
+    const seleccionados = Array.from(origen.selectedOptions);
+    seleccionados.forEach(option => {
+        destino.appendChild(option);
+    });
+}
+
+function pasarTodosSelect(origen, destino) {
+    const todos = Array.from(origen.options);
+    todos.forEach(option => {
+        destino.appendChild(option);
+    });
+}
+
 function eliminarActividad(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
         fetch(`/API/actividades/${id}`, {
@@ -364,7 +524,7 @@ function eliminarActividad(id) {
 
 function eliminarSubactividad(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta subactividad?')) {
-        fetch(`/API/detalleActividades/${id}`, {
+        fetch(`/API/actividades/${id}`, {
             method: 'DELETE',
         })
         .then(response => {

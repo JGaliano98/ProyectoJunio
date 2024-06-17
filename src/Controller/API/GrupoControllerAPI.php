@@ -1,74 +1,118 @@
 <?php
+namespace App\Controller\API;
 
-    namespace App\Controller\API;
-    
-    use App\Entity\Grupo;
-    use Doctrine\ORM\EntityManagerInterface;
-    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-    use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\Routing\Annotation\Route;
-    use Symfony\Component\Serializer\SerializerInterface;
-    
-    #[Route('/API')]
-    class GrupoControllerAPI extends AbstractController
-    {
-        #[Route('/grupos/{id?}', name: 'grupo_index', methods: ['GET'])]
+use App\Entity\DetalleActividad;
+use App\Entity\Grupo;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+
+#[Route('/API')]
+class GrupoControllerAPI extends AbstractController
+{
+    #[Route('/grupos/{id?}', name: 'grupo_index', methods: ['GET'])]
     public function index(?int $id, EntityManagerInterface $em, SerializerInterface $serializer): Response
     {
-        $grupoRepository = $em->getRepository(Grupo::class);
-
         if ($id === null) {
-            // Cargar todos los grupos con sus relaciones
-            $grupos = $grupoRepository->createQueryBuilder('g')
-                ->leftJoin('g.nivelEducativo', 'ne')
-                ->getQuery()
-                ->getResult();
-
-            // Transformar los datos en un formato que se pueda serializar
-            $data = [];
-            foreach ($grupos as $grupo) {
-                $data[] = [
-                    'id' => $grupo->getId(),
-                    'nombre' => $grupo->getNombre(),
-                    'nivelEducativo' => $grupo->getNivelEducativo() ? $grupo->getNivelEducativo()->getNombre() : null,
-                    // Añade otras propiedades de Grupo si es necesario
-                ];
-            }
-
-            // Serializar los datos transformados como JSON
-            return new Response(
-                $serializer->serialize($data, 'json'),
-                Response::HTTP_OK,
-                ['Content-Type' => 'application/json']
-            );
+            return $this->getAllGrupos($em, $serializer);
         } else {
-            // Obtener el grupo específico con el ID proporcionado
-            $grupo = $grupoRepository->createQueryBuilder('g')
-                ->leftJoin('g.nivelEducativo', 'ne')
-                ->where('g.id = :id')
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getOneOrNullResult();
+            return $this->getGrupoById($id, $em, $serializer);
+        }
+    }
 
-            if (!$grupo) {
-                return $this->json(['message' => 'No se ha encontrado el grupo con ID ' . $id], Response::HTTP_NOT_FOUND);
-            }
+    #[Route('/grupos/detalle/{id}', name: 'grupos_by_detalle_actividad', methods: ['GET'])]
+    public function grupos(int $id, EntityManagerInterface $em, SerializerInterface $serializer): Response
+    {
+        return $this->getGruposByDetalleActividad($id, $em, $serializer);
+    }
 
-            // Transformar los datos en un formato que se pueda serializar
-            $data = [
+    private function getAllGrupos(EntityManagerInterface $em, SerializerInterface $serializer): Response
+    {
+        $grupoRepository = $em->getRepository(Grupo::class);
+        $grupos = $grupoRepository->createQueryBuilder('g')
+            ->leftJoin('g.nivelEducativo', 'ne')
+            ->getQuery()
+            ->getResult();
+
+        $data = [];
+        foreach ($grupos as $grupo) {
+            $data[] = [
                 'id' => $grupo->getId(),
                 'nombre' => $grupo->getNombre(),
                 'nivelEducativo' => $grupo->getNivelEducativo() ? $grupo->getNivelEducativo()->getNombre() : null,
-                // Añade otras propiedades de Grupo si es necesario
             ];
-
-            // Serializar los datos transformados como JSON
-            return new Response(
-                $serializer->serialize($data, 'json'),
-                Response::HTTP_OK,
-                ['Content-Type' => 'application/json']
-            );
         }
+
+        return new Response(
+            $serializer->serialize($data, 'json'),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/json']
+        );
+    }
+
+    private function getGrupoById(int $id, EntityManagerInterface $em, SerializerInterface $serializer): Response
+    {
+        $grupoRepository = $em->getRepository(Grupo::class);
+        $grupo = $grupoRepository->createQueryBuilder('g')
+            ->leftJoin('g.nivelEducativo', 'ne')
+            ->where('g.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (!$grupo) {
+            return $this->json(['message' => 'No se ha encontrado el grupo con ID ' . $id], Response::HTTP_NOT_FOUND);
+        }
+
+        $data = [
+            'id' => $grupo->getId(),
+            'nombre' => $grupo->getNombre(),
+            'nivelEducativo' => $grupo->getNivelEducativo() ? $grupo->getNivelEducativo()->getNombre() : null,
+        ];
+
+        return new Response(
+            $serializer->serialize($data, 'json'),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/json']
+        );
+    }
+
+    private function getGruposByDetalleActividad(int $id, EntityManagerInterface $em, SerializerInterface $serializer): Response
+    {
+        $detalleActividad = $em->getRepository(DetalleActividad::class)->find($id);
+        if (!$detalleActividad) {
+            return $this->json(['message' => 'No se ha encontrado el DetalleActividad con ID ' . $id], Response::HTTP_NOT_FOUND);
+        }
+
+        $query = $em->createQuery(
+            'SELECT DISTINCT g
+            FROM App\Entity\Grupo g
+            JOIN g.alumnos a
+            JOIN a.detalleActividads da
+            WHERE da.id = :id'
+        )->setParameter('id', $id);
+
+        try {
+            $grupos = $query->getResult();
+        } catch (\Exception $e) {
+            return $this->json(['message' => 'Error en la consulta: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $data = [];
+        foreach ($grupos as $grupo) {
+            $data[] = [
+                'id' => $grupo->getId(),
+                'nombre' => $grupo->getNombre(),
+                'nivelEducativo' => $grupo->getNivelEducativo() ? $grupo->getNivelEducativo()->getNombre() : null,
+            ];
+        }
+
+        return new Response(
+            $serializer->serialize($data, 'json'),
+            Response::HTTP_OK,
+            ['Content-Type' => 'application/json']
+        );
     }
 }
