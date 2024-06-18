@@ -23,9 +23,9 @@ class AlumnoCrudController extends AbstractCrudController
             TextField::new('nombre', 'Nombre'),
             EmailField::new('correo', 'Correo Electrónico'),
             DateField::new('fechaNacimiento', 'Fecha de Nacimiento')
-                ->setFormat('dd-MM-yyyy'),  // Ajusta el formato de fecha según necesidades
+                ->setFormat('dd-MM-yyyy'), 
             AssociationField::new('grupo', 'Grupo')
-                ->setCrudController(GrupoCrudController::class)  // Especifica el controlador CRUD para el Grupo si es necesario
+                ->setCrudController(GrupoCrudController::class)
         ];
     }
 }

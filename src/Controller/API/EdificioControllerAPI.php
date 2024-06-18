@@ -74,14 +74,11 @@ class EdificioControllerAPI extends AbstractController
     
         return $this->json(['status' => 'finished', 'results' => $resultados, 'errors' => $errores], Response::HTTP_CREATED);
     }
-    
-
-    
-
 
     #[Route('/edificios/{id}', name: 'edificio_update', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $em, int $id): Response
     {
+        // Buscar el edificio por ID
         $edificio = $em->getRepository(Edificio::class)->find($id);
 
         if (!$edificio) {
@@ -94,6 +91,7 @@ class EdificioControllerAPI extends AbstractController
         }
 
         try {
+            // Guardar los cambios en la base de datos
             $em->flush();
             return $this->json($this->transformEdificio($edificio));
         } catch (\Exception $e) {
@@ -101,25 +99,24 @@ class EdificioControllerAPI extends AbstractController
         }
     }
 
-
     #[Route('/edificios/{id}', name: 'edificio_delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $em, int $id): Response
     {
+        // Buscar el edificio por ID
         $edificio = $em->getRepository(Edificio::class)->find($id);
 
         if (!$edificio) {
             return $this->json(['error' => 'Edificio no encontrado'], Response::HTTP_NOT_FOUND);
         }
 
+        // Eliminar el edificio de la base de datos
         $em->remove($edificio);
         $em->flush();
 
         return $this->json(['message' => 'Edificio eliminado exitosamente'], Response::HTTP_NO_CONTENT);
     }
 
-
-
-    
+    // Transforma un objeto Edificio a un array
     private function transformEdificio(Edificio $edificio): array
     {
         return [

@@ -19,91 +19,116 @@ class ActividadControllerAPI extends AbstractController
     #[Route('/actividades', name: 'actividad_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
+        // Verifica que el usuario tenga el rol 'ROLE_USER'
         $this->denyAccessUnlessGranted('ROLE_USER');
 
+        // Obtiene todas las actividades de la base de datos
         $actividades = $em->getRepository(Actividad::class)->findAll();
         $data = [];
         foreach ($actividades as $actividad) {
+            // Serializa cada actividad
             $data[] = $this->serializeActividad($actividad);
         }
         return $this->json($data);
     }
 
     #[Route('/actividades/{id}', name: 'actividad_show', methods: ['GET'])]
-public function show(EntityManagerInterface $em, int $id): Response
-{
-    $this->denyAccessUnlessGranted('ROLE_USER');
+    public function show(EntityManagerInterface $em, int $id): Response
+    {
+        // Verifica que el usuario tenga el rol 'ROLE_USER'
+        $this->denyAccessUnlessGranted('ROLE_USER');
 
-    $actividad = $em->getRepository(Actividad::class)->find($id);
-    if (!$actividad) {
-        return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
+        // Busca la actividad por ID
+        $actividad = $em->getRepository(Actividad::class)->find($id);
+        if (!$actividad) {
+            return $this->json(['error' => 'Actividad no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+        // Serializa la actividad
+        $data = $this->serializeActividad($actividad);
+        return $this->json($data);
     }
-    $data = $this->serializeActividad($actividad);
-    return $this->json($data);
-}
 
-private function serializeActividad(Actividad $actividad): array
-{
-    $data = [
-        'id' => $actividad->getId(),
-        'descripcion' => $actividad->getDescripcion(),
-        'fechaHoraInicio' => $actividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
-        'fechaHoraFin' => $actividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
-        'tipo' => $actividad->getTipo(),
-        'evento' => $actividad->getEvento() ? [
-            'id' => $actividad->getEvento()->getId(),
-            'titulo' => $actividad->getEvento()->getTitulo()
-        ] : null,
-        'ponentes' => []
-    ];
+    // Serializa una actividad a un array
+    private function serializeActividad(Actividad $actividad): array
+    {
+        $data = [
+            'id' => $actividad->getId(),
+            'descripcion' => $actividad->getDescripcion(),
+            'fechaHoraInicio' => $actividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+            'fechaHoraFin' => $actividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+            'tipo' => $actividad->getTipo(),
+            'evento' => $actividad->getEvento() ? [
+                'id' => $actividad->getEvento()->getId(),
+                'titulo' => $actividad->getEvento()->getTitulo()
+            ] : null,
+            'ponentes' => [],
+            'espacio' => $actividad->getDetalleActividads() && $actividad->getDetalleActividads()[0]->getEspacio() ? [
+                'id' => $actividad->getDetalleActividads()[0]->getEspacio()->getId(),
+                'nombre' => $actividad->getDetalleActividads()[0]->getEspacio()->getNombre()
+            ] : null,
+            'grupos' => [],
+        ];
 
-    if ($actividad->getDetalleActividads()) {
-        $subactividades = [];
+        $grupoIds = [];
+        if ($actividad->getDetalleActividads()) {
+            $subactividades = [];
+            foreach ($actividad->getDetalleActividads() as $subactividad) {
+                $subactividadData = [
+                    'id' => $subactividad->getId(),
+                    'titulo' => $subactividad->getTitulo(),
+                    'fechaHoraInicio' => $subactividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
+                    'fechaHoraFin' => $subactividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
+                    'espacio' => $subactividad->getEspacio() ? [
+                        'id' => $subactividad->getEspacio()->getId(),
+                        'nombre' => $subactividad->getEspacio()->getNombre()
+                    ] : null,
+                    'ponentes' => [],
+                ];
+
+                foreach ($subactividad->getPonentes() as $ponente) {
+                    $subactividadData['ponentes'][] = [
+                        'id' => $ponente->getId(),
+                        'nombre' => $ponente->getNombre(),
+                        'cargo' => $ponente->getCargo(),
+                        'url' => $ponente->getURL()
+                    ];
+                }
+
+                foreach ($subactividad->getAlumno() as $alumno) {
+                    $grupo = $alumno->getGrupo();
+                    if ($grupo && !in_array($grupo->getId(), $grupoIds)) {
+                        $data['grupos'][] = [
+                            'id' => $grupo->getId(),
+                            'nombre' => $grupo->getNombre(),
+                            'nivelEducativo' => $grupo->getNivelEducativo() ? $grupo->getNivelEducativo()->getNombre() : 'Sin nivel educativo'
+                        ];
+                        $grupoIds[] = $grupo->getId();
+                    }
+                }
+
+                $subactividades[] = $subactividadData;
+            }
+            $data['subactividades'] = $subactividades;
+        }
+
         foreach ($actividad->getDetalleActividads() as $subactividad) {
-            $subactividadData = [
-                'id' => $subactividad->getId(),
-                'titulo' => $subactividad->getTitulo(),
-                'fechaHoraInicio' => $subactividad->getFechaHoraInicio()->format('Y-m-d H:i:s'),
-                'fechaHoraFin' => $subactividad->getFechaHoraFin()->format('Y-m-d H:i:s'),
-                'espacio' => $subactividad->getEspacio() ? [
-                    'id' => $subactividad->getEspacio()->getId(),
-                    'nombre' => $subactividad->getEspacio()->getNombre()
-                ] : null,
-                'ponentes' => []
-            ];
-
             foreach ($subactividad->getPonentes() as $ponente) {
-                $subactividadData['ponentes'][] = [
+                $data['ponentes'][] = [
                     'id' => $ponente->getId(),
                     'nombre' => $ponente->getNombre(),
                     'cargo' => $ponente->getCargo(),
                     'url' => $ponente->getURL()
                 ];
             }
-
-            $subactividades[] = $subactividadData;
         }
-        $data['subactividades'] = $subactividades;
+
+        return $data;
     }
-
-    foreach ($actividad->getDetalleActividads() as $subactividad) {
-        foreach ($subactividad->getPonentes() as $ponente) {
-            $data['ponentes'][] = [
-                'id' => $ponente->getId(),
-                'nombre' => $ponente->getNombre(),
-                'cargo' => $ponente->getCargo(),
-                'url' => $ponente->getURL()
-            ];
-        }
-    }
-
-    return $data;
-}
-
 
     #[Route('/actividades', name: 'actividad_create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
+        // Verifica que el usuario tenga el rol 'ROLE_USER'
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $data = json_decode($request->getContent(), true);
@@ -207,7 +232,7 @@ private function serializeActividad(Actividad $actividad): array
 
                     return $this->json($response, Response::HTTP_CREATED);
                 } else {
-                    // Código existente para manejar idPadre proporcionado...
+                    // Código para manejar subactividades
                     if (isset($data['idPadre']) && !empty($data['idPadre'])) {
                         if (!isset($data['titulo']) || !isset($data['fechaInicio']) || 
                             !isset($data['fechaFin']) || !isset($data['espacio'])) {
@@ -281,7 +306,7 @@ private function serializeActividad(Actividad $actividad): array
                 }
             }
 
-            // Manejar tipo 2
+            // Manejar tipo 2 (otras actividades)
             if ($data['tipo'] == 2) {
                 if (!isset($data['descripcion']) || !isset($data['evento']) || 
                     !isset($data['fechaFin']) || !isset($data['fechaInicio'])) {
@@ -351,6 +376,7 @@ private function serializeActividad(Actividad $actividad): array
     #[Route('/actividades/{id}', name: 'actividad_update', methods: ['PUT'])]
     public function update(Request $request, EntityManagerInterface $em, int $id): Response
     {
+        // Verifica que el usuario tenga el rol 'ROLE_ADMIN'
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
     
         $data = json_decode($request->getContent(), true);
@@ -409,7 +435,7 @@ private function serializeActividad(Actividad $actividad): array
                 // Gestionar la inscripción de alumnos si se proporcionan grupos
                 if (isset($data['gruposSeleccionados']) && is_array($data['gruposSeleccionados'])) {
                     // Eliminar las inscripciones actuales
-                    foreach ($detalleActividad->getAlumno() as $alumno) { // Usamos getAlumno() según lo solicitado
+                    foreach ($detalleActividad->getAlumno() as $alumno) {
                         $detalleActividad->removeAlumno($alumno);
                     }
                     $em->flush();
@@ -472,7 +498,7 @@ private function serializeActividad(Actividad $actividad): array
                 if (isset($data['gruposSeleccionados']) && is_array($data['gruposSeleccionados'])) {
                     foreach ($actividad->getDetalleActividads() as $detalleActividad) {
                         // Eliminar las inscripciones actuales
-                        foreach ($detalleActividad->getAlumno() as $alumno) { // Usamos getAlumno() según lo solicitado
+                        foreach ($detalleActividad->getAlumno() as $alumno) {
                             $detalleActividad->removeAlumno($alumno);
                         }
                         $em->flush();
@@ -495,14 +521,11 @@ private function serializeActividad(Actividad $actividad): array
             return $this->json(['error' => 'Error interno del servidor'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
-
-
-    
 
     #[Route('/actividades/{id}', name: 'actividad_delete', methods: ['DELETE'])]
     public function deleteActividad(EntityManagerInterface $em, int $id): Response
     {
+        // Verifica que el usuario tenga el rol 'ROLE_ADMIN'
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $em->beginTransaction();
@@ -530,6 +553,7 @@ private function serializeActividad(Actividad $actividad): array
     #[Route('/detalleActividades/{id}', name: 'detalle_actividad_delete', methods: ['DELETE'])]
     public function deleteDetalleActividad(EntityManagerInterface $em, int $id): Response
     {
+        // Verifica que el usuario tenga el rol 'ROLE_ADMIN'
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $em->beginTransaction();
@@ -550,6 +574,7 @@ private function serializeActividad(Actividad $actividad): array
         }
     }
 
+    // Serializa un DetalleActividad a un array
     private function serializeDetalleActividad(DetalleActividad $detalleActividad): array
     {
         return [
@@ -564,6 +589,7 @@ private function serializeActividad(Actividad $actividad): array
         ];
     }
 
+    // Inscribe alumnos en una actividad
     private function inscribirAlumnosEnActividad(EntityManagerInterface $em, DetalleActividad $detalleActividad, array $grupoIds)
     {
         foreach ($grupoIds as $grupoId) {
@@ -577,6 +603,7 @@ private function serializeActividad(Actividad $actividad): array
         $em->flush();
     }
 
+    // Actualiza los ponentes de una subactividad
     private function updatePonentes(EntityManagerInterface $em, DetalleActividad $subactividad, array $ponentesData)
     {
         $ponenteRepository = $em->getRepository(Ponente::class);

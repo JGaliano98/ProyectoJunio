@@ -122,7 +122,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         
 
         <div id=\"tab4\" class=\"tab\">
-          <a href=\"#tab4\">Pestaña 4</a>
+          <a href=\"#tab4\">Grupos</a>
           <div class=\"tab-content\">
               <table class=\"w-100\">
                   <tr>
@@ -146,7 +146,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
 
         
         <div id=\"tab3\" class=\"tab\">
-          <a href=\"#tab3\">Pestaña 3</a>
+          <a href=\"#tab3\">Ponentes</a>
           <div class=\"tab-content\">
             <table border=\"1\" id=\"ponentesTable\" class=\"table\">
               <thead>
@@ -171,7 +171,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         </div>
 
         <div id=\"tab2\" class=\"tab\">
-          <a href=\"#tab2\">Pestaña 2</a>
+          <a href=\"#tab2\">Espacios</a>
           <div class=\"tab-content\">
             <table class=\"w-100\">
               <tr>
@@ -193,7 +193,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         
 
         <div id=\"tab1\" class=\"tab\">
-          <a href=\"#tab1\">Pestaña 1</a>
+          <a href=\"#tab1\">General</a>
           <div class=\"tab-content\">
             <div class=\"row\">
               <div class=\"col-md-4\">
@@ -335,7 +335,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         
 
         <div id=\"tab4\" class=\"tab\">
-          <a href=\"#tab4\">Pestaña 4</a>
+          <a href=\"#tab4\">Grupos</a>
           <div class=\"tab-content\">
               <table class=\"w-100\">
                   <tr>
@@ -359,7 +359,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
 
         
         <div id=\"tab3\" class=\"tab\">
-          <a href=\"#tab3\">Pestaña 3</a>
+          <a href=\"#tab3\">Ponentes</a>
           <div class=\"tab-content\">
             <table border=\"1\" id=\"ponentesTable\" class=\"table\">
               <thead>
@@ -384,7 +384,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         </div>
 
         <div id=\"tab2\" class=\"tab\">
-          <a href=\"#tab2\">Pestaña 2</a>
+          <a href=\"#tab2\">Espacios</a>
           <div class=\"tab-content\">
             <table class=\"w-100\">
               <tr>
@@ -406,7 +406,7 @@ class __TwigTemplate_857d7fb7e10b808d6ecdfd94f99a8a7f extends Template
         
 
         <div id=\"tab1\" class=\"tab\">
-          <a href=\"#tab1\">Pestaña 1</a>
+          <a href=\"#tab1\">General</a>
           <div class=\"tab-content\">
             <div class=\"row\">
               <div class=\"col-md-4\">

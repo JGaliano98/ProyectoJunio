@@ -1,4 +1,6 @@
+// Espera a que la ventana se haya cargado completamente antes de ejecutar el código
 window.addEventListener("load", function() {
+    // Obtención de los elementos del DOM necesarios
     const fuenteRecursos = document.getElementById("fuenteRecursos");
     const seleccionadosRecursos = document.getElementById("seleccionadosRecursos");
     const fuenteGrupos = document.getElementById("fuenteGrupos");
@@ -19,6 +21,7 @@ window.addEventListener("load", function() {
     const guardarBtn = document.getElementById("modalGuardarBtn");
     const fichero = document.getElementById("csvFileInput");
 
+    // Verifica que los elementos select se encuentren en el DOM
     if (fuenteRecursos && seleccionadosRecursos && fuenteGrupos && seleccionadosGrupos) {
         console.log("Elementos <select> encontrados.");
         console.log("Elementos del DOM listos.");
@@ -26,6 +29,7 @@ window.addEventListener("load", function() {
         const urlAPIRecursos = "/API/recursos";
         const urlAPIGrupos = "/API/grupos";
 
+        // Carga los recursos desde la API y los agrega al select correspondiente
         fetch(urlAPIRecursos)
             .then(response => response.json())
             .then(data => {
@@ -37,6 +41,7 @@ window.addEventListener("load", function() {
                 console.error("Error al cargar los datos de la API de recursos:", error);
             });
 
+        // Carga los grupos desde la API y los agrega al select correspondiente
         fetch(urlAPIGrupos)
             .then(response => response.json())
             .then(data => {
@@ -48,6 +53,7 @@ window.addEventListener("load", function() {
                 console.error("Error al cargar los datos de la API de grupos:", error);
             });
 
+        // Asigna funciones de clic a los botones para mover recursos entre los selects
         if (pasarIzqRecursos) {
             pasarIzqRecursos.onclick = function() {
                 pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
@@ -69,6 +75,7 @@ window.addEventListener("load", function() {
             };
         }
 
+        // Asigna funciones de clic a los botones para mover grupos entre los selects
         if (pasarIzqGrupos) {
             pasarIzqGrupos.onclick = function() {
                 pasarSeleccionadosSelect(seleccionadosGrupos, fuenteGrupos);
@@ -93,6 +100,7 @@ window.addEventListener("load", function() {
         console.log("Elementos <select> no encontrados.");
     }
 
+    // Funciones de clic para los botones de cancelar, borrar, editar y guardar en la tabla
     function pulsadoCancelar(fila) {
         return function() {
             fila.cancelar();
@@ -120,6 +128,7 @@ window.addEventListener("load", function() {
         };
     }
 
+    // Activa o desactiva la edición de la tabla según el estado del checkbox
     if (checkActEdTabla) {
         checkActEdTabla.onchange = function() {
             if (this.checked) {
@@ -130,6 +139,7 @@ window.addEventListener("load", function() {
         };
     }
 
+    // Maneja la carga de archivos CSV
     if (fichero) {
         fichero.onchange = function() {
             const ficheroSubido = this.files[0];
@@ -149,6 +159,7 @@ window.addEventListener("load", function() {
         };
     }
 
+    // Guarda los datos de la tabla en el servidor
     if (guardarBtn) {
         guardarBtn.addEventListener("click", function() {
             const entidad = fichero.dataset.entidad;
@@ -186,6 +197,7 @@ window.addEventListener("load", function() {
         });
     }
 
+    // Sube los datos a la API correspondiente
     function subirDatos(datos, ruta) {
         const rutaAPI = 'API/' + ruta;
         fetch('/' + rutaAPI, {
@@ -225,6 +237,7 @@ window.addEventListener("load", function() {
         });
     }
 
+    // Carga los datos en el elemento select proporcionado
     function cargarDatosSelect(datos, selectElement) {
         datos.forEach(dato => {
             const option = document.createElement("option");
@@ -234,6 +247,7 @@ window.addEventListener("load", function() {
         });
     }
 
+    // Mueve las opciones seleccionadas de un select a otro
     function pasarSeleccionadosSelect(origen, destino) {
         const seleccionados = Array.from(origen.selectedOptions);
         seleccionados.forEach(option => {
@@ -241,6 +255,7 @@ window.addEventListener("load", function() {
         });
     }
 
+    // Mueve todas las opciones de un select a otro
     function pasarTodosSelect(origen, destino) {
         const todos = Array.from(origen.options);
         todos.forEach(option => {
@@ -248,6 +263,7 @@ window.addEventListener("load", function() {
         });
     }
 
+    // Valida los datos según el patrón proporcionado
     function validarDatos(datos, patron) {
         for (let i = 0; i < datos.length; i++) {
             const fila = datos[i].join(';');

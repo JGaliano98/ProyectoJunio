@@ -1,4 +1,6 @@
+// Escucha el evento 'DOMContentLoaded' para asegurarse de que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
+    // Selección de elementos del DOM necesarios para el funcionamiento del modal y validaciones
     const modal = document.getElementById('modalAgregarActividad');
     const modalTitle = modal.querySelector('.modal-title');
     const idInput = document.getElementById('valorID');
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const seleccionadosGrupos = document.getElementById('seleccionadosGrupos');
     const ponentesTableBody = document.getElementById('ponentesTable').getElementsByTagName('tbody')[0];
 
+    // Formatea una cadena de fecha en el formato YYYY-MM-DD
     function formatDateString(dateString) {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${year}-${month}-${day}`;
     }
 
+    // Valida que las fechas de la actividad estén dentro del rango de fechas del evento
     function validarFechasActividad() {
         const eventoId = eventoSelect.value;
         if (!eventoId) return true;
@@ -52,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error al validar las fechas del evento:', error));
     }
 
+    // Valida que las fechas de la subactividad estén dentro del rango de fechas de la actividad padre
     function validarFechasSubactividad() {
         const actividadFechaInicio = new Date(fechaInicioInput.dataset.actividadFechaInicio);
         const actividadFechaFin = new Date(fechaInicioInput.dataset.actividadFechaFin);
@@ -73,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+    // Añade eventos de cambio a los inputs de fecha para validar fechas al cambiar
     fechaInicioInput.addEventListener('change', function() {
         if (idInput.dataset.tipo === 'actividad') {
             validarFechasActividad();
@@ -89,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Función para agregar una subactividad, inicializa el modal con datos específicos
     window.agregarSubactividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
         const actividadEvento = button.getAttribute('data-actividad-evento');
@@ -114,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#modalAgregarActividad').modal('show');
     };
 
+    // Función para editar una actividad, inicializa el modal con datos específicos
     window.editarActividad = function(button) {
         const actividadId = button.getAttribute('data-actividad-id');
         const actividadDescripcion = button.getAttribute('data-actividad-descripcion');
@@ -152,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cargarPonentes(actividadId); // Cargar los ponentes asociados a esta actividad
     };
 
+    // Función para editar una subactividad, inicializa el modal con datos específicos
     window.editarSubactividad = function(button) {
         const subactividadId = button.getAttribute('data-subactividad-id');
         const subactividadTitulo = button.getAttribute('data-subactividad-titulo');
@@ -159,14 +168,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const subactividadFechaFin = formatDateString(button.getAttribute('data-subactividad-fechafin'));
         const subactividadEspacio = button.getAttribute('data-subactividad-espacio');
         const subactividadIdPadre = button.getAttribute('data-subactividad-idpadre');
-        const actividadEvento = button.closest('.card').querySelector('[data-actividad-evento]').getAttribute('data-actividad-evento'); // Obtener el evento de la actividad padre
+        const actividadEvento = button.closest('.card').querySelector('[data-actividad-evento]').getAttribute('data-actividad-evento');
 
         idInput.value = subactividadId;
         idInput.dataset.padreId = subactividadIdPadre;
         idInput.dataset.tipo = 'subactividad';
         descripcionInput.value = subactividadTitulo;
         tipoActividadSelect.value = '1';
-        eventoSelect.value = actividadEvento; // Asignar el evento de la actividad padre
+        eventoSelect.value = actividadEvento;
         fechaInicioInput.value = subactividadFechaInicio;
         fechaFinInput.value = subactividadFechaFin;
         aforoInput.value = '';
@@ -178,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         eventoSelect.disabled = true;
         idInput.disabled = true;
 
-        cargarGruposSeleccionados(subactividadId); // Llamada para cargar los grupos seleccionados
+        cargarGruposSeleccionados(subactividadId); // Cargar los grupos seleccionados
 
         modalTitle.textContent = 'Editar Subactividad';
         $('#modalAgregarActividad').modal('show');
@@ -186,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cargarPonentes(subactividadId); // Cargar los ponentes asociados a esta subactividad
     };
 
+    // Carga los ponentes asociados a una actividad o subactividad y los muestra en la tabla del modal
     function cargarPonentes(detalleActividadId) {
         fetch(`/API/ponentes/detalle/${detalleActividadId}`)
             .then(response => response.json())
@@ -201,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Volver a agregar la fila de entrada
                 ponentesTableBody.appendChild(entradaRow);
 
+                // Agregar cada ponente a la tabla
                 ponentes.forEach(ponente => {
                     const row = ponentesTableBody.insertRow();
 
@@ -228,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error al cargar los ponentes:', error));
     }
 
+    // Carga los grupos seleccionados para una subactividad y excluye estos grupos de los disponibles
     function cargarGruposSeleccionados(subactividadId) {
         fetch(`/API/grupos/detalle/${subactividadId}`)
             .then(response => response.json())
@@ -260,6 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error al cargar grupos:', error));
     }
 
+    // Función para preparar el modal para añadir una nueva actividad
     const addActividadButton = document.querySelector('[data-target="#modalAgregarActividad"]');
     addActividadButton.addEventListener('click', function() {
         idInput.value = '';
@@ -298,6 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ventanaActividad(); // Inicializamos la función ventanaActividad
 });
 
+// Deshabilita las pestañas 2, 3 y 4
 function deshabilitarPestanas() {
     document.getElementById('tab2').style.pointerEvents = 'none';
     document.getElementById('tab2').style.opacity = '0.5';
@@ -307,6 +321,7 @@ function deshabilitarPestanas() {
     document.getElementById('tab4').style.opacity = '0.5';
 }
 
+// Inicializa la ventana de actividad, cargando eventos, espacios y añadiendo funcionalidad a los inputs
 function ventanaActividad() {
     const tipoActividadSelect = document.getElementById('tipoActividad');
     const eventoSelect = document.getElementById('evento');
@@ -328,6 +343,7 @@ function ventanaActividad() {
 
     let espaciosData = [];
 
+    // Carga los espacios disponibles según el aforo y recursos seleccionados
     function cargarEspacios() {
         const aforo = aforoInput.value ? parseInt(aforoInput.value) : null;
         const recursosSeleccionados = Array.from(seleccionadosRecursos.options).map(option => parseInt(option.value));
@@ -349,6 +365,7 @@ function ventanaActividad() {
         });
     }
 
+    // Realiza una petición para obtener los datos de los espacios
     function fetchEspacios() {
         fetch('/API/espacios')
             .then(response => response.json())
@@ -363,6 +380,7 @@ function ventanaActividad() {
 
     aforoInput.addEventListener('input', cargarEspacios);
 
+    // Añade funcionalidad a los botones para mover recursos entre listas de seleccionados y disponibles
     document.getElementById('pasarIzqRecursos').addEventListener('click', () => {
         pasarSeleccionadosSelect(seleccionadosRecursos, fuenteRecursos);
         cargarEspacios();
@@ -382,6 +400,7 @@ function ventanaActividad() {
 
     seleccionadosRecursos.addEventListener('change', cargarEspacios);
 
+    // Carga los eventos disponibles en el select de eventos
     function cargarEventos() {
         fetch('/API/eventos')
             .then(response => response.json())
@@ -399,6 +418,7 @@ function ventanaActividad() {
 
     cargarEventos();
 
+    // Habilita o deshabilita elementos según el tipo de actividad seleccionada
     function toggleElements() {
         const valor = tipoActividadSelect.value;
         if (valor == '1') {
@@ -431,6 +451,7 @@ function ventanaActividad() {
     tipoActividadSelect.addEventListener('change', toggleElements);
     tipoActividadSelect.dispatchEvent(new Event('change'));
 
+    // Valida y envía el formulario de la actividad/subactividad
     function validateAndSendForm(button, type) {
         button.addEventListener('click', function(event) {
             event.preventDefault();
@@ -526,6 +547,7 @@ function ventanaActividad() {
     }
 }
 
+// Mueve las opciones seleccionadas de un select a otro
 function pasarSeleccionadosSelect(origen, destino) {
     const seleccionados = Array.from(origen.selectedOptions);
     seleccionados.forEach(option => {
@@ -533,6 +555,7 @@ function pasarSeleccionadosSelect(origen, destino) {
     });
 }
 
+// Mueve todas las opciones de un select a otro
 function pasarTodosSelect(origen, destino) {
     const todos = Array.from(origen.options);
     todos.forEach(option => {
@@ -540,6 +563,7 @@ function pasarTodosSelect(origen, destino) {
     });
 }
 
+// Elimina una actividad
 function eliminarActividad(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
         fetch(`/API/actividades/${id}`, {
@@ -564,6 +588,7 @@ function eliminarActividad(id) {
     }
 }
 
+// Elimina una subactividad
 function eliminarSubactividad(id) {
     if (confirm('¿Estás seguro de que deseas eliminar esta subactividad?')) {
         fetch(`/API/actividades/${id}`, {

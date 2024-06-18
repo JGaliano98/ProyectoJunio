@@ -1,5 +1,3 @@
-{# templates/actividad/lista_actividades.html.twig #}
-
 {% extends 'home/base.html.twig' %}
 
 {% block title %}Lista de Actividades{% endblock %}
@@ -10,7 +8,7 @@
 
 {% block body %}
 <div class="container">
-    <h1 class="mb-3">Lista de Actividades</h1>
+    <h1 class="mb-3 text-center">Lista de Actividades</h1>
     <div class="row">
         {% for actividad in actividades %}
             <div class="col-md-4 mb-4">
@@ -21,7 +19,7 @@
                             <strong>Fecha Inicio:</strong> {{ actividad.fechaHoraInicio|date('Y-m-d H:i') }}<br>
                             <strong>Fecha Fin:</strong> {{ actividad.fechaHoraFin|date('Y-m-d H:i') }}
                         </p>
-                        <a href="#" class="btn btn-primary">Ver detalles</a>
+                        <a href="#" class="btn btn-primary ver-detalles" data-id="{{ actividad.id }}">Ver detalles</a>
                     </div>
                 </div>
             </div>
@@ -32,6 +30,36 @@
         {% endfor %}
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detalleModalLabel">Detalle de la Actividad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+                <p><strong>Fecha Inicio:</strong> <span id="modalFechaInicio"></span></p>
+                <p><strong>Fecha Fin:</strong> <span id="modalFechaFin"></span></p>
+                <p><strong>Espacio:</strong> <span id="modalEspacio"></span></p>
+                <p><strong>Ponentes:</strong></p>
+                <ul id="modalPonentes"></ul>
+                <p><strong>Grupos:</strong></p>
+                <ul id="modalGrupos"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
 
 {% block javascripts %}
